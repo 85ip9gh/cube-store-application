@@ -8,7 +8,7 @@ export class FiltersComponent {
 
 @Output() categoryChange = new EventEmitter<string>();
 
-categories = ['Metal', 'Plastic', 'Wood', 'Glass', 'Paper', 'Other']
+categories = ['Metal', 'Plastic', 'Wood', 'Glass', 'Paper', 'All']
 
 constructor() {
 
