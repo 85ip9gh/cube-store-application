@@ -49,4 +49,16 @@ export class CartService {
       duration: 3000,
     });
   }
+
+  subtractQuantity(item: CartItem): void {
+    const items = [...this.cart.value.items];
+    const _item = items.find(_item => _item.id === item.id);
+    if (_item) {
+      _item.quantity -= 1;
+      this.cart.next({ items });
+      this._snackBar.open('item quantity subtracted', 'Close', {
+        duration: 3000,
+      });
+    }
+  }
 }
