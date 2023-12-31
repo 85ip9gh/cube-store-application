@@ -49,4 +49,12 @@ export class CartComponent {
     onRemoveItem(item: CartItem): void {
       this.cartService.removeItem(item);
     }
+
+    onAddQuantity(item: CartItem): void {
+      this.cartService.addToCart(item);
+    }
+
+    onSubtractQuantity(item: CartItem): void {
+      this.cartService.subtractQuantity(item);
+    }
 }
