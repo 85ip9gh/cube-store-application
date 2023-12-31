@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Cart, CartItem } from 'src/app/models/cart.model';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-cart',
@@ -27,15 +28,13 @@ export class CartComponent {
   dataSource: CartItem[] = [];
   displayedColumns: string[] = ['product', 'name', 'quantity', 'price', 'total', 'action'];
 
-    constructor() { }
+    constructor(private cartService: CartService) { }
 
     ngOnInit(): void {
       this.dataSource = this.cart.items;
     }
 
     getTotal(items: CartItem[]): number {
-      return items
-        .map(item => item.quantity * item.price)
-        .reduce((prev, curr) => prev + curr, 0);
+      return this.cartService.getTotal(items);
     }
 }
