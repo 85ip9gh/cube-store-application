@@ -32,6 +32,10 @@ export class CartComponent {
 
     ngOnInit(): void {
       this.dataSource = this.cart.items;
+      this.cartService.cart.subscribe((_cart: Cart) => {
+        this.cart = _cart;
+        this.dataSource = _cart.items;
+      });
     }
 
     getTotal(items: CartItem[]): number {
