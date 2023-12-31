@@ -39,4 +39,14 @@ export class CartService {
       duration: 3000,
     });
   }
+
+  removeItem(item: CartItem): void {
+    const items = [...this.cart.value.items];
+    const index = items.findIndex(_item => _item.id === item.id);
+    items.splice(index, 1);
+    this.cart.next({ items });
+    this._snackBar.open('item removed', 'Close', {
+      duration: 3000,
+    });
+  }
 }
