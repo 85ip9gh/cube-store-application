@@ -63,4 +63,11 @@ export class CartService {
       this.removeItem(item);
     }
   }
+
+  checkout(): void {
+    this.cart.next({ items: [] });
+    this._snackBar.open('checkout completed', 'Close', {
+      duration: 3000,
+    });
+  }
 }
