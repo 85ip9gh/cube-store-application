@@ -29,7 +29,7 @@ export class HomeComponent {
   }
 
   getProducts(): void {
-    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort).subscribe((products: Product[]) => {
+    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort, this.category).subscribe((products: Product[]) => {
       this.products = products;
     });
   }
@@ -41,6 +41,7 @@ export class HomeComponent {
 
   onCategoryChange(newCategory: string): void {
     this.category = newCategory;
+    this.getProducts();
   }
 
   onItemCountChange(newCount: number): void {
