@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'app-filters',
@@ -6,21 +8,28 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class FiltersComponent {
 
-@Output() categoryChange = new EventEmitter<string>();
+  @Output() categoryChange = new EventEmitter<string>();
 
-categories = ['Metal', 'Plastic', 'Wood', 'Glass', 'Paper', 'All']
+  categoriesSubscription: Subscription | undefined;
+  categories: string[] | undefined;
 
-constructor() {
+  constructor(private storeService: StoreService) {
 
- }
+  }
 
-ngOnInit(): void {
+  ngOnInit(): void {
+    this.storeService.getAllCategories()
+      .subscribe((categories: string[]) => {
+        this.categories = categories;
+      });
+  }
 
-}
+  onCategoryUpdate(newCategory: string): void {
+    console.log(newCategory);
+    this.categoryChange.emit(newCategory);
+  }
 
-onCategoryUpdate(newCategory: string): void {
-  console.log(newCategory);
-  this.categoryChange.emit(newCategory);
-}
-
+  ngOnDestroy(): void {
+    this.categoriesSubscription?.unsubscribe();
+  }
 }

@@ -1,3 +1,5 @@
+ Categories: 'Metal', 'Plastic', 'Wood', 'Glass', 'Paper', 'All'
+ 
  {
     id: 1,
     title: 'Zirconium Bastion',
