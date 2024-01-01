@@ -10,6 +10,10 @@ app.use(cors({ origin: true, credentials: true }));
 
 const stripe = require('stripe')('sk_test_REDACTED_ROTATED_2026_08_21');
 
+app.get('/getCubes', (req, res) => {
+    res.send('Hello from server');
+});
+
 app.post('/checkout', async (req, res, next) => {
 
     try {
