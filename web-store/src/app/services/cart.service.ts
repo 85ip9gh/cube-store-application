@@ -62,8 +62,5 @@ export class CartService {
     } else {
       this.removeItem(item);
     }
-    
-
-
   }
 }
