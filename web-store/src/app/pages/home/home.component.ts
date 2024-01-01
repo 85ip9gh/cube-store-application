@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, getPlatform } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import { CartService } from '../../services/cart.service';
+import { Subscription } from 'rxjs';
+import { StoreService } from '../../services/store.service';
 
 const ROWS_HEIGHT: { [id: number]: number } = {1:400, 3:335, 4:350}
 
@@ -13,12 +15,23 @@ export class HomeComponent {
   cols: number = 3;
   rowHeight = ROWS_HEIGHT[this.cols];
   category: string | undefined;
+  products: Product[] | undefined;
+  sort: string = 'desc';
+  count = '12';
+  productSubscription: Subscription | undefined;
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService, private storeService: StoreService) {
 
    }
 
   ngOnInit(): void {
+    this.getProducts();
+  }
+
+  getProducts(): void {
+    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort).subscribe((products: Product[]) => {
+      this.products = products;
+    });
   }
 
   onColumnCountChange(newCols: number): void {
@@ -38,6 +51,10 @@ export class HomeComponent {
       price: product.price,
       quantity: 1
     });
+  }
+
+  ngOnDestroy(): void {
+    this.productSubscription?.unsubscribe();
   }
 
 }
