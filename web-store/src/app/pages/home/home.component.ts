@@ -43,6 +43,16 @@ export class HomeComponent {
     this.category = newCategory;
   }
 
+  onItemCountChange(newCount: number): void {
+    this.count = newCount.toString();
+    this.getProducts();
+  }
+
+  onSortChange(newSort: string): void {
+    this.sort = newSort;
+    this.getProducts();
+  }
+
   onAddToCart(product: Product): void {
     this.cartService.addToCart({
       product: product.image,
