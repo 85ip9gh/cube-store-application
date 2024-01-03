@@ -18,10 +18,10 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 - Cube store works with fakestoreapi and stripe checkout(images won't show in stripe checkout, but will deal with it later)
 - goal is to replace fakestoreapi with own api that has different cubes with images generated with stable diffusion
 - also need different categories that match with these cubes
-    - material: Metal, Plastic, Wood, Glass, Paper, All
-    - size: small, medium, large
-    - cost maybe?: cheap, normal, expensive, custom
-    - age: <100yrs, 100-1000yrs, >1000yrs
+    - material: All, Metal, Plastic, Wood, Glass, Paper,
+    - size: All, small, medium, large
+    - cost maybe?: All, cheap, normal, expensive, custom
+    - age: All, <100yrs, 100-1000yrs, >1000yrs
 
 ## Works Cited
 - Inspiration from: https://www.youtube.com/watch?v=Kbauf9IgsC4&t=265s

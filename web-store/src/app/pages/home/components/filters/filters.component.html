@@ -5,6 +5,9 @@
         </mat-panel-title>
     </mat-expansion-panel-header>
     <mat-selection-list [multiple]="false">
+        <mat-list-option [selected]="true" (click)="onCategoryUpdate('')">
+            All
+        </mat-list-option>
         <mat-list-option *ngFor="let category of categories" [value]="category" (click)="onCategoryUpdate(category)">
                 {{category}}    
         </mat-list-option>

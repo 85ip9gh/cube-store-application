@@ -25,7 +25,6 @@ export class FiltersComponent {
   }
 
   onCategoryUpdate(newCategory: string): void {
-    console.log(newCategory);
     this.categoryChange.emit(newCategory);
   }
 
