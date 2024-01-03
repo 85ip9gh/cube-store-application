@@ -1,0 +1,24 @@
+{
+    "cubes":[
+       { 
+        "id": 1,
+        "name": "Zirconium Bastion",
+        "material": "Metal",
+        "size": "Large",
+        "price": "$1,000,000",
+        "age": "1,000,000 years",
+        "description":"In the mystical realm of Eldoria, nestled within the ethereal forests of Lumina Glades, there lies a hidden sanctuary known as the Zirconium Bastion. Legend speaks of a magnificent metal cube, forged from the rarest and purest Zirconium, that serves as both protector and keeper of ancient secrets and treasures. The Bastion is guarded by the mighty Zirconium Golem, a creature of immense power and strength, who will stop at nothing to protect the Bastion from those who seek to steal its secrets.",
+        "image":"../cubes/titanium_cube_mountain.png"
+    },
+    { 
+        "material": "Glass",
+        "size": "Medium",
+        "price": "$500,000",
+        "age": "500,000 years"
+
+    }
+    
+
+    ]
+
+}
