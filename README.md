@@ -23,5 +23,9 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
     - cost maybe?: All, cheap, normal, expensive, custom
     - age: All, <100yrs, 100-1000yrs, >1000yrs
 
+## 01/02/2024
+- Generate variety of cubes with stable diffusion (might create more cubes/redo old ones using controlNet)
+    - stable diffusion setup: https://www.youtube.com/watch?v=nBpD-RbglPw 
+
 ## Works Cited
 - Inspiration from: https://www.youtube.com/watch?v=Kbauf9IgsC4&t=265s
