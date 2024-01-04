@@ -1,26 +1,34 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
 const app = express();
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors({ origin: true, credentials: true }));
 
+const sharp = require('sharp');
+const fs = require('fs');
+
+var cubeDetails = require('./public/cube-details.json');
+
 const stripe = require('stripe')('sk_test_51OTZqzA7JcW8dorug76raBGFUphZJhAncAifdvXzMXLZrp13kreGfvWnWOgB4xO0DvexcFBGHNn2uNUbMuyVbg0M00pRO5Cv6C');
 
-app.get('/getCubes', (req, res) => {
+app.get('/', (req, res) => {
     res.send('Hello from server');
 });
 
-app.get('/getCubes', (req, res) => {
-    
-    res.send('Hello from server');
+app.get('/cubes', (req, res) => {
+    cubeDetails.cubes.forEach( cube => {
+         convertToBase64("{cube.image}", async function(base64Img){
+            cube.product = await base64Img;
+        });
+    });
+
+    res.send(cubeDetails.cubes);
 });
 
 app.post('/checkout', async (req, res, next) => {
-
     try {
         const session = await stripe.checkout.sessions.create({
             shipping_address_collection: {
@@ -93,19 +101,16 @@ app.post('/checkout', async (req, res, next) => {
 
 app.listen(4242, () => console.log('Server is running on port 4242'));
 
-function convertToDataURLviaCanvas(url, callback, outputFormat){
-    var img = new Image();
-    img.crossOrigin = 'Anonymous';
-    img.onload = function(){
-        var canvas = document.createElement('CANVAS');
-        var ctx = canvas.getContext('2d');
-        var dataURL;
-        canvas.height = this.height;
-        canvas.width = this.width;
-        ctx.drawImage(this, 0, 0);
-        dataURL = canvas.toDataURL(outputFormat);
-        callback(dataURL);
-        canvas = null; 
-    };
-    img.src = url;
+function convertToBase64(inputPath, callback, outputFormat = 'png') {
+    sharp(inputPath)
+        .toFormat(outputFormat.toLowerCase()) // Ensure outputFormat is not undefined
+        .toBuffer((err, data, info) => {
+            if (err) {
+                console.error('Error processing image:', err);
+                callback(null);
+            } else {
+                const dataURL = `data:image/${outputFormat.toLowerCase()};base64,${data.toString('base64')}`;
+                callback(dataURL);
+            }
+        });
 }
