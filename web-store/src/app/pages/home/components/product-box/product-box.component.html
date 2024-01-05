@@ -6,9 +6,11 @@
         <div class="w-full" [ngClass]="{'px-8 flex flex-col justify-between':fullWidthMode}" >
             <div>
                 <h5>{{product.category}}</h5>
-                <p class="truncate hover:whitespace-normal">{{product.title}}</p>
+                <div  [ngClass]="{'flex justify-between':fullWidthMode}">
+                    <p class="truncate hover:whitespace-normal">{{product.title}}</p>
+                    <p *ngIf="fullWidthMode" >{{product.age | number}} years old</p>
+                </div>    
                 <p *ngIf="fullWidthMode" >{{product.description}}</p>
-                <p *ngIf="fullWidthMode" >{{product.age}} years old</p>
             </div>
             <div class="flex justify-between">
                 <span class="text-red-400">{{product.price| currency}}</span>
