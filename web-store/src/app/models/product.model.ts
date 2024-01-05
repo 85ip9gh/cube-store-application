@@ -5,4 +5,6 @@ export interface Product {
     category: string;
     description: string;
     image: string;
+    age: number;
+    base64Image: string;
 }
