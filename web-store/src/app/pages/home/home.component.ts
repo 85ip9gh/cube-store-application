@@ -31,7 +31,9 @@ export class HomeComponent {
   getProducts(): void {
     this.productSubscription = this.storeService.getAllProducts(this.count, this.sort, this.category).subscribe((products: Product[]) => {
       this.products = products;
+      this.products?.sort((a, b) => b.title.localeCompare(a.title));
     });
+
   }
 
   onColumnCountChange(newCols: number): void {
@@ -47,11 +49,17 @@ export class HomeComponent {
   onItemCountChange(newCount: number): void {
     this.count = newCount.toString();
     this.getProducts();
+    this.products = this.products?.slice(0, newCount);
   }
 
   onSortChange(newSort: string): void {
     this.sort = newSort;
-    this.getProducts();
+    if(this.sort == 'desc'){
+      this.products?.sort((a, b) => b.title.localeCompare(a.title));
+    }else{
+      this.products?.sort((a, b) => a.title.localeCompare(b.title));
+    }
+    // this.getProducts();
   }
 
   onAddToCart(product: Product): void {
