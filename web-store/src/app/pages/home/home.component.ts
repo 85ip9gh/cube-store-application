@@ -26,12 +26,12 @@ export class HomeComponent {
 
   ngOnInit(): void {
     this.getProducts();
+    this.products?.sort((a, b) => b.title.localeCompare(a.title));
   }
 
   getProducts(): void {
-    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort, this.category).subscribe((products: Product[]) => {
+    this.productSubscription = this.storeService.getAllProducts().subscribe((products: Product[]) => {
       this.products = products;
-      this.products?.sort((a, b) => b.title.localeCompare(a.title));
     });
 
   }
@@ -44,6 +44,7 @@ export class HomeComponent {
   onCategoryChange(newCategory: string): void {
     this.category = newCategory;
     this.getProducts();
+    this.products = this.products?.filter((product: Product) => product.category === newCategory);
   }
 
   onItemCountChange(newCount: number): void {
