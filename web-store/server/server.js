@@ -19,14 +19,45 @@ app.get('/', (req, res) => {
 });
 
 app.get('/cubes', (req, res) => {
-    cubeDetails.cubes.forEach( cube => {
-         convertToBase64("{cube.image}", async function(base64Img){
-            cube.product = await base64Img;
-        });
-    });
 
-    res.send(cubeDetails.cubes);
+    // encodeImagesAndWriteBack('./public/cube-details.json');
+    res.send(cubeDetails.items);
+
 });
+
+// async function encodeImageToBase64(imagePath) {
+//     try {
+//       const buffer = await sharp(imagePath).toFormat('png').toBuffer();
+//       return buffer.toString('base64');
+//     } catch (error) {
+//       console.error('Error encoding image:', error);
+//       return null;
+//     }
+//   }
+  
+//   async function encodeImagesAndWriteBack(jsonFilePath) {
+//     try {
+//       // Read the JSON file
+//       const jsonString = fs.readFileSync(jsonFilePath, 'utf8');
+//       const jsonData = JSON.parse(jsonString);
+  
+//       // Iterate through the items and encode images
+//       for (const item of jsonData.items) {
+//         const base64Image = await encodeImageToBase64(item.imagePath);
+//         if (base64Image) {
+//           item.base64Image = base64Image;
+//         }
+//       }
+  
+//       // Update the JSON file with base64-encoded images
+//       const updatedJsonString = JSON.stringify(jsonData, null, 2);
+//       fs.writeFileSync(jsonFilePath, updatedJsonString);
+  
+//       console.log('Base64 encoding and update complete.');
+//     } catch (error) {
+//       console.error('Error processing JSON:', error);
+//     }
+//   }
 
 app.post('/checkout', async (req, res, next) => {
     try {
@@ -101,16 +132,4 @@ app.post('/checkout', async (req, res, next) => {
 
 app.listen(4242, () => console.log('Server is running on port 4242'));
 
-function convertToBase64(inputPath, callback, outputFormat = 'png') {
-    sharp(inputPath)
-        .toFormat(outputFormat.toLowerCase()) // Ensure outputFormat is not undefined
-        .toBuffer((err, data, info) => {
-            if (err) {
-                console.error('Error processing image:', err);
-                callback(null);
-            } else {
-                const dataURL = `data:image/${outputFormat.toLowerCase()};base64,${data.toString('base64')}`;
-                callback(dataURL);
-            }
-        });
-}
+

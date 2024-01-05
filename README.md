@@ -27,5 +27,14 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 - Generate variety of cubes with stable diffusion (might create more cubes/redo old ones using controlNet)
     - stable diffusion setup: https://www.youtube.com/watch?v=nBpD-RbglPw 
 
+## 01/04/2024
+- Learn that angular only accepts/loads static items such as images if they're present in the "assets" folder
+
+## 01/05/2023
+- Successfully show images of cubes on frontend
+- Do this by encoding images present in backend to base64, writing it to the json file, and decoding it in the frontend
+    - Code to create the base64 encoded string from local image path is in server.js file
+
+
 ## Works Cited
 - Inspiration from: https://www.youtube.com/watch?v=Kbauf9IgsC4&t=265s
