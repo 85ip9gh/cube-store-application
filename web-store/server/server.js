@@ -25,39 +25,39 @@ app.get('/cubes', (req, res) => {
 
 });
 
-// async function encodeImageToBase64(imagePath) {
-//     try {
-//       const buffer = await sharp(imagePath).toFormat('png').toBuffer();
-//       return buffer.toString('base64');
-//     } catch (error) {
-//       console.error('Error encoding image:', error);
-//       return null;
-//     }
-//   }
+async function encodeImageToBase64(imagePath) {
+    try {
+      const buffer = await sharp(imagePath).toFormat('png').toBuffer();
+      return buffer.toString('base64');
+    } catch (error) {
+      console.error('Error encoding image:', error);
+      return null;
+    }
+  }
   
-//   async function encodeImagesAndWriteBack(jsonFilePath) {
-//     try {
-//       // Read the JSON file
-//       const jsonString = fs.readFileSync(jsonFilePath, 'utf8');
-//       const jsonData = JSON.parse(jsonString);
+  async function encodeImagesAndWriteBack(jsonFilePath) {
+    try {
+      // Read the JSON file
+      const jsonString = fs.readFileSync(jsonFilePath, 'utf8');
+      const jsonData = JSON.parse(jsonString);
   
-//       // Iterate through the items and encode images
-//       for (const item of jsonData.items) {
-//         const base64Image = await encodeImageToBase64(item.imagePath);
-//         if (base64Image) {
-//           item.base64Image = base64Image;
-//         }
-//       }
+      // Iterate through the items and encode images
+      for (const item of jsonData.items) {
+        const base64Image = await encodeImageToBase64(item.imagePath);
+        if (base64Image) {
+          item.base64Image = base64Image;
+        }
+      }
   
-//       // Update the JSON file with base64-encoded images
-//       const updatedJsonString = JSON.stringify(jsonData, null, 2);
-//       fs.writeFileSync(jsonFilePath, updatedJsonString);
+      // Update the JSON file with base64-encoded images
+      const updatedJsonString = JSON.stringify(jsonData, null, 2);
+      fs.writeFileSync(jsonFilePath, updatedJsonString);
   
-//       console.log('Base64 encoding and update complete.');
-//     } catch (error) {
-//       console.error('Error processing JSON:', error);
-//     }
-//   }
+      console.log('Base64 encoding and update complete.');
+    } catch (error) {
+      console.error('Error processing JSON:', error);
+    }
+  }
 
 app.post('/checkout', async (req, res, next) => {
     try {
