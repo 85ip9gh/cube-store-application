@@ -9,9 +9,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class ProductsHeaderComponent {
   @Output() columnCountChange = new EventEmitter<number>();
   @Output() sortChange = new EventEmitter<string>();
-  @Output() itemCountChange = new EventEmitter<number>();
+  @Output() itemCountChange = new EventEmitter<string>();
   sort = 'desc';
-  itemCount: number | string = 'All';
+  itemCount: string = 'All';
 
   constructor() { }
 
@@ -23,10 +23,8 @@ export class ProductsHeaderComponent {
     this.sortChange.emit(newSort);
   }
 
-  onItemCountUpdated(newCount?: number): void {
-    if(newCount){
+  onItemCountUpdated(newCount: string): void {
       this.itemCount = newCount;
-    }
     this.itemCountChange.emit(newCount);
   }
 

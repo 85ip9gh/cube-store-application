@@ -18,11 +18,33 @@ app.get('/', (req, res) => {
     res.send('Hello from server');
 });
 
-app.get('/cubes', (req, res) => {
+app.get('/cubes(/category/:category)?', (req, res) => {
+    const category = req.params.category;
+    const sort = req.query.sort;
+    const limit = req.query.limit;
+    let filteredByCubes = cubeDetails.items;
+
+    if(category != 'All'){
+        filteredByCubes = cubeDetails.items.filter((cube) => !category || cube.category === category);
+    }
+
+    let sortedCubes = filteredByCubes.sort((a, b) => {
+        if (sort === 'asc') {
+            return  a.title.localeCompare(b.title);
+        } else {
+            return  b.title.localeCompare(a.title);
+        }
+    });
+ 
+    if(limit === 'All'){
+        return res.send(sortedCubes);
+    }
+
+    limitCubes = sortedCubes.slice(0, parseInt(limit, 10));
 
     // have it commented out when the base64Image is already in the json file
     // encodeImagesAndWriteBack('./public/cube-details.json');
-    res.send(cubeDetails.items);
+    res.send(limitCubes);
 
 });
 

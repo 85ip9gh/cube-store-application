@@ -17,7 +17,7 @@ export class HomeComponent {
   category: string | undefined;
   products: Product[] | undefined;
   sort: string = 'desc';
-  count = '12';
+  count = 'All';
   productSubscription: Subscription | undefined;
 
   constructor(private cartService: CartService, private storeService: StoreService) {
@@ -26,11 +26,10 @@ export class HomeComponent {
 
   ngOnInit(): void {
     this.getProducts();
-    this.products?.sort((a, b) => b.title.localeCompare(a.title));
   }
 
   getProducts(): void {
-    this.productSubscription = this.storeService.getAllProducts().subscribe((products: Product[]) => {
+    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort ,this.category).subscribe((products: Product[]) => {
       this.products = products;
     });
 
@@ -44,23 +43,16 @@ export class HomeComponent {
   onCategoryChange(newCategory: string): void {
     this.category = newCategory;
     this.getProducts();
-    this.products = this.products?.filter((product: Product) => product.category === newCategory);
   }
 
-  onItemCountChange(newCount: number): void {
-    this.count = newCount.toString();
+  onItemCountChange(newCount: string): void {
+    this.count = newCount;
     this.getProducts();
-    this.products = this.products?.slice(0, newCount);
   }
 
   onSortChange(newSort: string): void {
     this.sort = newSort;
-    if(this.sort == 'desc'){
-      this.products?.sort((a, b) => b.title.localeCompare(a.title));
-    }else{
-      this.products?.sort((a, b) => a.title.localeCompare(b.title));
-    }
-    // this.getProducts();
+    this.getProducts();
   }
 
   onAddToCart(product: Product): void {
