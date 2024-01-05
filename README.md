@@ -30,7 +30,7 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 ## 01/04/2024
 - Learn that angular only accepts/loads static items such as images if they're present in the "assets" folder
 
-## 01/05/2023
+## 01/05/2024
 - Successfully show images of cubes on frontend
 - Do this by encoding images present in backend to base64, writing it to the json file, and decoding it in the frontend
     - Code to create the base64 encoded string from local image path is in server.js file
@@ -38,6 +38,14 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
     - prompt blueprint: Generate a cool, fantasy name(without cube, prism, or nexus in it) and short, descriptive fantasy description for a [category] cube [describe the image]
     - I included the "without cube, prism, or nexus" part in the prompt because the names were getting repetitive and it generated unique names after that.
     - example prompt: Generate a cool, fantasy name(without cube, prism, or nexus in it) and short, descriptive fantasy description for a glass cube containing a snow-capped mountain situated on an island with a lush forest surrounding its base
+- Ideas for more cubes:
+    - Natural Disasters: tornado, volcano, tsunami, earthquake, lightning(this would be cool)
+    - Man-Made Structures: house, mansion, monuments, statues
+    - Machine/Technological: Circuitry, electrical, buttons?, tiled/grid?
+    - Fantasy/Mythical: runes, bloodmarks, inscriptions of prayer, hieroglyphics?, cave man paintings
+    - Hollow: Has holes in the center of each side with something inside; shiny sphere in center?, Maybe Static Electricity Ball
+    - Biological: brain in formaldehyde, Mini Dragons, an imposing eyeball
+    - Infinite/Repeating: fractal cube, abstract art, "infinite 3d cube" on google
 
 ## Works Cited
 - Inspiration from: https://www.youtube.com/watch?v=Kbauf9IgsC4&t=265s
