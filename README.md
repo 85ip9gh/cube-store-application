@@ -34,7 +34,10 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 - Successfully show images of cubes on frontend
 - Do this by encoding images present in backend to base64, writing it to the json file, and decoding it in the frontend
     - Code to create the base64 encoded string from local image path is in server.js file
-
+- Generate titles and descriptions of 24 cubes using chatgpt
+    - prompt blueprint: Generate a cool, fantasy name(without cube, prism, or nexus in it) and short, descriptive fantasy description for a [category] cube [describe the image]
+    - I included the "without cube, prism, or nexus" part in the prompt because the names were getting repetitive and it generated unique names after that.
+    - example prompt: Generate a cool, fantasy name(without cube, prism, or nexus in it) and short, descriptive fantasy description for a glass cube containing a snow-capped mountain situated on an island with a lush forest surrounding its base
 
 ## Works Cited
 - Inspiration from: https://www.youtube.com/watch?v=Kbauf9IgsC4&t=265s
