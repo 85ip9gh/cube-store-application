@@ -49,7 +49,7 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 
 # Website Versions:
 
-### V1
+### V1 - 01/05/2024
 ![Website V1 of Cube Store Application Website](./images/Cube_Store_V1.jpg)
 
 ## Works Cited
