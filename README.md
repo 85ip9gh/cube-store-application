@@ -46,6 +46,8 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
     - Hollow: Has holes in the center of each side with something inside; shiny sphere in center?, Maybe Static Electricity Ball
     - Biological: brain in formaldehyde, Mini Dragons, an imposing eyeball
     - Infinite/Repeating: fractal cube, abstract art, "infinite 3d cube" on google
+- Let back-end handle any and all changes the user makes to category, sort, and limit
+    - does this with a get request with multiple request queries(sort and limit) and one request parameter(category)
 
 # Website Versions:
 
