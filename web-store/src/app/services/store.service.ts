@@ -14,14 +14,13 @@ export class StoreService {
 
   getAllProducts(limit = '12', sort='desc', category?:string): Observable<Product[]> {
     return this.httpClient.get<Product[]>(
-      `${STORE_BASE_URL}/cubes`
-      // ${category ? '/category/' + category : ''}?sort=${sort}&limit=${limit}
+      `${STORE_BASE_URL}/cubes${category ? '/category/' + category : ''}?sort=${sort}&limit=${limit}`
       );
   }
 
   getAllCategories(): Observable<string[]> {
     return this.httpClient.get<string[]>(
-      `${STORE_BASE_URL}/products/categories`
+      `${STORE_BASE_URL}/cubes/categories`
       );
   }
 }
