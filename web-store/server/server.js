@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
 
 app.get('/cubes', (req, res) => {
 
+    // have it commented out when the base64Image is already in the json file
     // encodeImagesAndWriteBack('./public/cube-details.json');
     res.send(cubeDetails.items);
 
