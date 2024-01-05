@@ -26,6 +26,12 @@ app.get('/cubes', (req, res) => {
 
 });
 
+app.get('/cubes/categories', (req, res) => {
+    const uniqueCategories = cubeDetails.items.map(cube => cube.category)
+        .reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
+    res.send(uniqueCategories);
+});
+
 async function encodeImageToBase64(imagePath) {
     try {
       const buffer = await sharp(imagePath).toFormat('png').toBuffer();
