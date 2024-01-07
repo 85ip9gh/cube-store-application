@@ -49,6 +49,11 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 - Let back-end handle any and all changes the user makes to category, sort, and limit
     - does this with a get request with multiple request queries(sort and limit) and one request parameter(category)
 
+## 01/06/2024
+    - Generate 25 more cubes, will probably not use all
+
+
+
 # Website Versions:
 
 ### V1 - 01/05/2024
