@@ -50,8 +50,10 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
     - does this with a get request with multiple request queries(sort and limit) and one request parameter(category)
 
 ## 01/06/2024
-    - Generate 25 more cubes, will probably not use all
+- Generate 25 more cubes, will probably not use all
 
+## 01/07/2024
+- Add some of the generated cubes to cube-details.json file
 
 
 # Website Versions:
