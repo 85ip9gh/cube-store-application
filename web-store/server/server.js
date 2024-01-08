@@ -48,6 +48,11 @@ app.get('/cubes(/category/:category)?', (req, res) => {
 
 });
 
+app.get('/cubes/generateBase64Images', async (req, res) => {
+    encodeImagesAndWriteBack('./public/cube-details.json');
+    res.send('Base64 encoding and update complete.');
+});
+
 app.get('/cubes/categories', (req, res) => {
     const uniqueCategories = cubeDetails.items.map(cube => cube.category)
         .reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
