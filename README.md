@@ -55,6 +55,10 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 ## 01/07/2024
 - Add some of the generated cubes to cube-details.json file
 
+## 01/08/2024
+- Make docker images of angular front-end and node back-end server and have them successfully run in localhost
+    - docker container start-up code for front-end: docker run -d -p 4200:80 cube-store:frontend-v1 
+    - docker container start-up code for back-end: docker run -d -p 4242:4242 cube-store:backend-v1 
 
 # Website Versions:
 
