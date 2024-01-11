@@ -1,6 +1,12 @@
 # About this App
 Cube Store App lets you choose from a wide assortment of hand-picked artisan cubes!
 
+## Link to Site
+
+http://18.118.238.40:4200
+    - hosted on AWS(Amazon Web Services) on t2.micro ec2 instance.
+    - WARNING: images load extremely slowly because the images are sent to frontend from backend encoded in base64 and as a result, the json file is large. I'll create a loading animation to play while the images are getting fetched from the backend api.
+
 ## Architecture:
 - Angular as front-end using Tailwind CSS and Material Framework
 - Node as back-end api to retrieve cubes and proceed to checkout
@@ -59,6 +65,10 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 - Make docker images of angular front-end and node back-end server and have them successfully run in localhost
     - docker container start-up code for front-end: docker run -d -p 4200:80 cube-store:frontend-v1 
     - docker container start-up code for back-end: docker run -d -p 4242:4242 cube-store:backend-v1 
+
+## 01/09/2024 - 01/10/2024
+- Host website on AWS(Amazon Web Services) t2.micro ec2 instance
+    - initial thoughts are that this t2.micro instance handles loads much better than GCP's e2.micro, but will have to see after I implement a database for the images instead of just a .json file
 
 # Website Versions:
 
