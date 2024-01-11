@@ -86,10 +86,12 @@
     </table>
 </mat-card>
 <mat-card class="max-w-7xl mx-auto" *ngIf="!cart.items.length">
-    <p>
-        Your cart is empty.
-        <button mat-raised-button routerLink="/home">
+    <div class="flex justify-between p-2 items-center">
+        <div>
+            Your cart is empty.
+        </div>
+        <button mat-raised-button routerLink="/home" color="primary">
             Browse Products
         </button>
-    </p>
+    </div>
 </mat-card>
