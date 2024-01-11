@@ -3,7 +3,11 @@ import { Injectable } from '@angular/core';
 import { Product } from '../models/product.model';
 import { Observable } from 'rxjs';
 
-const STORE_BASE_URL = 'http://localhost:4242';
+// for AWS EC2 instance
+const STORE_BASE_URL = 'http://18.118.238.40:4242';
+
+//for local development
+//const STORE_BASE_URL = 'http://localhost:4242';
 
 @Injectable({
   providedIn: 'root'
