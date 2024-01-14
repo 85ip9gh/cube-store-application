@@ -8,7 +8,7 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
     - WARNING: images load extremely slowly because the images are sent to frontend from backend encoded in base64 and as a result, the json file is large. I'll create a loading animation to play while the images are getting fetched from the backend api.
 
 ## Architecture:
-- Angular as front-end using Tailwind CSS and Material Framework
+- Angular as front-end using Tailwind CSS and Material Framework components
 - Node as back-end api to retrieve cubes and proceed to checkout
     - REST api
 - Stripe for payment handling
