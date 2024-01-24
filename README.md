@@ -86,3 +86,9 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 ## 01/14/2024
 - Rename repository to "cube-store-application"
 - lower more prices on cubes(they were in the millions and billions) because Strip has a cap on how much money can be in checkout
+
+## 01/24/2024
+- Statically serve all images with the node.js server in localhost
+- Website loads images much, much faster and feels extremely responsive when changing categories.
+    - Will implement lazy loading in images so that the images are loaded even faster
+- Will implement in the AWS server as well, just need to change localhost to the ip address of the AWS vm
