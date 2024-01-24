@@ -205,7 +205,7 @@
       "price": "12",
       "category": "Plastic",
       "description": "The Ephemeral Luminique, a beguiling plastic artifact, boasts blunted edges that cradle an enchanting glow. Bathed in a warm purple light, this mystical cube radiates an otherworldly aura, as if it were a conduit to a realm where twilight hues dance with the essence of magic. The transparent material of the Ephemeral Luminique refracts and diffuses the radiant energies, creating a subtle play of shadows and highlights along its edges. The warm purple light emanating from within casts an ethereal glow, transforming the plastic relic into a transient gem that captures the essence of a mystical twilight. A luminary creation in the realm of fantasy, the Ephemeral Luminique invites curious onlookers to witness its mesmerizing radiance. Its blunted edges, bathed in the warm embrace of purple light, evoke a sense of fleeting enchantment, as if the secrets of a magical dusk were encapsulated within the heart of this captivating plastic artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/plastic_cube_4.png",
+      "imagePath": "http://localhost:4242/static/plastic_cube_4.png",
       "size": "Small",
       "age": "1000000"
     },
@@ -215,7 +215,7 @@
       "price": "12",
       "category": "Glass",
       "description": "The Solaris Mirage Sanctum, a celestial chamber crafted from enchanted glass, mirrors the ethereal spectacle of a breathtaking sunset. Its transparent walls capture the hues of the descending sun, painting a dreamscape of warm oranges, purples, and pinks that dance across the reflective surfaces. Straggling clouds, touched by the last light of day, weave enchanting patterns across the canvas of the sky. As the sun sinks below the horizon, the Solaris Mirage Sanctum transforms into a sanctuary of twilight radiance. The glass, like a magical lens, intensifies the beauty of the sunset, creating an illusion of celestial flames licking the edges of the sky. The straggling clouds, bathed in the fading glow, evoke a sense of serenity and wonder. A realm suspended between day and night, the Solaris Mirage Sanctum beckons seekers of celestial beauty to witness the ephemeral dance of sunset and clouds. It stands as a testament to the harmonious convergence of nature's wonders, encapsulating the fleeting magic of a captivating evening sky within the mystical embrace of its enchanted glass.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/glass_cube_empty_3.png",
+      "imagePath": "http://localhost:4242/static/glass_cube_empty_3.png",
       "size": "Small",
       "age": "1000000"
     },
@@ -225,7 +225,7 @@
       "price": "15",
       "category": "Glass",
       "description": "The Glacial Summit Haven, a crystalline sanctuary forged from enchanted glass, cradles within its transparent walls a wondrous scene—a snow-capped mountain rising majestically on an island. A vision of serene beauty, the glass cube encapsulates the towering peak, adorned with the pristine white mantle of perpetual winter, standing as a solitary monarch in the heart of a lush forest. The glass captures the sublime details of the snow-capped mountain, reflecting its grandeur and the play of ambient light on the glistening slopes. Below, the island's verdant embrace unfolds, a lush forest that wraps around the base of the mountain like a cloak of vibrant greenery. A harmonious convergence of contrasting elements, the Glacial Summit Haven stands as a testament to the delicate balance of nature. Within the crystalline confines of the haven, observers can marvel at the juxtaposition of icy heights and fertile lowlands, a microcosm where the allure of a snowy summit coexists with the vitality of a flourishing forest. The Glacial Summit Haven invites those who seek the enchantment of pristine landscapes to witness the majestic dance between snow and greenery within its magical glass abode.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/glass_cube_mountain_diorama.png",
+      "imagePath": "http://localhost:4242/static/glass_cube_mountain_diorama.png",
       "size": "Small",
       "age": "1000000"
     },
@@ -235,7 +235,7 @@
       "price": "12",
       "category": "Plastic",
       "description": " The Frostshroud Monolith, a mystical plastic relic, cradles within its transparent walls an awe-inspiring tableau—a snow-capped mountain rising defiantly from the center of a treacherous ocean. Enigmatic in its design, a legendary white cube, adorned with ancient runes, nestles within the summit's embrace. Visible only from its upper half, the lower section of this mythical cube remains veiled behind the imposing mountain. The plastic material of the Frostshroud Monolith refracts the ambient light, creating an illusion of crystalline ice and liquid depths. The snow-capped mountain, a sentinel of frozen majesty, stands surrounded by the tumultuous waters, as if guarding the secrets hidden within the legendary cube. Runes carved into the pristine surface of the mythical cube gleam with an otherworldly glow, hinting at untold mysteries. A realm of myth and magic, the Frostshroud Monolith beckons intrepid explorers to ponder the interplay of elements—a frozen peak, treacherous ocean, and a legendary cube steeped in ancient runes. It stands as a testament to the enigma of the fantastical, where the realms of legend and reality converge within the translucent grasp of this mesmerizing plastic artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/plastic_cube_mountain_diorama.png",
+      "imagePath": "http://localhost:4242/static/plastic_cube_mountain_diorama.png",
       "size": "Small",
       "age": "1000000"
     },
@@ -245,7 +245,7 @@
       "price": "26",
       "category": "Disaster",
       "description": "The Aetheric Cataclysmarium, a transparent relic suspended in the fabric of reality, captures an awe-inspiring spectacle—an ethereal mushroom cloud that towers nearly tenfold above the surrounding mountains. This otherworldly cube becomes a haunting testament to a cataclysmic event, an explosion of such magnitude that it forever altered the very essence of the fantastical landscape. Within the transparent walls of the Aetheric Cataclysmarium, the mushroom cloud swirls with a ghostly luminescence, an echo of the immense energies unleashed during the devastating nuclear event. The towering plume casts an ominous shadow over the craggy mountain peaks, its form both beautiful and ominous—a visual paradox of destruction and strange allure. A realm frozen in the aftermath of mystical devastation, the Aetheric Cataclysmarium beckons contemplation of the duality inherent in the fantastical. It stands as a silent witness to the cosmic forces that shaped its existence, capturing the haunting beauty of a mushroom cloud suspended in perpetual, transparent stasis—a chilling reminder of the enduring echoes of an arcane cataclysm.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/explosion_cube_1.png",
+      "imagePath": "http://localhost:4242/static/explosion_cube_1.png",
       "size": "Large",
       "age": "78"
     },
@@ -255,7 +255,7 @@
       "price": "37",
       "category": "Disaster",
       "description": "'Lightning in' a Cube captures a moment of transcendent beauty within its transparent walls—a lone oak tree, its silhouette stark against the vast plain, struck by a brilliant blue lightning bolt from the ethereal sky. The crystalline relic freezes this electrifying spectacle, illuminating the desolate landscape in a captivating display of azure brilliance. The cube becomes a sanctuary of elemental drama, inviting those who dare to contemplate the dance of blue lightning and the steadfast resilience of the oak. A testament to the harmonious yet tumultuous balance between the forces of the cerulean sky and the unwavering guardianship of the earth.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/lightning_cube.png",
+      "imagePath": "http://localhost:4242/static/lightning_cube.png",
       "size": "Medium",
       "age": "13"
     },
@@ -265,7 +265,7 @@
       "price": "23",
       "category": "Monument",
       "description": "The Luminara Ecliptower, a crystalline relic within the enchanting realm, cradles an exquisite tableau—a transparent cube wherein the Eiffel Tower, bathed in the splendor of nighttime, stands resplendent. Adorned with golden lights that cascade like liquid sunshine, this captivating artifact encapsulates the iconic landmark in a timeless moment of nocturnal radiance. Within the transparent walls of the Luminara Ecliptower, the Eiffel Tower becomes a luminous beacon, its intricate iron lattice illuminated by a soft yellow glow. The surrounding darkness enhances the brilliance of the lights, turning the crystalline relic into a sanctuary of enchantment. It captures the cityscape in a harmonious dance of shadows and radiance, frozen within the mystic embrace of the transparent cube. A testament to the synergy between architecture and luminescence, the Luminara Ecliptower invites admirers to witness the Eiffel Tower aglow with golden lights in the tranquil serenity of the night. It stands as a crystalline ode to the timeless beauty of human craftsmanship and the mesmerizing allure of city lights suspended within the fantastical grasp of this captivating artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/monument_cube_1.png",
+      "imagePath": "http://localhost:4242/static/monument_cube_1.png",
       "size": "Medium",
       "age": "135"
     },
@@ -275,7 +275,7 @@
       "price": "35",
       "category": "Monument",
       "description": "The Nocturna Arena Sylindra, a crystalline enigma within the fantastical realm, cradles an enchanting vision—a transparent cube wherein the Colosseum, standing proud in the embrace of night, reveals its arches aglow with the warm illumination of yellow lanterns. The captivating artifact freezes this iconic structure in a timeless moment of nocturnal splendor. Within the transparent walls of the Nocturna Arena Sylindra, the Colosseum's grandeur is enhanced by the soft radiance of the lanterns, casting a golden hue upon its ancient stones. The surrounding darkness magnifies the allure of the architectural marvel, transforming the crystalline relic into a sacred haven of nocturnal magic. The arches become a luminous testament to the historic echoes contained within the transparent cube. A tribute to the synergy between history and luminosity, the Nocturna Arena Sylindra beckons admirers to witness the Colosseum adorned in the warm glow of yellow lanterns, standing proud beneath the starlit sky. It stands as a crystalline ode to the timeless beauty of ancient architecture and the mesmerizing allure of night's radiance suspended within the fantastical grasp of this captivating artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/monument_cube_2_V1.png",
+      "imagePath": "http://localhost:4242/static/monument_cube_2_V1.png",
       "size": "Medium",
       "age": "1948"
     },
@@ -285,7 +285,7 @@
       "price": "23",
       "category": "Monument",
       "description": "The Radiant Sphinx Sanctum, a crystalline marvel within the fantastical realm, cradles a breathtaking tableau—a transparent cube wherein a majestic Egyptian Sphinx, bathed in an ethereal golden glow, stands as a timeless guardian. The captivating artifact freezes this regal creature in a moment of otherworldly splendor. Within the transparent walls of the Radiant Sphinx Sanctum, the golden hues accentuate the Sphinx's noble features, casting a warm radiance upon its regal form. The surrounding air seems to shimmer with mystical energy, transforming the crystalline relic into a sacred haven where the wisdom of ancient sands converges with the enchantment of the fantastical. A tribute to the timeless majesty of ancient civilizations, the Radiant Sphinx Sanctum invites admirers to witness the golden guardian standing resolute within the crystalline embrace. It stands as a crystalline ode to the regal allure of the Sphinx and the radiant magic wo",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/monument_cube_3.png",
+      "imagePath": "http://localhost:4242/static/monument_cube_3.png",
       "size": "Medium",
       "age": "4500"
     },
@@ -295,7 +295,7 @@
       "price": "39",
       "category": "Mythical",
       "description": "The Aurum Reliquarium, a mystic artifact within the enchanted realm, cradles a dazzling spectacle—a pure gold cube adorned with ancient engravings reminiscent of Incan craftsmanship. The intricate symbols and patterns etched into its radiant surface tell tales of a bygone era, preserving the wisdom and mysteries of an ancient civilization. Within the golden walls of the Aurum Reliquarium, the engravings gleam with an ethereal brilliance, as if each mark holds the essence of a forgotten era. The ornate designs echo the skilled artistry of Incan crafts, turning the cube into a sacred repository where the ancient echoes of wisdom converge with the enchantment of the fantastical. A tribute to the artistic legacy and cultural richness of ancient civilizations, the Aurum Reliquarium beckons those seeking the secrets of antiquity to unravel the enigmatic tales inscribed upon its radiant gold surface. It stands as a crystalline conduit to the legacy of bygone eras, suspended within the fantastical grasp of this captivating artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/mythical_cube_1.png",
+      "imagePath": "http://localhost:4242/static/mythical_cube_1.png",
       "size": "Medium",
       "age": "583"
     },
@@ -305,7 +305,7 @@
       "price": "66",
       "category": "Mythical",
       "description": "The Crimson Malevolith, a dark artifact within the shadowed realm, cradles a sinister tableau—a bloody cube adorned with white Satanic demon symbols. The grotesque engravings etched into its surface speak of forbidden rites and malevolent forces, casting an eerie pallor upon the twisted sanctum. Within the blood-stained walls of the Crimson Malevolith, the demonic symbols seem to writhe with an unholy life, emanating an ominous energy. The eerie patterns evoke the arcane darkness of forbidden rituals, transforming the cube into a cryptic altar where the malevolent whispers of infernal entities converge with the nightmarish enchantment of the fantastical. A tribute to the dark arts and the forbidden realms, the Crimson Malevolith beckons those who dare to delve into the shadows and unravel the demonic secrets entwined within its gruesome surface. It stands as a crystalline gateway to the abyss, suspended within the fantastical grasp of this captivating, yet chilling, artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/mythical_cube_2_V2.png",
+      "imagePath": "http://localhost:4242/static/mythical_cube_2_V2.png",
       "size": "Small",
       "age": "666"
     },
@@ -315,7 +315,7 @@
       "price": "67",
       "category": "Mythical",
       "description": "The Obsidian Sanctum Reliquary, a mystical artifact within the shadowed sanctum, cradles an ominous tableau—a black cube adorned with intricate gold embroidery, praising the dark god. The celestial patterns woven into its obsidian surface tell tales of reverence and devotion to the malevolent deity, casting an aura of unholy reverence upon the enigmatic shrine. Within the stygian walls of the Obsidian Sanctum Reliquary, the golden embroidery seems to flicker with an infernal radiance, an homage to the forbidden deity. The celestial motifs evoke a sense of dark divinity, transforming the cube into a sanctified relic where the whispered hymns to the dark god converge with the ominous enchantment of the fantastical. A tribute to the dark mysteries and esoteric devotion, the Obsidian Sanctum Reliquary beckons those drawn to the shadows to witness the unholy artistry etched into its ebony facade. It stands as a crystalline homage to the malevolent deity, suspended within the fantastical grasp of this captivating artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/mythical_cube_2_V3.png",
+      "imagePath": "http://localhost:4242/static/mythical_cube_2_V3.png",
       "size": "Small",
       "age": "98503"
     },
@@ -325,7 +325,7 @@
       "price": "78",
       "category": "Mythical",
       "description": " The Vermillion Eldertome, a mythical relic within the tapestry of fantasy, cradles a wondrous tableau—a glossy red cube adorned with ancient etchings and shiny golden symbols, paying homage to the revered elder gods. The intricate designs carved into its lustrous surface tell tales of cosmic wisdom and devotion, casting an aura of reverential splendor upon the enigmatic artifact. Within the radiant walls of the Vermillion Eldertome, the golden symbols gleam with an ethereal luminescence, an offering to the ancient deities. The celestial etchings evoke a sense of venerable power, transforming the cube into a sanctified repository where the whispered hymns to the elder gods converge with the awe-inspiring enchantment of the fantastical. A tribute to cosmic wisdom and the timeless devotion to elder entities, the Vermillion Eldertome beckons those seeking celestial insights to witness the divine artistry etched into its resplendent facade. It stands as a crystalline testament to the reverence bestowed upon the elder gods, suspended within the fantastical grasp of this captivating artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/mythical_cube_2.png",
+      "imagePath": "http://localhost:4242/static/mythical_cube_2.png",
       "size": "Medium",
       "age": "23050"
     },
@@ -335,7 +335,7 @@
       "price": "65",
       "category": "Mythical",
       "description": "The Stonereck Wyrdstone, a mythical relic atop a grassy hill within the realm of fantasy, stands as a venerable witness to ages past. The stone cube, adorned with Norse runes etched into its weathered sides, bears the marks of time, adorned with small cracks and adorned with the quiet embrace of moss, a testament to its ancient wisdom. Perched upon the hill, the Stonereck Wyrdstone overlooks a bustling coastal city, its enigmatic presence juxtaposed against the dynamic energy of the thriving settlement. The runes, remnants of a bygone era, whisper tales of old magic and timeless sagas, while the moss, a verdant shroud, adds an ethereal touch to the aged stone, harmonizing with the natural beauty of the grassy surroundings. A tribute to the enigmatic past and the ever-flowing currents of time, the Stonereck Wyrdstone invites contemplation beneath its wise gaze. It stands as a crystalline link between ancient runic lore and the vibrant life of the coastal city, suspended within the fantastical grasp of this captivating and venerable artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/mythical_cube_3_V2.png",
+      "imagePath": "http://localhost:4242/static/mythical_cube_3_V2.png",
       "size": "Small",
       "age": "1273"
     },
@@ -345,7 +345,7 @@
       "price": "6",
       "category": "Mythical",
       "description": "The Aetheric Gyrocore, a mythical metallic marvel within the realm of fantasy, holds a mesmerizing secret—a metal cube adorned with multiple concentric rings at the center of each side, spinning indefinitely through an unknown means. The enigmatic artifact defies the laws of nature, its perpetual motion creating an aura of fantastical energy. Within the metallic walls of the Aetheric Gyrocore, the concentric rings dance in an intricate ballet, each layer perpetually in motion, defying the constraints of the tangible world. The unknown means by which the cube spins suggests a mystical force at play, giving the artifact an otherworldly presence that captivates the imagination. A tribute to the mysteries of the arcane and the limitless potential of the fantastical, the Aetheric Gyrocore invites contemplation of the perpetual dance within its metallic embrace. It stands as a crystalline portal to an unknown source of energy, suspended within the fantastical grasp of this captivating and enigmatic artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/mythical_cube_4_V2.png",
+      "imagePath": "http://localhost:4242/static/mythical_cube_4_V2.png",
       "size": "Small",
       "age": "2300000"
     },
@@ -355,7 +355,7 @@
       "price": "89",
       "category": "Mythical",
       "description": "The Steelweb Anomaly, a mythical metallic enigma within the realm of fantasy, presents a mesmerizing spectacle—a metal cube constructed from a complex arrangement of thin steel beams, crisscrossing inside like an intricate lattice. The enigmatic artifact defies conventional design, its inner structure forming a hypnotic dance of steel, hinting at arcane craftsmanship. Within the metallic walls of the Steelweb Anomaly, the thin steel beams create a mesmerizing labyrinth, a celestial geometry that seems to defy the boundaries of traditional engineering. The interwoven lattice gives the cube an ethereal presence, capturing the essence of a mysterious craftsmanship that transcends the limits of mortal understanding. A tribute to the arcane artistry and the unfathomable possibilities of the fantastical, the Steelweb Anomaly invites contemplation of its intricate interior. It stands as a crystalline portal to a realm where steel becomes a dance of ethereal patterns, suspended within the fantastical grasp of this captivating and enigmatic artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/mythical_cube_4_V3.png",
+      "imagePath": "http://localhost:4242/static/mythical_cube_4_V3.png",
       "size": "Medium",
       "age": "540000000"
     },
@@ -365,7 +365,7 @@
       "price": "81",
       "category": "Mythical",
       "description": "The Auracore Matrix, a mythical metallic wonder within the realm of fantasy, boasts a captivating spectacle—a metal cube adorned with a circular golden device at the center of each side. From these radiant centers, intricate metal beams branch out, weaving an elegant dance that extends to the cube's corners and reveals enigmatic inner workings. The artifact emanates an aura of ancient craftsmanship and celestial engineering. Within the metallic walls of the Auracore Matrix, the circular golden devices pulse with an ethereal glow, and the branching metal beams form an intricate tapestry that suggests an arcane intelligence at play. The cube becomes a sanctum of divine design, capturing the essence of a mystical fusion between metal and gold, technology and magic. A tribute to the celestial artistry and the harmonious convergence of materials, the Auracore Matrix invites contemplation of its enigmatic inner workings. It stands as a crystalline portal to a realm where metal and gold coalesce in a dance of divine craftsmanship, suspended within the fantastical grasp of this captivating and mysterious artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/mythical_cube_4.png",
+      "imagePath": "http://localhost:4242/static/mythical_cube_4.png",
       "size": "Small",
       "age": "320000"
     },
@@ -375,7 +375,7 @@
       "price": "83",
       "category": "Mythical",
       "description": "The Aeonian Timekeeper's Prism, a mythical metallic marvel within the realm of fantasy, unveils a captivating tableau—a metal cube adorned with advanced clock faces on each side. The clock face on top boasts an hour hand larger than the cube's radius, a celestial anomaly that hints at the artifact's origin—a remnant of a long-forgotten time god.Within the metallic walls of the Aeonian Timekeeper's Prism, each clock face tells the tale of celestial epochs with a single, majestic hour hand. The intricate design suggests a divine craftsmanship that transcends mortal understanding, capturing the essence of a bygone era when time itself was harnessed by gods of antiquity. A tribute to the celestial legacy and the enigmatic powers of ancient deities, the Aeonian Timekeeper's Prism invites contemplation of its divine timekeeping. It stands as a crystalline portal to an age where gods shaped the fabric of time, suspended within the fantastical grasp of this captivating and mysterious artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/mythical_cube_5_V2.png",
+      "imagePath": "http://localhost:4242/static/mythical_cube_5_V2.png",
       "size": "Large",
       "age": "1000000000000000000000"
     },
@@ -385,7 +385,7 @@
       "price": "1",
       "category": "Mythical",
       "description": "The Temporal Enigma Construct, a mythical metallic marvel within the realm of fantasy, presents an enigmatic tableau—a metal cube adorned with antique clock faces on each side. Bizarre clock hands, guided by unusual arcane symbols instead of numbers, traverse the faces. Supported by circular metal beams forming the cube's frame, each vertex holds a mysterious round ball. Within the metallic walls of the Temporal Enigma Construct, the arcane symbols on the clock faces defy conventional understanding, suggesting a celestial language known only to those attuned to the mysteries of time. The round balls at the vertices resonate with an otherworldly energy, adding to the mystique of this enigmatic artifact. A tribute to the arcane nature of time and the cosmic mysteries it conceals, the Temporal Enigma Construct beckons those curious about the threads of fate to delve into its mysterious timekeeping. It stands as a crystalline portal to realms where the ordinary perception of time intertwines with the arcane, suspended within the fantastical grasp of this captivating and arcane artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/mythical_cube_5.png",
+      "imagePath": "http://localhost:4242/static/mythical_cube_5.png",
       "size": "Large",
       "age": "100000000000"
     },
@@ -395,7 +395,7 @@
       "price": "32",
       "category": "Technology",
       "description": "The Cyberian Core Encasement, a mythical tech wonder within the realm of fantasy, unveils a captivating tableau—a tech cube containing a cubical computer chip pulsating with a soft blue glow. Encased in a meticulously crafted metal frame, wires weave in and out of the structure, creating an intricate network that amplifies the essence of technological enchantment. Within the metallic confines of the Cyberian Core Encasement, the cubical computer chip radiates a soothing blue luminescence, a testament to the arcane power harnessed within. The intricate web of wires forms a mesmerizing dance, reflecting the symphony of data flowing through the veins of this technological marvel. A tribute to the fusion of magic and technology, the Cyberian Core Encasement beckons those intrigued by the wonders of the digital arcane. It stands as a crystalline portal to realms where the ethereal glow of soft blue light intertwines with the pulsating heartbeat of a mythical tech cube, suspended within the fantastical grasp of this captivating and enigmatic artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/technology_cube_1.png",
+      "imagePath": "http://localhost:4242/static/technology_cube_1.png",
       "size": "Small",
       "age": "4"
     },
@@ -405,7 +405,7 @@
       "price": "21",
       "category": "Technology",
       "description": "The Obsidian Dynamo Core, a pinnacle of technological ingenuity within the realm of fantasy, manifests as a black tech cube constructed from a mysterious material. On each side, blue electromagnetic gemstones pulsate with an ethereal glow, radiating an enigmatic aura. From within, a gentle whirring sound resonates, a testament to the advanced technological core encased within the artifact. Crafted from the mysterious material, the Obsidian Dynamo Core houses blue electromagnetic gemstones that seem to breathe life into its sleek facade. The pulsating rhythm of the gemstones synchronizes with the soft whirring emanating from within, creating a mesmerizing symphony that speaks to the essence of this extraordinary technological marvel. A marvel of the convergence between mystery and technology, the Obsidian Dynamo Core beckons those who seek the cutting edge of innovation. It stands as a crystalline portal to realms where the blue electromagnetic gemstones dance in harmony with the gentle whirring, suspended within the fantastical grasp of this captivating and technologically advanced artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/technology_cube_2.png",
+      "imagePath": "http://localhost:4242/static/technology_cube_2.png",
       "size": "Medium",
       "age": "80000"
     },
@@ -415,7 +415,7 @@
       "price": "90",
       "category": "Disaster",
       "description": "The Tempestuous Ephemeral Prism presents an awe-inspiring spectacle—a transparent cube encapsulating the unforgiving force of a colossal tornado. Standing at an imposing 400 feet, the tumultuous vortex wreaks havoc on a bustling city, toppling skyscrapers with relentless might. The transparent cube serves as both a shield and a window, capturing the destructive beauty of nature's fury in a mesmerizing display. Witness the chaotic elegance as the Tempestuous Ephemeral Prism showcases the awesome might of a tornado frozen in time, suspended within the captivating and cataclysmic grasp of this ephemeral artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/tornado_cube.png",
+      "imagePath": "http://localhost:4242/static/tornado_cube.png",
       "size": "Medium",
       "age": "12"
     },
@@ -425,7 +425,7 @@
       "price": "21",
       "category": "Disaster",
       "description": "The Aquamarine Cataclysm Sentinel, a moment frozen in time within the confines of this transparent cube, captures the impending doom of a coastal city. Just seconds away from being engulfed by the relentless onslaught of a raging tsunami on all sides, the transparent walls offer a haunting glimpse into the chaos about to unfold. Waves surge with menacing force, looming over the city's skyline, poised to unleash a watery cataclysm. The Aquamarine Cataclysm Sentinel stands as a stark reminder of nature's relentless power, freezing the imminent disaster within the grasp of this captivating and foreboding artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/tsunami_cube.png",
+      "imagePath": "http://localhost:4242/static/tsunami_cube.png",
       "size": "Medium",
       "age": "19"
     },
@@ -435,7 +435,7 @@
       "price": "34",
       "category": "Disaster",
       "description": "The Ember Veil Enclosure, a snapshot of fiery chaos within a transparent cube, encapsulates the mesmerizing spectacle of a volcanic eruption at night. Molten magma cascades from the seething crater, casting an ominous glow upon the landscape. Vivid purple sparks dance in the obsidian sky, creating an otherworldly display against the backdrop of the erupting volcano. The transparent walls of the Ember Veil Enclosure allow a close-up view of the elemental fury, freezing the explosive beauty of the volcanic night within the grasp of this captivating and fiery artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/volcano_cube_1.png",
+      "imagePath": "http://localhost:4242/static/volcano_cube_1.png",
       "size": "Medium",
       "age": "1900"
     },
@@ -445,7 +445,7 @@
       "price": "13",
       "category": "Disaster",
       "description": "The Luminous Pyroclasm Chamber, a crystalline testament to fiery upheaval, captures the dynamic spectacle of a volcanic eruption. Within the transparent walls, molten magma surges from the seething crater, cascading down the sides with the relentless force of nature. Radiant yellow rocks, forcefully ejected from the fiery maw, mimic tiny meteors as they descend, leaving streaks of luminescence in their wake. The transparent confines of the Luminous Pyroclasm Chamber offer an intimate view of the volatile dance between fire and rock, freezing the incandescent chaos within the grasp of this captivating and fiery artifact.",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/volcano_cube_2.png",
+      "imagePath": "http://localhost:4242/static/volcano_cube_2.png",
       "size": "Medium",
       "age": "32"
     },
@@ -455,7 +455,7 @@
       "price": "11",
       "category": "Technology",
       "description": "The Verdant Circuit Lattice Construct, a testament to the fusion of nature and technology, stands as a translucent cube crafted from an intricate 3D grid of glass. Within its transparent confines, a mesmerizing mesh of green circuitry weaves through the core, intertwining with the glass lattice in a harmonious dance. The verdant circuitry pulsates with the essence of a digital ecosystem, creating an ethereal glow that breathes life into the transparent structure. The Verdant Circuit Lattice Construct encapsulates the symbiotic union of nature-inspired design and cutting-edge technology, frozen within the grasp of this captivating and technologically advanced ",
-      "imagePath": "/home/pesanth/repos/angular-web-app/web-store/server/cubes/weird_grid_cube.png",
+      "imagePath": "http://localhost:4242/static/weird_grid_cube.png",
       "size": "Medium",
       "age": "435"
     }
