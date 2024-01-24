@@ -18,8 +18,7 @@ export class ProductBoxComponent {
     this.addToCart.emit(this.product);
   }
 
-  getImageSource(): string {
-    // Assuming the base64Image property is present in each item
-    return `data:image/png;base64,${this.product?.base64Image}`;
-  }
+  // getImageSource(): string {
+  //   return `data:image/png;base64,${this.product?.base64Image}`;
+  // }
 }
