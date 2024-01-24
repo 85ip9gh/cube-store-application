@@ -12,7 +12,6 @@ class="min-h-full max-w-7x1 mx-auto border-x">
         (sortChange)="onSortChange($event)"
         ></app-products-header>
         <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="rowHeight" >
-            
             <mat-grid-tile *ngFor="let product of products" >
                 <app-product-box
                 [product]="product"
