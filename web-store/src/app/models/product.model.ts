@@ -4,7 +4,7 @@ export interface Product {
     price: number;
     category: string;
     description: string;
-    image: string;
+    imagePath: string;
     age: number;
     base64Image: string;
 }
