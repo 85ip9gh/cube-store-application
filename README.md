@@ -20,6 +20,19 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 - Add cubes to cart and change quantity in cart page
 - Checkout and pay for cubes
 
+# Website Versions:
+
+### V1 - 01/05/2024
+![Website V1 of Cube Store Application Website](./images/Cube_Store_V1.jpg)
+
+### V2 - 01/06/2024
+![Website V2 of Cube Store Application Website](./images/Cube_Store_V2.jpg)
+
+## Works Cited
+- Inspiration from: https://www.youtube.com/watch?v=Kbauf9IgsC4&t=265s
+
+# Updates
+
 ## 12/31/2023
 - Cube store works with fakestoreapi and stripe checkout(images won't show in stripe checkout, but will deal with it later)
 - goal is to replace fakestoreapi with own api that has different cubes with images generated with stable diffusion
@@ -70,10 +83,6 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 - Host website on AWS(Amazon Web Services) t2.micro ec2 instance
     - initial thoughts are that this t2.micro instance handles loads much better than GCP's e2.micro, but will have to see after I implement a database for the images instead of just a .json file
 
-# Website Versions:
-
-### V1 - 01/05/2024
-![Website V1 of Cube Store Application Website](./images/Cube_Store_V1.jpg)
-
-## Works Cited
-- Inspiration from: https://www.youtube.com/watch?v=Kbauf9IgsC4&t=265s
+## 01/14/2024
+- Rename repository to "cube-store-application"
+- lower more prices on cubes(they were in the millions and billions) because Strip has a cap on how much money can be in checkout
