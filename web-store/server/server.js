@@ -11,7 +11,11 @@ const path = require('path');
 const sharp = require('sharp');
 const fs = require('fs');
 
-var cubeDetails = require('./public/cube-details.json');
+//for localhost
+// var cubeDetails = require('./public/cube-details.json');
+
+//for AWS vm
+var cubeDetails = require('./public/cube-details-vm.json');
 
 const stripe = require('stripe')('sk_test_51OTZqzA7JcW8dorug76raBGFUphZJhAncAifdvXzMXLZrp13kreGfvWnWOgB4xO0DvexcFBGHNn2uNUbMuyVbg0M00pRO5Cv6C');
 
