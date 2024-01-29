@@ -6,11 +6,7 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 - http://18.118.238.40:4200
     - hosted on AWS(Amazon Web Services) on t2.micro ec2 instance. 
     <strike>
-    
-    ```
-    - WARNING: images load extremely slowly because the images are sent to frontend from backend encoded in base64 and as a result, the json file is large. I'll create a loading animation to play while the images are getting fetched from the backend api. ~~ 
-    ```
-
+    - WARNING: images load extremely slowly because the images are sent to frontend from backend encoded in base64 and as a result, the json file is large. I'll create a loading animation to play while the images are getting fetched from the backend api. 
     </strike>
         - fixed on 1/24/2024
 
