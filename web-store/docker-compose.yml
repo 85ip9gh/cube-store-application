@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  frontend:
+    image: 85ip9gh/cube-store-application:frontend-v5
+    ports:
+      - "4200:80"
+
+  backend:
+    image: 85ip9gh/cube-store-application:backend-v3
+    ports:
+      - "4242:4242"
