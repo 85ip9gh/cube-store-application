@@ -96,3 +96,9 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
     - Will implement lazy loading in images so that the images are loaded even faster
 - Will implement in the AWS server as well, just need to change localhost to the ip address of the AWS vm
 - Website is up and images load almost instantaneously, much better QoL and feel
+
+## 02/01/2024
+- Fix stripe checkout in AWS VM
+    - the api call was still pointing to localhost instead of the ip address of VM
+- add docker-compose.yml file to AWS VM for easier setup of docker containers
+    - add to repository for version control and for future
