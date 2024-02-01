@@ -4,6 +4,12 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Cart, CartItem } from 'src/app/models/cart.model';
 import { CartService } from 'src/app/services/cart.service';
 
+// for AWS EC2 instance
+const STORE_BASE_URL = 'http://18.118.238.40:4242';
+
+//for local development
+//const STORE_BASE_URL = 'http://localhost:4242';
+
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -48,7 +54,7 @@ export class CartComponent {
     }
 
     onCheckout(): void {
-      this.http.post('http://localhost:4242/checkout', {
+      this.http.post( `${STORE_BASE_URL}/checkout`, {
         items: this.cart.items
       }).subscribe(async(res: any) => {
         let stripe = await loadStripe('pk_test_51OTZqzA7JcW8doruYawTDrUzXPGQ8mQaqf0i7QwmhveJskGH6U991v0MwWHBBor2xUiagg86owYKlnDwwp6QZ5tx009eEEEJyK');
