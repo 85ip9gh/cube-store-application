@@ -15,7 +15,7 @@ export class FiltersComponent {
   categories: string[] | undefined;
   prices: number[] = [100, 200, 300, 400, 500];
   ages: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  sizes: string[] = ['Small', 'Medium', 'Large'];
+  sizes: string[] | undefined;
 
   constructor(private storeService: StoreService) {
 
@@ -25,6 +25,10 @@ export class FiltersComponent {
     this.storeService.getAllCategories()
       .subscribe((categories: string[]) => {
         this.categories = categories;
+      });
+    this.storeService.getAllSizes()
+      .subscribe((sizes: string[]) => {
+        this.sizes = sizes;
       });
   }
 
