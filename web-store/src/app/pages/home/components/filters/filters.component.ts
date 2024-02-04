@@ -9,9 +9,13 @@ import { StoreService } from 'src/app/services/store.service';
 export class FiltersComponent {
 
   @Output() categoryChange = new EventEmitter<string>();
+  @Output() sizeChange = new EventEmitter<string>();
 
   categoriesSubscription: Subscription | undefined;
   categories: string[] | undefined;
+  prices: number[] = [100, 200, 300, 400, 500];
+  ages: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  sizes: string[] = ['Small', 'Medium', 'Large'];
 
   constructor(private storeService: StoreService) {
 
@@ -26,6 +30,11 @@ export class FiltersComponent {
 
   onCategoryUpdate(newCategory: string): void {
     this.categoryChange.emit(newCategory);
+  }
+
+  onSizeUpdate(newSize: string): void {
+   this.sizeChange.emit(newSize);
+   
   }
 
   ngOnDestroy(): void {
