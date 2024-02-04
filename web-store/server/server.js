@@ -27,12 +27,17 @@ app.get('/', (req, res) => {
 
 app.get('/cubes(/category/:category)?', (req, res) => {
     const category = req.params.category;
+    const size = req.query.size;
     const sort = req.query.sort;
     const limit = req.query.limit;
     let filteredByCubes = cubeDetails.items;
 
     if(category != 'All'){
         filteredByCubes = cubeDetails.items.filter((cube) => !category || cube.category === category);
+    }
+
+    if(size != 'All'){
+        filteredByCubes = filteredByCubes.filter((cube) => !size || cube.size === size);
     }
 
     let sortedCubes = filteredByCubes.sort((a, b) => {
@@ -64,6 +69,12 @@ app.get('/cubes/categories', (req, res) => {
     const uniqueCategories = cubeDetails.items.map(cube => cube.category)
         .reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
     res.send(uniqueCategories);
+});
+
+app.get('/cubes/sizes', (req, res) => {
+    const uniqueSizes = cubeDetails.items.map(cube => cube.size)
+        .reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
+    res.send(uniqueSizes);
 });
 
 async function encodeImageToBase64(imagePath) {
