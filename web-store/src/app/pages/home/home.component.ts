@@ -17,7 +17,7 @@ export class HomeComponent {
   category: string | undefined;
   size: string = 'All';
   products: Product[] | undefined;
-  sort: string = 'desc';
+  sort: string | undefined;
   count = 'All';
   productSubscription: Subscription | undefined;
 

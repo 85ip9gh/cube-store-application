@@ -16,15 +16,21 @@ export class StoreService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getAllProducts(limit = 'All', sort='desc', category?:string): Observable<Product[]> {
+  getAllProducts(limit = 'All', sort='desc', category?:string, size='All'): Observable<Product[]> {
     return this.httpClient.get<Product[]>(
-      `${STORE_BASE_URL}/cubes${category ? '/category/' + category : ''}?sort=${sort}&limit=${limit}`
+      `${STORE_BASE_URL}/cubes${category ? '/category/' + category : ''}?sort=${sort}&limit=${limit}&size=${size}`
       );
   }
 
   getAllCategories(): Observable<string[]> {
     return this.httpClient.get<string[]>(
       `${STORE_BASE_URL}/cubes/categories`
+      );
+  }
+
+  getAllSizes(): Observable<string[]> {
+    return this.httpClient.get<string[]>(
+      `${STORE_BASE_URL}/cubes/sizes`
       );
   }
 }
