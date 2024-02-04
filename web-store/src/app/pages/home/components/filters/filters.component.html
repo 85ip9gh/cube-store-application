@@ -29,4 +29,24 @@
             </mat-list-option>
         </mat-selection-list>
     </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="prices">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Price
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-selection-list [multiple]="false">
+            <div class="flex flex-col">
+                <mat-form-field appearance="fill">
+                  <mat-label>Minimum price</mat-label>
+                  <input matInput>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>Maximum price</mat-label>
+                  <input matInput>
+                </mat-form-field>
+              </div>
+              
+        </mat-selection-list>
+    </mat-expansion-panel>
 </div>
