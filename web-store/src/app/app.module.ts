@@ -26,6 +26,8 @@ import { CartComponent } from './pages/cart/cart.component';
 import { CartService } from './services/cart.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './components/footer/footer.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @NgModule({
@@ -55,6 +57,8 @@ import { FooterComponent } from './components/footer/footer.component';
     MatTableModule,
     MatBadgeModule,
     MatSnackBarModule,
+    MatInputModule,
+    MatFormFieldModule,
     HttpClientModule
   ],
   providers: [CartService],
