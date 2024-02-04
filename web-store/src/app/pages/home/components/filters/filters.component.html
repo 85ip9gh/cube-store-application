@@ -1,15 +1,32 @@
-<mat-expansion-panel *ngIf="categories">
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-            Category
-        </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-selection-list [multiple]="false">
-        <mat-list-option [selected]="true" (click)="onCategoryUpdate('')">
-            All
-        </mat-list-option>
-        <mat-list-option *ngFor="let category of categories" [value]="category" (click)="onCategoryUpdate(category)">
-                {{category}}    
-        </mat-list-option>
-    </mat-selection-list>
-</mat-expansion-panel>
+<div>
+    <mat-expansion-panel *ngIf="categories">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Category
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-selection-list [multiple]="false">
+            <mat-list-option [selected]="true" (click)="onCategoryUpdate('')">
+                All
+            </mat-list-option>
+            <mat-list-option *ngFor="let category of categories" [value]="category" (click)="onCategoryUpdate(category)" >
+                    {{category}}    
+            </mat-list-option>
+        </mat-selection-list>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="sizes">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Size
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-selection-list [multiple]="false">
+            <mat-list-option [selected]="true" (click)="onSizeUpdate('')">
+                All
+            </mat-list-option>
+            <mat-list-option *ngFor="let size of sizes" [value]="size" (click)="onSizeUpdate(size)">
+                    {{size}}    
+            </mat-list-option>
+        </mat-selection-list>
+    </mat-expansion-panel>
+</div>

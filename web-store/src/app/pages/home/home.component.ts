@@ -15,6 +15,7 @@ export class HomeComponent {
   cols: number = 1;
   rowHeight = ROWS_HEIGHT[this.cols];
   category: string | undefined;
+  size: string = 'All';
   products: Product[] | undefined;
   sort: string = 'desc';
   count = 'All';
@@ -29,7 +30,7 @@ export class HomeComponent {
   }
 
   getProducts(): void {
-    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort ,this.category).subscribe((products: Product[]) => {
+    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort ,this.category, this.size).subscribe((products: Product[]) => {
       this.products = products;
     });
 
@@ -42,6 +43,11 @@ export class HomeComponent {
 
   onCategoryChange(newCategory: string): void {
     this.category = newCategory;
+    this.getProducts();
+  }
+
+  onSizeChange(newSize: string): void {
+    this.size = newSize;
     this.getProducts();
   }
 
