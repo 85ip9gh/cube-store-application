@@ -16,6 +16,8 @@ export class FiltersComponent {
   prices: number[] = [100, 200, 300, 400, 500];
   ages: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   sizes: string[] | undefined;
+  minimumPrice: number | undefined;
+  maximumPrice: number | undefined;
 
   constructor(private storeService: StoreService) {
 
