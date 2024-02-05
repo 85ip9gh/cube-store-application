@@ -20,6 +20,8 @@ export class HomeComponent {
   sort: string | undefined;
   count = 'All';
   productSubscription: Subscription | undefined;
+  min: number = 0;
+  max:number = 100;
 
   constructor(private cartService: CartService, private storeService: StoreService) {
 
@@ -30,8 +32,9 @@ export class HomeComponent {
   }
 
   getProducts(): void {
-    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort ,this.category, this.size).subscribe((products: Product[]) => {
+    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort ,this.category, this.size, this.min, this.max).subscribe((products: Product[]) => {
       this.products = products;
+      console.log(products);
     });
 
   }
@@ -53,6 +56,16 @@ export class HomeComponent {
 
   onItemCountChange(newCount: string): void {
     this.count = newCount;
+    this.getProducts();
+  }
+
+  onMinPriceChange(newMin: number): void {
+    this.min = newMin;
+    this.getProducts();
+  }
+
+  onMaxPriceChange(newMax: number): void {
+    this.max = newMax;
     this.getProducts();
   }
 

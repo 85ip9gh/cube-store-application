@@ -30,6 +30,8 @@ app.get('/cubes(/category/:category)?', (req, res) => {
     const size = req.query.size;
     const sort = req.query.sort;
     const limit = req.query.limit;
+    const minPrice = req.query.minPrice;
+    const maxPrice = req.query.maxPrice; 
     let filteredByCubes = cubeDetails.items;
 
     if(category != 'All'){
@@ -39,6 +41,10 @@ app.get('/cubes(/category/:category)?', (req, res) => {
     if(size != 'All'){
         filteredByCubes = filteredByCubes.filter((cube) => !size || cube.size === size);
     }
+
+    
+    filteredByCubes = filteredByCubes.filter((cube) => cube.price >= minPrice && cube.price <= maxPrice);
+    
 
     let sortedCubes = filteredByCubes.sort((a, b) => {
         if (sort === 'asc') {
