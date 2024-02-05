@@ -16,9 +16,9 @@ export class StoreService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getAllProducts(limit = 'All', sort='desc', category?:string, size='All'): Observable<Product[]> {
+  getAllProducts(limit = 'All', sort='desc', category?:string, size='All', min:number=0, max:number=100): Observable<Product[]> {
     return this.httpClient.get<Product[]>(
-      `${STORE_BASE_URL}/cubes${category ? '/category/' + category : ''}?sort=${sort}&limit=${limit}&size=${size}`
+      `${STORE_BASE_URL}/cubes${category ? '/category/' + category : ''}?sort=${sort}&limit=${limit}&size=${size}&minPrice=${min}&maxPrice=${max}`
       );
   }
 

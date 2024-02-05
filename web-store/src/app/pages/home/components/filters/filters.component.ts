@@ -10,17 +10,17 @@ export class FiltersComponent {
 
   @Output() categoryChange = new EventEmitter<string>();
   @Output() sizeChange = new EventEmitter<string>();
+  @Output() minimumPriceChange = new EventEmitter<number>();
+  @Output() maximumPriceChange = new EventEmitter<number>();
 
   categoriesSubscription: Subscription | undefined;
   categories: string[] | undefined;
-  prices: number[] = [100, 200, 300, 400, 500];
-  ages: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   sizes: string[] | undefined;
-  minimumPrice: number | undefined;
-  maximumPrice: number | undefined;
+  minimumPrice: number = 0;
+  maximumPrice: number = 100;
+
 
   constructor(private storeService: StoreService) {
-
   }
 
   ngOnInit(): void {
@@ -41,6 +41,16 @@ export class FiltersComponent {
   onSizeUpdate(newSize: string): void {
    this.sizeChange.emit(newSize);
    
+  }
+
+  onMinimumPriceUpdate(): void {
+    this.minimumPriceChange.emit(this.minimumPrice);
+    console.log(this.minimumPrice);  
+  }
+ 
+  onMaximumPriceUpdate(): void {
+    this.maximumPriceChange.emit(this.maximumPrice);
+    console.log(this.maximumPrice);
   }
 
   ngOnDestroy(): void {
