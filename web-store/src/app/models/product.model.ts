@@ -1,3 +1,4 @@
+// defining the variables for the product
 export interface Product {
     id: number;
     title: string;

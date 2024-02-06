@@ -7,6 +7,7 @@ import { CartService } from '../../services/cart.service';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
+  // declaring the cart variable and setting it to an empty array
   private _cart: Cart = { items: [] };
   itemsQuantity: number = 0;
 
@@ -15,6 +16,7 @@ export class HeaderComponent {
     return this._cart;
   }
 
+  // setting the cart variable to the parameter passed in and getting the quantity of items in the cart by mapping through the items and adding the quantity of each item
   set cart(cart: Cart) {
     this._cart = cart;
     this.itemsQuantity = cart.items
@@ -22,13 +24,16 @@ export class HeaderComponent {
     .reduce((prev, curr) => prev + curr, 0);
   }
 
+  // injecting the cart service into header component
   constructor(private cartService: CartService) {
   }
 
+  // gets the total price of the items in the cart
   getTotal(items: CartItem[]): number {
     return this.cartService.getTotal(items);
   }
 
+  // clears the cart
   onClearCart(): void {
     this.cartService.clearCart();
   }
