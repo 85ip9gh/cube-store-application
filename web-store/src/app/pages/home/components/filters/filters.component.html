@@ -9,8 +9,9 @@
             <mat-list-option [selected]="true" (click)="onCategoryUpdate('')">
                 All
             </mat-list-option>
-            <mat-list-option *ngFor="let category of categories" [value]="category" (click)="onCategoryUpdate(category)" >
-                    {{category}}    
+            <mat-list-option *ngFor="let category of categories" [value]="category"
+                (click)="onCategoryUpdate(category)">
+                {{category}}
             </mat-list-option>
         </mat-selection-list>
     </mat-expansion-panel>
@@ -25,7 +26,7 @@
                 All
             </mat-list-option>
             <mat-list-option *ngFor="let size of sizes" [value]="size" (click)="onSizeUpdate(size)">
-                    {{size}}    
+                {{size}}
             </mat-list-option>
         </mat-selection-list>
     </mat-expansion-panel>
@@ -36,17 +37,42 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-selection-list [multiple]="false">
-            <div class="flex flex-col">
-                <mat-form-field appearance="fill">
-                  <mat-label>Minimum price</mat-label>
-                  <input matInput type="number" min="0" max="100" [(ngModel)]="minimumPrice" (input)="onMinimumPriceUpdate()">
+            <form #form="ngForm" class="flex flex-col">
+                <mat-form-field class="mb-5" appearance="fill">
+                    <mat-label>Minimum price</mat-label>
+                    <input matInput name="minimumPrice" type="number" [(ngModel)]="minimumPrice"
+                        (input)="onMinimumPriceUpdate()">
+                    <mat-error
+                        *ngIf="form.controls['minimumPrice'].invalid && (form.controls['minimumPrice'].dirty || form.controls['minimumPrice'].touched)">
+                        <span
+                            *ngIf="form.controls['minimumPrice'].errors && form.controls['minimumPrice'].errors['required']">Minimum
+                            price is required</span>
+                        <span
+                            *ngIf="form.controls['minimumPrice'].errors && form.controls['minimumPrice'].errors['min']">Minimum
+                            price must be greater than 0</span>
+                        <span
+                            *ngIf="form.controls['minimumPrice'].errors && form.controls['minimumPrice'].errors['max']">Minimum
+                            price must be less than maximum price</span>
+                    </mat-error>
+                    <span matTextPrefix>$&nbsp;</span>
                 </mat-form-field>
                 <mat-form-field appearance="fill">
-                  <mat-label>Maximum price</mat-label>
-                  <input matInput type="number" min="minimumPrice" max="100" [(ngModel)]="maximumPrice" (input)="onMaximumPriceUpdate()">
+                    <mat-label>Maximum price</mat-label>
+                    <input matInput name="maximumPrice" type="number" [(ngModel)]="maximumPrice"
+                        (input)="onMaximumPriceUpdate()">
+                    <mat-error
+                        *ngIf="form.controls['maximumPrice'].invalid && (form.controls['maximumPrice'].dirty || form.controls['maximumPrice'].touched)">
+                        <span
+                            *ngIf="form.controls['maximumPrice'].errors && form.controls['maximumPrice'].errors['required']">maximum
+                            price is required</span>
+                        <span
+                            *ngIf="form.controls['maximumPrice'].errors && form.controls['maximumPrice'].errors['min']">maximum
+                            price must be greater than minimum price</span>
+                    </mat-error>
+                    <span matTextPrefix>$&nbsp;</span>
                 </mat-form-field>
-              </div>
-              
+            </form>
+
         </mat-selection-list>
     </mat-expansion-panel>
 </div>

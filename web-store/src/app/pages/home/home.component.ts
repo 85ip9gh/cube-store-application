@@ -34,7 +34,7 @@ export class HomeComponent {
   getProducts(): void {
     this.productSubscription = this.storeService.getAllProducts(this.count, this.sort ,this.category, this.size, this.min, this.max).subscribe((products: Product[]) => {
       this.products = products;
-      console.log(products);
+      // console.log(products);
     });
 
   }
