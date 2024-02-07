@@ -92,11 +92,10 @@ export class FiltersComponent {
 
   //gets called when the maximum price input changes and emits the new value
   onMaximumPriceUpdate(): void {
-
-    //if the value is null, set it to 0. If it's less than 0, set it to 0. If it's greater than 100, set it to 100
+    //if the value is null, set it to 0. If it's less than 0, set it to 100. If it's greater than 100, set it to 100
     const maximumPriceValue: number = this.maximumPrice.value !== null 
       ? (this.maximumPrice.value < 0)
-        ? 0
+        ? 100
         : (this.maximumPrice.value > 100)
         ? 100
         :this.maximumPrice.value

@@ -6,10 +6,10 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-selection-list [multiple]="false">
-            <mat-list-option [selected]="true" (click)="onCategoryUpdate('')">
+            <mat-list-option color="primary" [selected]="true" (click)="onCategoryUpdate('')">
                 All
             </mat-list-option>
-            <mat-list-option *ngFor="let category of categories" [value]="category"
+            <mat-list-option color="primary" *ngFor="let category of categories" [value]="category"
                 (click)="onCategoryUpdate(category)">
                 {{category}}
             </mat-list-option>
@@ -22,10 +22,10 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-selection-list [multiple]="false">
-            <mat-list-option [selected]="true" (click)="onSizeUpdate('')">
+            <mat-list-option color="primary" [selected]="true" (click)="onSizeUpdate('')">
                 All
             </mat-list-option>
-            <mat-list-option *ngFor="let size of sizes" [value]="size" (click)="onSizeUpdate(size)">
+            <mat-list-option color="primary" *ngFor="let size of sizes" [value]="size" (click)="onSizeUpdate(size)">
                 {{size}}
             </mat-list-option>
         </mat-selection-list>
