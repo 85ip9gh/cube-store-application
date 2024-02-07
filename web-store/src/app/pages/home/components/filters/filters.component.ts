@@ -8,7 +8,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: './filters.component.html',
 })
 export class FiltersComponent {
-  form: FormGroup;
   
 
   @Output() categoryChange = new EventEmitter<string>();
@@ -21,15 +20,11 @@ export class FiltersComponent {
   categoriesSubscription: Subscription | undefined;
   categories: string[] | undefined;
   sizes: string[] | undefined;
-  minimumPrice: number = 0;
-  maximumPrice: number = 100;
-
-
+  
+  minimumPrice = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(100)]);
+  maximumPrice = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(100)]);
+  
   constructor(private storeService: StoreService) {
-    this.form = new FormGroup({
-      minimumPrice: new FormControl('', [Validators.required, Validators.min(0), Validators.max(this.maximumPrice)]),
-      maximumPrice: new FormControl('', [Validators.required, Validators.min(0)]),
-    });
   }
 
   ngOnInit(): void {
@@ -43,6 +38,32 @@ export class FiltersComponent {
       });
   }
 
+  getMinimumPriceErrorMessage() {
+    if (this.minimumPrice.hasError('required')) {
+      return 'You must enter a value';
+    }
+    if (this.minimumPrice.hasError('min')) {
+      return 'Value must be greater than 0';
+    }
+    if (this.minimumPrice.hasError('max')) {
+      return 'Value must be less than 100';
+    }
+    return '';
+  }
+
+  getMaximumPriceErrorMessage() {
+    if (this.maximumPrice.hasError('required')) {
+      return 'You must enter a value';
+    }
+    if (this.maximumPrice.hasError('min')) {
+      return 'Value must be greater than 0';
+    }
+    if (this.maximumPrice.hasError('max')) {
+      return 'Value must be less than 100';
+    }
+    return '';
+  }
+
   onCategoryUpdate(newCategory: string): void {
     this.categoryChange.emit(newCategory);
   }
@@ -53,44 +74,19 @@ export class FiltersComponent {
   }
 
   onMinimumPriceUpdate(): void {
-    if (this.minimumPrice < 0) {
-      this.form.controls['minimumPrice'].setErrors({ 'min': true });
-    } else if (this.minimumPrice > this.maximumPrice) {
-      this.form.controls['minimumPrice'].setErrors({ 'max': true });
-    } else {
-      this.form.controls['minimumPrice'].setErrors(null);
-    }
 
     console.log("minimum price: " + this.minimumPrice);
-    this.minimumPriceChange.emit(this.minimumPrice);
+
+    const minimumPriceValue: number = this.minimumPrice.value !== null ? this.minimumPrice.value : 0;
+    this.minimumPriceChange.emit(minimumPriceValue);
   }
 
   onMaximumPriceUpdate(): void {
-    if (this.maximumPrice < this.minimumPrice) {
-      this.form.controls['maximumPrice'].setErrors({ 'min': true });
-    } else {
-      this.form.controls['maximumPrice'].setErrors(null);
-    }
+
     console.log("maximum price: " + this.maximumPrice);
-    this.maximumPriceChange.emit(this.maximumPrice);
+    const maximumPriceValue: number = this.maximumPrice.value !== null ? this.maximumPrice.value : 0;
+     this.maximumPriceChange.emit(maximumPriceValue);
 }
-
-  // onMinimumPriceUpdate(): void {
-  //   if(this.minimumPrice === null || this.minimumPrice < 0){
-  //     this.minimumPrice = 0;
-  //   }
-  //    this.minimumPriceChange.emit(this.minimumPrice);
-  //   console.log(this.minimumPrice);  
-  // }
- 
-  // onMaximumPriceUpdate(): void {
-  //   if(this.minimumPrice > 100){
-  //     this.maximumPrice = 100;
-  //   }
-  //   this.maximumPriceChange.emit(this.maximumPrice);
-  //   console.log(this.maximumPrice);
-  // }
-
   ngOnDestroy(): void {
     this.categoriesSubscription?.unsubscribe();
   }
