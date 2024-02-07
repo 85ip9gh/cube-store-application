@@ -8,8 +8,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: './filters.component.html',
 })
 export class FiltersComponent {
-  
-
   @Output() categoryChange = new EventEmitter<string>();
   @Output() sizeChange = new EventEmitter<string>();
   @Output() minimumPriceChange = new EventEmitter<number>();
@@ -24,9 +22,11 @@ export class FiltersComponent {
   minimumPrice = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(100)]);
   maximumPrice = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(100)]);
   
+  //injects the store service via the constructor
   constructor(private storeService: StoreService) {
   }
 
+  //gets all the categories and sizes from the store service through subscriptions
   ngOnInit(): void {
     this.storeService.getAllCategories()
       .subscribe((categories: string[]) => {
@@ -38,6 +38,7 @@ export class FiltersComponent {
       });
   }
 
+  //gets the error message for the minimum price input
   getMinimumPriceErrorMessage() {
     if (this.minimumPrice.hasError('required')) {
       return 'You must enter a value';
@@ -51,6 +52,7 @@ export class FiltersComponent {
     return '';
   }
 
+  //gets the error message for the maximum price input
   getMaximumPriceErrorMessage() {
     if (this.maximumPrice.hasError('required')) {
       return 'You must enter a value';
@@ -64,29 +66,46 @@ export class FiltersComponent {
     return '';
   }
 
+  //gets called when the category select changes and emits the new value
   onCategoryUpdate(newCategory: string): void {
     this.categoryChange.emit(newCategory);
   }
 
+  //gets called when the size select changes and emits the new value
   onSizeUpdate(newSize: string): void {
    this.sizeChange.emit(newSize);
    
   }
-
+  //gets called when the minimum price input changes and emits the new value
   onMinimumPriceUpdate(): void {
-
-    console.log("minimum price: " + this.minimumPrice);
-
-    const minimumPriceValue: number = this.minimumPrice.value !== null ? this.minimumPrice.value : 0;
+    //if the value is null, set it to 0. If it's less than 0, set it to 0. If it's greater than 100, set it to 100
+    let minimumPriceValue: number = this.minimumPrice.value !== null 
+    ? (this.minimumPrice.value < 0)
+        ? 0
+        : (this.minimumPrice.value > 100)
+        ? 100
+        :this.minimumPrice.value
+      :0;
+    
     this.minimumPriceChange.emit(minimumPriceValue);
   }
 
+  //gets called when the maximum price input changes and emits the new value
   onMaximumPriceUpdate(): void {
 
-    console.log("maximum price: " + this.maximumPrice);
-    const maximumPriceValue: number = this.maximumPrice.value !== null ? this.maximumPrice.value : 0;
-     this.maximumPriceChange.emit(maximumPriceValue);
+    //if the value is null, set it to 0. If it's less than 0, set it to 0. If it's greater than 100, set it to 100
+    const maximumPriceValue: number = this.maximumPrice.value !== null 
+      ? (this.maximumPrice.value < 0)
+        ? 0
+        : (this.maximumPrice.value > 100)
+        ? 100
+        :this.maximumPrice.value
+      : 0;
+
+    this.maximumPriceChange.emit(maximumPriceValue); 
 }
+
+ //unsubscribes from the categoriesSubscription if the subscription exists when the component is destroyed(i.e. when the component is destroyed or the user navigates to another page)
   ngOnDestroy(): void {
     this.categoriesSubscription?.unsubscribe();
   }
