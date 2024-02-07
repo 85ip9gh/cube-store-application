@@ -110,3 +110,10 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 ## 2024/02/05
 - implement sorting by minimum and maximum size
 - price was set as string in json file("price": "21" instead of "price": 21), so after changing this, the filter for price worked fine.
+
+## 2024/02/07
+- implement error handling for price sort with mat-error
+- used the email example in the Angular Material UI to help as ChatGPT's code was weird and didn't work. I didn't need a form, just the formControl for each input
+    - https://material.angular.io/components/form-field/examples
+- need to make a custom validator that makes the minimum and maximum price rely on each other. I want to have an error message that shows when the minimum price is greater than the maximum price, and when the maximum price is less than the minimum price(same case?)
+- add cube svg logo that looks too big, but feels good compared to a smaller size: might change this later
