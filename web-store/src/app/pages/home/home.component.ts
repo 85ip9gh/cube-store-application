@@ -1,4 +1,4 @@
-import { Component, getPlatform } from '@angular/core';
+import { Component, HostListener  } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import { CartService } from '../../services/cart.service';
 import { Subscription } from 'rxjs';
@@ -22,6 +22,7 @@ export class HomeComponent {
   productSubscription: Subscription | undefined;
   min: number = 0;
   max:number = 100;
+  mobile: boolean = false;
 
   constructor(private cartService: CartService, private storeService: StoreService) {
 
@@ -29,6 +30,16 @@ export class HomeComponent {
 
   ngOnInit(): void {
     this.getProducts();
+    this.checkScreenWidth();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenWidth();
+  }
+
+  checkScreenWidth() {
+    this.mobile = window.innerWidth <= 450;
   }
 
   getProducts(): void {

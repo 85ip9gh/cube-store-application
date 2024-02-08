@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-products-header',
@@ -7,9 +7,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
   ]
 })
 export class ProductsHeaderComponent {
+  @Input() mobile: boolean = false;
   @Output() columnCountChange = new EventEmitter<number>();
   @Output() sortChange = new EventEmitter<string>();
   @Output() itemCountChange = new EventEmitter<string>();
+  
   sort = 'desc';
   itemCount: string = 'All';
 
