@@ -1,15 +1,19 @@
 <mat-card *ngIf="product" [ngClass]="{'text-center': !fullWidthMode}">
-    <div [ngClass]="{'flex': fullWidthMode}">
-        <img class="mb-1 mx-auto object-cover" 
-        [ngClass]="{'h-[200px]': !fullWidthMode, 'h-[360px]':fullWidthMode}"
-        src={{product.imagePath}}/>
+    <div [ngClass]="{'flex': fullWidthMode && !mobile }">
+        <div class="mb-1 mx-auto">
+            <img class="mb-1 mx-auto object-contain" 
+            [ngClass]="{'h-[200px]': (!fullWidthMode) || (fullWidthMode && mobile) , 'h-[360px]':fullWidthMode && !mobile}"
+            src={{product.imagePath}}
+            alt="AI generated Cube product"
+            />
+        </div>
         <div class="w-full" [ngClass]="{'px-8 flex flex-col justify-between':fullWidthMode}" >
             <div>
                 <div [ngClass]="{'flex justify-between':fullWidthMode}">
                     <h5>{{product.category}}</h5>
                     <h5 *ngIf="fullWidthMode">{{product.size}}</h5>
                 </div>
-                <div  [ngClass]="{'flex justify-between':fullWidthMode}">
+                <div  [ngClass]="{'flex justify-between':fullWidthMode && !mobile}" class="text-center" >
                     <p class="truncate hover:whitespace-normal">{{product.title}}</p>
                     <p *ngIf="fullWidthMode" >{{product.age | number}} years old</p>
                 </div>    

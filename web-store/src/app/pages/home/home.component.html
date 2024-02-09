@@ -5,7 +5,7 @@
             (minimumPriceChange)="onMinPriceChange($event)"
             (maximumPriceChange)="onMaxPriceChange($event)"></app-filters>
     </mat-drawer>
-    <mat-drawer-content class="p-7">
+    <mat-drawer-content>
         <div [ngClass]="{'flex': mobile}">
             <button *ngIf="mobile" type="button" mat-button (click)="drawer.toggle()">
                 <mat-icon>density_medium</mat-icon>
@@ -15,7 +15,7 @@
                 (itemCountChange)="onItemCountChange($event)" (sortChange)="onSortChange($event)"></app-products-header>
                 <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="rowHeight">
                     <mat-grid-tile *ngFor="let product of products">
-                        <app-product-box [product]="product" (addToCart)="onAddToCart($event)" class="w-full"
+                        <app-product-box [mobile]="mobile" [product]="product" (addToCart)="onAddToCart($event)" class="w-full"
                         [fullWidthMode]="cols === 1"></app-product-box>
                     </mat-grid-tile>
                 </mat-grid-list>
