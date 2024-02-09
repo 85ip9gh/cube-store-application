@@ -12,6 +12,8 @@ export class ProductBoxComponent {
 
   @Input() product: Product | undefined;
 
+  @Input() mobile: boolean = false;
+
   @Output() addToCart = new EventEmitter();
 
   onAddToCart():void {
