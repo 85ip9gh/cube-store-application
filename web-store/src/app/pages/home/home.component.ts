@@ -1,8 +1,12 @@
-import { Component, HostListener  } from '@angular/core';
+import { Component, HostListener, ViewChild  } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import { CartService } from '../../services/cart.service';
 import { Subscription } from 'rxjs';
 import { StoreService } from '../../services/store.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { MatDrawer } from '@angular/material/sidenav';
 
 const ROWS_HEIGHT: { [id: number]: number } = {1:400, 3:335, 4:350}
 
@@ -23,23 +27,36 @@ export class HomeComponent {
   min: number = 0;
   max:number = 100;
   mobile: boolean = false;
+  mode: string = 'side';
+  opened: boolean = true;
 
-  constructor(private cartService: CartService, private storeService: StoreService) {
+  @ViewChild('drawer') drawer!: MatDrawer;
+  private unsubscribe$ = new Subject();
 
+  drawerMode: 'side' | 'over' = 'side'; // Default mode
+  isDrawerOpen = true; // Default opened state
+
+  constructor(private cartService: CartService, private storeService: StoreService, private breakpointObserver: BreakpointObserver) {
+    this.breakpointObserver.observe([Breakpoints.Handset])
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        map(result => result.matches)
+      )
+      .subscribe(isHandset => {
+        if (isHandset) {
+          this.drawerMode = 'over'; // Change mode to 'over' on mobile
+          this.isDrawerOpen = false; // Close drawer on mobile
+          this.mobile = true;
+        } else {
+          this.drawerMode = 'side'; // Change mode to 'side' on larger screens
+          this.isDrawerOpen = true; // Open drawer on larger screens
+          this.mobile = false;
+        }
+      });
    }
 
   ngOnInit(): void {
     this.getProducts();
-    this.checkScreenWidth();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.checkScreenWidth();
-  }
-
-  checkScreenWidth() {
-    this.mobile = window.innerWidth <= 450;
   }
 
   getProducts(): void {
@@ -97,6 +114,7 @@ export class HomeComponent {
 
   ngOnDestroy(): void {
     this.productSubscription?.unsubscribe();
+    this.unsubscribe$.complete();
   }
 
 }

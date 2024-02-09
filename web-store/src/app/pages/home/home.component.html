@@ -1,5 +1,5 @@
 <mat-drawer-container [autosize]="true" class="min-h-full max-w-7x1 mx-auto border-x">
-    <mat-drawer #drawer mode="side" opened mode="over">
+    <mat-drawer #drawer [opened]="isDrawerOpen" [mode]="drawerMode">
         <div class="mb-1">Filters</div>
         <app-filters (categoryChange)="onCategoryChange($event)" (sizeChange)="onSizeChange($event)"
             (minimumPriceChange)="onMinPriceChange($event)"
@@ -7,10 +7,6 @@
     </mat-drawer>
     <mat-drawer-content class="p-7">
         <div [ngClass]="{'flex': mobile}">
-            <div class="">
-
-            </div>
-
             <button *ngIf="mobile" type="button" mat-button (click)="drawer.toggle()">
                 <mat-icon>density_medium</mat-icon>
             </button>
