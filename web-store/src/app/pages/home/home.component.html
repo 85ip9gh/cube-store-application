@@ -1,6 +1,5 @@
 <mat-drawer-container [autosize]="true" class="min-h-full max-w-7x1 mx-auto border-x">
     <mat-drawer #drawer [opened]="isDrawerOpen" [mode]="drawerMode">
-        <div class="mb-1">Filters</div>
         <app-filters (categoryChange)="onCategoryChange($event)" (sizeChange)="onSizeChange($event)"
             (minimumPriceChange)="onMinPriceChange($event)"
             (maximumPriceChange)="onMaxPriceChange($event)"></app-filters>
