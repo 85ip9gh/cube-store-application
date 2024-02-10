@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Cart } from './models/cart.model';
 import { CartService } from './services/cart.service';
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,13 @@ import { CartService } from './services/cart.service';
 })
 export class AppComponent implements OnInit{
   cart: Cart = { items: [] };
+
+  mobile: boolean = false;
+  @ViewChild('drawer') drawer!: MatDrawer;
+
+  onToggleDrawer(): void {
+    this.drawer.toggle();
+  }
 
   constructor(private cartService: CartService) {}
 
