@@ -1,9 +1,9 @@
 <mat-card *ngIf="product" [ngClass]="{'text-center': !fullWidthMode}">
     <div [ngClass]="{'flex': fullWidthMode && !mobile }">
-        <div class="mb-1 mx-auto">
-            <div class="aspect-w-1 aspect-h-1" [ngClass]="{'max-h-[200px]': (fullWidthMode && mobile) || (!fullWidthMode && !mobile) ,'max-h-[360px]': fullWidthMode && !mobile}">
+        <div class="mb-1 mx-auto" >
+            <div class="aspect-w-1 aspect-h-1">
                 <img class="w-full h-full object-contain"
-                    [ngClass]="{'h-[200px]': (!fullWidthMode) || (fullWidthMode && mobile) , 'h-[360px]':fullWidthMode && !mobile}"
+                [ngClass]="{'max-h-[200px]': (fullWidthMode && mobile) || (!fullWidthMode && !mobile) ,'max-h-[360px]': fullWidthMode && !mobile}"
                     src={{product.imagePath}} alt="AI generated Cube product" />
             </div>
         </div>
