@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild  } from '@angular/core';
+import { Component, EventEmitter, HostListener, Output, ViewChild  } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import { CartService } from '../../services/cart.service';
 import { Subscription } from 'rxjs';
@@ -7,6 +7,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
+import { DrawerService } from 'src/app/services/drawer.service';
 
 const ROWS_HEIGHT: { [id: number]: number } = {1:400, 3:335, 4:350}
 
@@ -35,8 +36,9 @@ export class HomeComponent {
 
   drawerMode: 'side' | 'over' = 'side'; // Default mode
   isDrawerOpen = true; // Default opened state
+  private drawerSubscription: Subscription | undefined;
 
-  constructor(private cartService: CartService, private storeService: StoreService, private breakpointObserver: BreakpointObserver) {
+  constructor(private cartService: CartService, private storeService: StoreService, private drawerService: DrawerService, private breakpointObserver: BreakpointObserver) {
     this.breakpointObserver.observe([Breakpoints.Handset])
       .pipe(
         takeUntil(this.unsubscribe$),
@@ -46,17 +48,30 @@ export class HomeComponent {
         if (isHandset) {
           this.drawerMode = 'over'; // Change mode to 'over' on mobile
           this.isDrawerOpen = false; // Close drawer on mobile
-          this.mobile = true;
+          this.toggleMobile(true);
         } else {
           this.drawerMode = 'side'; // Change mode to 'side' on larger screens
           this.isDrawerOpen = true; // Open drawer on larger screens
-          this.mobile = false;
+          this.toggleMobile(false);
         }
       });
    }
 
   ngOnInit(): void {
     this.getProducts();
+    this.drawerService.toggleMobile(this.mobile);
+    this.drawerSubscription = this.drawerService.drawerState$.subscribe(isOpen => {
+      this.isDrawerOpen = isOpen; // Update isDrawerOpen based on drawer state
+    });
+  }
+
+  toggleDrawer(): void {
+    this.drawerService.toggleDrawer(!this.isDrawerOpen); // Invert the current state and toggle drawer
+  }
+
+  toggleMobile(handSet: boolean): void {
+    this.mobile = handSet;
+    this.drawerService.toggleMobile(handSet);
   }
 
   getProducts(): void {
@@ -114,6 +129,7 @@ export class HomeComponent {
 
   ngOnDestroy(): void {
     this.productSubscription?.unsubscribe();
+    this.drawerSubscription?.unsubscribe();
     this.unsubscribe$.complete();
   }
 
