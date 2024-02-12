@@ -117,3 +117,9 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
     - https://material.angular.io/components/form-field/examples
 - need to make a custom validator that makes the minimum and maximum price rely on each other. I want to have an error message that shows when the minimum price is greater than the maximum price, and when the maximum price is less than the minimum price(same case?)
 - add cube svg logo that looks too big, but feels good compared to a smaller size: might change this later
+
+## 2024/02/11
+- implement drawer closing and opening on button click in mobile mode.
+- did this with a drawer service that tracks whether the device is a mobile device and toggles the drawer's state
+- making the app mobile friendly is more annoying that I thought. I think I need to change the row height things from a set height to a max-height thing and have the cards expand automatically to fit that. Turning the screen from vertical to horizontal also closes the mat-drawer for some reason and this messes up the button, cause it expects the filters drawer to be open, but maybe there's a way to detect this and update the drawer service accordingly.
+- Having the images scale properly is the most annoying part and after this, I'll have to fix the cart view too
