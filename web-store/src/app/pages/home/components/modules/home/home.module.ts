@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HomeRoutingModule } from './home-routing.module';
+import { HomeComponent } from './home.component';
 import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -18,24 +17,25 @@ import { MatToolbarModule} from '@angular/material/toolbar';
 import { MatTableModule} from '@angular/material/table';
 import { MatBadgeModule} from '@angular/material/badge';
 import { MatSnackBarModule} from '@angular/material/snack-bar';
-import { HeaderComponent } from './components/header/header.component';
-import { CartService } from './services/cart.service';
 import { HttpClientModule } from '@angular/common/http';
-import { FooterComponent } from './components/footer/footer.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
+import { FiltersComponent } from '../../filters/filters.component';
+import { ProductBoxComponent } from '../../product-box/product-box.component';
+import { ProductsHeaderComponent } from '../../products-header/products-header.component';
+import { LazyImgDirective } from '../../../../directives/lazy-image.directive';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent
+    HomeComponent,
+    FiltersComponent,
+    ProductBoxComponent,
+    ProductsHeaderComponent,
+    LazyImgDirective
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
+    CommonModule,
+    HomeRoutingModule,
     MatSidenavModule,
     MatGridListModule,
     MatMenuModule,
@@ -53,8 +53,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule
-  ],
-  providers: [CartService],
-  bootstrap: [AppComponent]
+  ]
 })
-export class AppModule { }
+export class HomeModule { }
