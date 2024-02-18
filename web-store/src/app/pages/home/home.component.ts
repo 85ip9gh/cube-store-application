@@ -63,6 +63,19 @@ export class HomeComponent {
     this.drawerSubscription = this.drawerService.drawerState$.subscribe(isOpen => {
       this.isDrawerOpen = isOpen; // Update isDrawerOpen based on drawer state
     });
+
+    const isHandset = this.breakpointObserver.isMatched(Breakpoints.Handset);
+    if (isHandset) {
+      this.drawerMode = 'over'; // Change mode to 'over' on mobile
+      this.isDrawerOpen = false; // Close drawer on mobile
+      this.mobile = true;
+      this.drawerService.toggleMobile(true);
+    } else {
+      this.drawerMode = 'side'; // Change mode to 'side' on larger screens
+      this.isDrawerOpen = true; // Open drawer on larger screens
+      this.mobile = false;
+      this.drawerService.toggleMobile(false);
+    }
   }
 
   toggleDrawer(): void {

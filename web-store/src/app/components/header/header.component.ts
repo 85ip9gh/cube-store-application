@@ -16,6 +16,7 @@ export class HeaderComponent {
   // declaring and initializing the mobile variable to false by default
   mobile: boolean = false;
   toggle: boolean = false;
+  cartPage: boolean = false;
 
   @Input()
   get cart(): Cart {
@@ -26,16 +27,22 @@ export class HeaderComponent {
   @Output() toggleDrawer = new EventEmitter<void>();
 
   private mobileStateSubscription: Subscription;
+  private cartStateSubscription: Subscription;
 
    // injecting the cart and drawer service into header component
    constructor(private cartService: CartService, private drawerService: DrawerService) {
     this.mobileStateSubscription = new Subscription();
+    this.cartStateSubscription = new Subscription();
   }
 
   ngOnInit(): void {
     // Subscribe to the mobileState$ observable to receive updates
     this.mobileStateSubscription = this.drawerService.mobileState$.subscribe(mobile => {
       this.mobile = mobile;
+      console.log("header Component mobile value: " + this.mobile);
+    });
+    this.cartStateSubscription = this.drawerService.cartState$.subscribe(cart => {
+      this.cartPage = cart;
     });
   }
 

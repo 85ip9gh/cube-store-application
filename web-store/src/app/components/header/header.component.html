@@ -1,6 +1,6 @@
 <mat-toolbar class="max-w-7x1 mx-auto border-x p-0 justify-between">
     <div class="flex">
-        <button *ngIf="mobile" mat-icon-button (click)="onToggleDrawer()">
+        <button *ngIf="mobile && !cartPage" mat-icon-button (click)="onToggleDrawer()">
             <mat-icon>density_medium</mat-icon>
         </button>
         <a routerLink="home" class="flex items-center"> 
@@ -10,7 +10,7 @@
             </span>  
         </a>
     </div>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
+    <button *ngIf="!cartPage" mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon 
         [matBadge]="itemsQuantity"
         [matBadgeHidden]="!itemsQuantity"
