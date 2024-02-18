@@ -4,20 +4,13 @@
             (minimumPriceChange)="onMinPriceChange($event)"
             (maximumPriceChange)="onMaxPriceChange($event)"></app-filters>
     </mat-drawer>
-    <mat-drawer-content>
+    <mat-drawer-content class="px-1" >
             <div class="w-full">   
                 <app-products-header [mobile]="mobile" (columnCountChange)="onColumnCountChange($event)"
                 (itemCountChange)="onItemCountChange($event)" (sortChange)="onSortChange($event)"></app-products-header>
-                <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="
-                (!mobile || cols === 2)
-                ? rowHeight 
-                : cols === 1
-                    ? rowHeight - 25
-                    : rowHeight - 100
-                "
-                >
+                <mat-grid-list gutterSize="16" [cols]="cols">
                     <mat-grid-tile *ngFor="let product of products">
-                        <app-product-box [mobile]="mobile" [product]="product" (addToCart)="onAddToCart($event)" class="w-full h-full" [fullWidthMode]="cols === 1"></app-product-box>
+                        <app-product-box [mobile]="mobile" [product]="product" (addToCart)="onAddToCart($event)" [fullWidthMode]="cols === 1"></app-product-box>
                     </mat-grid-tile>
                 </mat-grid-list>
             </div>
