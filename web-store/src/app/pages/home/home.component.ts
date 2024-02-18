@@ -9,6 +9,8 @@ import { Subject } from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
 import { DrawerService } from 'src/app/services/drawer.service';
 
+const ROWS_HEIGHT: { [id: number]: number } = {1:500, 3:335, 4:350}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -16,6 +18,7 @@ import { DrawerService } from 'src/app/services/drawer.service';
 export class HomeComponent {
 
   cols: number = 1;
+  rowHeight = ROWS_HEIGHT[this.cols];
   category: string | undefined;
   size: string = 'All';
   products: Product[] | undefined;
@@ -94,6 +97,7 @@ export class HomeComponent {
 
   onColumnCountChange(newCols: number): void {
     this.cols = newCols;
+    this.rowHeight = ROWS_HEIGHT[this.cols];
   }
 
   onCategoryChange(newCategory: string): void {
