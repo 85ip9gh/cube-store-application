@@ -36,7 +36,7 @@ export class HeaderComponent {
   }
 
   ngOnInit(): void {
-    // Subscribe to the mobileState$ observable to receive updates
+    // Subscribe to the mobileState observable to receive updates
     this.mobileStateSubscription = this.drawerService.mobileState$.subscribe(mobile => {
       this.mobile = mobile;
       console.log("header Component mobile value: " + this.mobile);
