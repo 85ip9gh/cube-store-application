@@ -19,8 +19,8 @@ export class FiltersComponent {
   categories: string[] | undefined;
   sizes: string[] | undefined;
   
-  minimumPrice = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(100)]);
-  maximumPrice = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(100)]);
+  minimumPrice = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(150)]);
+  maximumPrice = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(150)]);
   
   //injects the store service via the constructor
   constructor(private storeService: StoreService) {
@@ -47,7 +47,7 @@ export class FiltersComponent {
       return 'Value must be greater than 0';
     }
     if (this.minimumPrice.hasError('max')) {
-      return 'Value must be less than 100';
+      return 'Value must be less than 150';
     }
     return '';
   }
@@ -61,7 +61,7 @@ export class FiltersComponent {
       return 'Value must be greater than 0';
     }
     if (this.maximumPrice.hasError('max')) {
-      return 'Value must be less than 100';
+      return 'Value must be less than 150';
     }
     return '';
   }
@@ -78,12 +78,12 @@ export class FiltersComponent {
   }
   //gets called when the minimum price input changes and emits the new value
   onMinimumPriceUpdate(): void {
-    //if the value is null, set it to 0. If it's less than 0, set it to 0. If it's greater than 100, set it to 100
+    //if the value is null, set it to 0. If it's less than 0, set it to 0. If it's greater than 150, set it to 150
     let minimumPriceValue: number = this.minimumPrice.value !== null 
     ? (this.minimumPrice.value < 0)
         ? 0
-        : (this.minimumPrice.value > 100)
-        ? 100
+        : (this.minimumPrice.value > 150)
+        ? 150
         :this.minimumPrice.value
       :0;
     
@@ -92,12 +92,12 @@ export class FiltersComponent {
 
   //gets called when the maximum price input changes and emits the new value
   onMaximumPriceUpdate(): void {
-    //if the value is null, set it to 0. If it's less than 0, set it to 100. If it's greater than 100, set it to 100
+    //if the value is null, set it to 0. If it's less than 0, set it to 150. If it's greater than 150, set it to 150
     const maximumPriceValue: number = this.maximumPrice.value !== null 
       ? (this.maximumPrice.value < 0)
-        ? 100
-        : (this.maximumPrice.value > 100)
-        ? 100
+        ? 150
+        : (this.maximumPrice.value > 150)
+        ? 150
         :this.maximumPrice.value
       : 0;
 

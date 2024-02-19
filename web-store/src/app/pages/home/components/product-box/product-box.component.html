@@ -1,24 +1,31 @@
 <mat-card *ngIf="product" [ngClass]="{'text-center': !fullWidthMode, 'h-[480px]': (fullWidthMode && mobile)}">
     <div class="h-full" [ngClass]="{'flex': fullWidthMode && !mobile }">
-        <div class="mb-1 mx-auto" >
+        <div class="mb-1 mx-auto">
             <div class="aspect-w-1 aspect-h-1" [ngClass]="{'h-[360px] w-[360px]': (fullWidthMode && !mobile)}">
                 <img class="w-full h-full object-contain"
-                [ngClass]="{'max-h-[200px]': (fullWidthMode && mobile) || (!fullWidthMode && !mobile) ,'h-[360px] w-[360px]': fullWidthMode && !mobile}"
+                    [ngClass]="{'max-h-[200px]': (fullWidthMode && mobile) || (!fullWidthMode && !mobile) ,'h-[360px] w-[360px]': fullWidthMode && !mobile}"
                     src={{product.imagePath}} alt="AI generated Cube product" />
             </div>
         </div>
-        <div class="w-full" [ngClass]="{'px-8 flex flex-col justify-between':fullWidthMode}">
+        <div class="w-full" [ngClass]="{'p-4 flex flex-col justify-between':fullWidthMode}">
             <div>
                 <div [ngClass]="{'flex justify-between':fullWidthMode}">
-                    <h5>{{product.category}}</h5>
-                    <h5 *ngIf="fullWidthMode">{{product.size}}</h5>
+                    <p class="opacity-75 text-sm">{{product.category}}</p>
+                    <p class="opacity-75 text-sm" *ngIf="fullWidthMode">{{product.size}}</p>
                 </div>
                 <div [ngClass]="{'flex justify-between':fullWidthMode && !mobile}" class="text-center">
-                    <p class="truncate hover:whitespace-normal">{{product.title}}</p>
+                    <p class="truncate hover:whitespace-normal font-medium"
+                        [ngClass]="{'text-sm':mobile && !fullWidthMode,'text-xl':!mobile || fullWidthMode}">
+                        {{product.title}}</p>
                     <p *ngIf="fullWidthMode">{{product.age | number}} years old</p>
                 </div>
-                <div>
-                    <p *ngIf="fullWidthMode" [ngClass]="{'overflow-y-auto': mobile}" class=" max-h-[100px]">{{product.description}}</p>
+                <div *ngIf="fullWidthMode" [ngClass]="{'max-h-[100px]': mobile, 'max-h-[200px]': !mobile}" class=" overflow-y-auto">
+                    <ng-container *ngFor="let paragraph of product.description.split('  '); let i = index">
+                        <p class="text-base indent-10">
+                            {{paragraph}}
+                        </p>
+                        <br *ngIf="i < product.description.split('  ').length - 1">
+                    </ng-container>
                 </div>
             </div>
             <div class="flex justify-between">
@@ -29,4 +36,4 @@
             </div>
         </div>
     </div>
-  </mat-card>
+</mat-card>

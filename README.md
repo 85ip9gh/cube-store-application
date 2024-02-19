@@ -37,6 +37,16 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 
 # Updates
 
+## 2024/02/19
+- Got feedback from friend that the description was hard to read in mobile view because it was just a giant block of text. This made me realize that the UI for the cube cards was pretty bad, so I made the cube title larger and the font a bit bolder. I lowered the opacity of the category and size. I also split up the description into 2 paragraphs so it looks a bit better.
+    - split it up by using .split('  ') so that the description gets split into an array with 2 elemnents, first has the text before the doubles spaces, and the second element as the text after the double spaces.
+- Change the appearance of the scrollbar to make it more aesthetic
+    - went into the styles.css file and made changes to the scrollbar classes
+- added margin to the left and right of the grid-list so that the words don't look stretched out on a large screen(1280px minimum)
+- added extra description text to the Wooden Crate cube
+- probably need to add some styling to the filters and align the dollar sign in the price filter.
+- site looks a lot better with just some UI changes, especially the thin scrollbars; they make it feel aesthetic and professional
+
 ## 2024/02/17
 - got the website to be mobile responsive. It's a bit janky but still pretty good, all things considered. I need to fix the price sorting so that it gives an error when the max price is less than the min price
 - add {useHash: true} to imports in app-routing.modules so that nginx doesn't give a 404 error when you refresh the page in the deployed app
