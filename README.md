@@ -46,6 +46,9 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 - added extra description text to the Wooden Crate cube
 - probably need to add some styling to the filters and align the dollar sign in the price filter.
 - site looks a lot better with just some UI changes, especially the thin scrollbars; they make it feel aesthetic and professional
+- change the "age" of cube to a number in json file instead of string(was previously a number surrounded by double quotes)
+    - I should really move these cubes to a NoSQL database like MongoDB to get some experience with that.
+    - Also need to overhaul this backend and use MVC model with a controller and services
 
 ## 2024/02/17
 - got the website to be mobile responsive. It's a bit janky but still pretty good, all things considered. I need to fix the price sorting so that it gives an error when the max price is less than the min price
