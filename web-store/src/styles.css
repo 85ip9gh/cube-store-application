@@ -22,3 +22,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 ::-webkit-scrollbar-thumb:hover {
     background: #555; /* Background color of the scrollbar thumb on hover */
 }
+
+.mat-toolbar {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}

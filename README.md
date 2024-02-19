@@ -49,6 +49,15 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
 - change the "age" of cube to a number in json file instead of string(was previously a number surrounded by double quotes)
     - I should really move these cubes to a NoSQL database like MongoDB to get some experience with that.
     - Also need to overhaul this backend and use MVC model with a controller and services
+- Deploy these UI changes to AWS
+- Remove left and rigth padding from the mat-toolbar element by changing styles.css
+    - learned something new today, the "!important" part lets this styling override any other styling declared elsewhere, like the base angular material css styles. The padding doesn't go away without the "!important" part
+    ```
+    .mat-toolbar {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    ```
 
 ## 2024/02/17
 - got the website to be mobile responsive. It's a bit janky but still pretty good, all things considered. I need to fix the price sorting so that it gives an error when the max price is less than the min price
