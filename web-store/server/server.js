@@ -12,10 +12,10 @@ const sharp = require('sharp');
 const fs = require('fs');
 
 //for localhost
- var cubeDetails = require('./public/cube-details.json');
+//var cubeDetails = require('./public/cube-details.json');
 
 //for AWS vm
-//var cubeDetails = require('./public/cube-details-vm.json');
+var cubeDetails = require('./public/cube-details-vm.json');
 
 const stripe = require('stripe')('sk_test_REDACTED_ROTATED_2026_08_21');
 
