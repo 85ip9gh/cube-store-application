@@ -50,7 +50,7 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
     - I should really move these cubes to a NoSQL database like MongoDB to get some experience with that.
     - Also need to overhaul this backend and use MVC model with a controller and services
 - Deploy these UI changes to AWS
-- Remove left and rigth padding from the mat-toolbar element by changing styles.css
+- Remove left and right padding from the mat-toolbar element by changing styles.css
     - learned something new today, the "!important" part lets this styling override any other styling declared elsewhere, like the base angular material css styles. The padding doesn't go away without the "!important" part
     ```
     .mat-toolbar {
@@ -58,6 +58,8 @@ Cube Store App lets you choose from a wide assortment of hand-picked artisan cub
         padding-right: 0 !important;
     }
     ```
+- lowered the horizontal-margin for the mat-grid-list because it squished the website too much for my laptop. Learned that the browser only shows screen resolution of 1536 x 864 despite my laptop being 1920x1080.
+- I want to implement a dark mode toggle at the top. The pure white is a bit blinding.
 
 ## 2024/02/17
 - got the website to be mobile responsive. It's a bit janky but still pretty good, all things considered. I need to fix the price sorting so that it gives an error when the max price is less than the min price
