@@ -8,7 +8,7 @@
             <div class="w-full">   
                 <app-products-header [mobile]="mobile" (columnCountChange)="onColumnCountChange($event)"
                 (itemCountChange)="onItemCountChange($event)" (sortChange)="onSortChange($event)"></app-products-header>
-                <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="
+                <mat-grid-list [ngClass]="{'mx-auto xl:mx-60':!mobile}" class="mt-10" gutterSize="16" [cols]="cols" [rowHeight]="
                 (!mobile || cols === 2)
                 ? rowHeight 
                 : cols === 1

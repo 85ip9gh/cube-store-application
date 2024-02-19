@@ -4,10 +4,10 @@ import { Product } from '../models/product.model';
 import { Observable } from 'rxjs';
 
 // for AWS EC2 instance
-const STORE_BASE_URL = 'http://18.118.238.40:4242';
+//const STORE_BASE_URL = 'http://18.118.238.40:4242';
 
 //for local development
-//const STORE_BASE_URL = 'http://localhost:4242';
+const STORE_BASE_URL = 'http://localhost:4242';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class StoreService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getAllProducts(limit = 'All', sort='desc', category?:string, size='All', min:number=0, max:number=100): Observable<Product[]> {
+  getAllProducts(limit = 'All', sort='desc', category?:string, size='All', min:number=0, max:number=150): Observable<Product[]> {
     return this.httpClient.get<Product[]>(
       `${STORE_BASE_URL}/cubes${category ? '/category/' + category : ''}?sort=${sort}&limit=${limit}&size=${size}&minPrice=${min}&maxPrice=${max}`
       );

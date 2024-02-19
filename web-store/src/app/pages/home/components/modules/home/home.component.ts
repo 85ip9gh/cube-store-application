@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
 import { DrawerService } from 'src/app/services/drawer.service';
 
-const ROWS_HEIGHT: { [id: number]: number } = {1:500, 3:335, 4:350}
+const ROWS_HEIGHT: { [id: number]: number } = {1:400, 3:335, 4:350}
 
 @Component({
   selector: 'app-home',
@@ -26,7 +26,7 @@ export class HomeComponent {
   count = 'All';
   productSubscription: Subscription | undefined;
   min: number = 0;
-  max:number = 100;
+  max:number = 150;
   mobile: boolean = false;
   mode: string = 'side';
   opened: boolean = true;
