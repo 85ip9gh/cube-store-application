@@ -44,13 +44,13 @@
                     </button>
                 </mat-menu>
             </div>
-            <button (click)="onColumnsUpdated(1)" >
+            <button class="h-full hover:bg-gray-100 active:bg-gray-300" (click)="onColumnsUpdated(1)" >
                 <mat-icon>view_list</mat-icon>
             </button>
-            <button (click)="onColumnsUpdated(3)">
+            <button class="h-full hover:bg-gray-100 active:bg-gray-300" (click)="onColumnsUpdated(3)">
                 <mat-icon>view_module</mat-icon>
             </button>
-            <button *ngIf="!mobile" class="mr-2" (click)="onColumnsUpdated(4)">
+            <button *ngIf="!mobile" class="mr-2 h-full hover:bg-gray-100 active:bg-gray-300" (click)="onColumnsUpdated(4)">
                 <mat-icon>view_comfy</mat-icon>
             </button>
         </div>
