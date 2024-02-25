@@ -1,15 +1,15 @@
 <div>
     <mat-expansion-panel *ngIf="categories">
         <mat-expansion-panel-header>
-            <mat-panel-title>
+            <mat-panel-title class="text-center">
                 Category
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-selection-list [multiple]="false">
-            <mat-list-option color="primary" [selected]="true" (click)="onCategoryUpdate('')">
+        <mat-selection-list [multiple]="false" hideSingleSelectionIndicator>
+            <mat-list-option class="text-center" color="primary" [selected]="true" (click)="onCategoryUpdate('')">
                 All
             </mat-list-option>
-            <mat-list-option color="primary" *ngFor="let category of categories" [value]="category"
+            <mat-list-option class="text-center" color="primary" *ngFor="let category of categories" [value]="category"
                 (click)="onCategoryUpdate(category)">
                 {{category}}
             </mat-list-option>
@@ -17,29 +17,29 @@
     </mat-expansion-panel>
     <mat-expansion-panel *ngIf="sizes">
         <mat-expansion-panel-header>
-            <mat-panel-title>
+            <mat-panel-title class="text-center">
                 Size
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-selection-list [multiple]="false">
-            <mat-list-option color="primary" [selected]="true" (click)="onSizeUpdate('')">
+        <mat-selection-list [multiple]="false" hideSingleSelectionIndicator>
+            <mat-list-option class="text-center" color="primary" [selected]="true" (click)="onSizeUpdate('')">
                 All
             </mat-list-option>
-            <mat-list-option color="primary" *ngFor="let size of sizes" [value]="size" (click)="onSizeUpdate(size)">
+            <mat-list-option class="text-center" color="primary" *ngFor="let size of sizes" [value]="size" (click)="onSizeUpdate(size)">
                 {{size}}
             </mat-list-option>
         </mat-selection-list>
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
-            <mat-panel-title>
+            <mat-panel-title class="text-center">
                 Price
             </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-selection-list>
             <div class="flex flex-col">
                 <mat-form-field appearance="fill">
-                    <mat-label>Minimum price</mat-label>
+                    <mat-label class="text-center">Minimum price</mat-label>
                     <input matInput name="minimumPrice" type="number" [formControl]="minimumPrice"
                         (input)="onMinimumPriceUpdate()">
                     <mat-error>
@@ -49,7 +49,7 @@
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
-                    <mat-label>Maximum price</mat-label>
+                    <mat-label class="text-center">Maximum price</mat-label>
                     <input matInput name="maximumPrice" type="number" [formControl]="maximumPrice"
                         (input)="onMaximumPriceUpdate()">
                     <mat-error>

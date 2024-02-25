@@ -3,6 +3,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 
+--text: #061c09;
+--background: #f1fcf2;
+--primary: #3bd748;
+--secondary: #84dde6;
+--accent: #65ace0; 
+*/
+
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
