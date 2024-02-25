@@ -1,4 +1,4 @@
-<mat-card *ngIf="product" [ngClass]="{'text-center': !fullWidthMode, 'h-[480px]': (fullWidthMode && mobile)}">
+<mat-card  *ngIf="product" [ngClass]="{'text-center': !fullWidthMode, 'h-[480px]': (fullWidthMode && mobile)}">
     <div class="h-full" [ngClass]="{'flex': fullWidthMode && !mobile }">
         <div class="mb-1 mx-auto">
             <div class="aspect-w-1 aspect-h-1" [ngClass]="{'h-[360px] w-[360px]': (fullWidthMode && !mobile)}">
@@ -28,7 +28,7 @@
                     </ng-container>
                 </div>
             </div>
-            <div class="flex justify-between">
+            <div class="flex justify-between items-center">
                 <span class="text-red-400">{{product.price| currency}}</span>
                 <button mat-icon-button (click)="onAddToCart()">
                     <mat-icon class="text-grey-500">add_shopping_cart</mat-icon>
