@@ -27,7 +27,11 @@
                 <div 
                 *ngFor="let item of cart.items"
                 class="flex justify-between font-light mb-2">
-                    {{item.name}} x{{item.quantity}}
+                    <p class="truncate w-20 hover:whitespace-normal">
+                        {{item.name}} 
+                    </p>    
+                    
+                    x{{item.quantity}}
                     <span class="font-bold">{{ item.price| currency }}</span>
                 </div>
             </div>
