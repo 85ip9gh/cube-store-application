@@ -1,8 +1,8 @@
 import { Component, EventEmitter, HostListener, Output, ViewChild  } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
-import { CartService } from '../../../../../services/cart.service';
+import { CartService } from '../../../../services/cart.service';
 import { Subscription } from 'rxjs';
-import { StoreService } from '../../../../../services/store.service';
+import { StoreService } from '../../../../services/store.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
