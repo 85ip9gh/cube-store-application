@@ -3,19 +3,24 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
 
-  { 
-    path: 'home', 
-    loadChildren: () => import('./pages/home/components/modules/home/home.module').then(m => m.HomeModule) 
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/components/modules/home/home.module').then(m => m.HomeModule)
   },
-  { 
-    path: 'cart', 
-    loadChildren: () => import('./pages/home/components/modules/cart/cart.module').then(m => m.CartModule) 
+  {
+    path: 'cart',
+    loadChildren: () => import('./pages/components/modules/cart/cart.module').then(m => m.CartModule)
   },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/components/modules/login/login.module').then(m => m.LoginModule)
+  }
+  ,
   {
     path: '', redirectTo: '/home', pathMatch: 'full'
   }];
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
