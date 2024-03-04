@@ -23,7 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FiltersComponent } from '../../filters/filters.component';
 import { ProductBoxComponent } from '../../product-box/product-box.component';
 import { ProductsHeaderComponent } from '../../products-header/products-header.component';
-import { LazyImgDirective } from '../../../../directives/lazy-image.directive';
+import { LazyImgDirective } from '../../../directives/lazy-image.directive';
 
 @NgModule({
   declarations: [

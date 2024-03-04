@@ -25,7 +25,6 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-
 @NgModule({
   declarations: [
     AppComponent,
