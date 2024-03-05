@@ -1,25 +1,26 @@
-<mat-drawer-container [autosize]="true" class="min-h-full max-w-7x1 mx-auto border-x">
+<mat-drawer-container [autosize]="true" class="min-h-[85vh] max-h-[85vh] max-w-7x1 mx-auto border-x">
     <mat-drawer #drawer [opened]="isDrawerOpen" [mode]="drawerMode">
         <app-filters (categoryChange)="onCategoryChange($event)" (sizeChange)="onSizeChange($event)"
             (minimumPriceChange)="onMinPriceChange($event)"
             (maximumPriceChange)="onMaxPriceChange($event)"></app-filters>
     </mat-drawer>
     <mat-drawer-content>
-            <div class="w-full">   
-                <app-products-header [mobile]="mobile" (columnCountChange)="onColumnCountChange($event)"
+        <div class="w-full">
+            <app-products-header [mobile]="mobile" (columnCountChange)="onColumnCountChange($event)"
                 (itemCountChange)="onItemCountChange($event)" (sortChange)="onSortChange($event)"></app-products-header>
-                <mat-grid-list [ngClass]="{'mx-auto xl:mx-10 2xl:mx-20':!mobile}" class="mt-10" gutterSize="16" [cols]="cols" [rowHeight]="
+            <mat-grid-list [ngClass]="{'mx-auto xl:mx-10 2xl:mx-20':!mobile}" class="mt-10 overflow-scroll max-h-[77vh]"
+                gutterSize="16" [cols]="cols" [rowHeight]="
                 (!mobile || cols === 2)
                 ? rowHeight 
                 : cols === 1
                     ? rowHeight - 25
                     : rowHeight - 100
-                "
-                >
-                    <mat-grid-tile *ngFor="let product of products">
-                        <app-product-box [mobile]="mobile" [product]="product" (addToCart)="onAddToCart($event)" class="w-full h-full" [fullWidthMode]="cols === 1"></app-product-box>
-                    </mat-grid-tile>
-                </mat-grid-list>
-            </div>
+                ">
+                <mat-grid-tile *ngFor="let product of products">
+                    <app-product-box [mobile]="mobile" [product]="product" (addToCart)="onAddToCart($event)"
+                        class="w-full h-full" [fullWidthMode]="cols === 1"></app-product-box>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </div>
     </mat-drawer-content>
-  </mat-drawer-container>
+</mat-drawer-container>

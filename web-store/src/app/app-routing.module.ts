@@ -12,7 +12,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/components/modules/cart/cart.module').then(m => m.CartModule)
   },
   {
-    path: 'login',
+    path: 'admin',
     loadChildren: () => import('./pages/components/modules/login/login.module').then(m => m.LoginModule)
   }
   ,
