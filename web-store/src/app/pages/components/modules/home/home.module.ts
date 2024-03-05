@@ -24,6 +24,7 @@ import { FiltersComponent } from '../../filters/filters.component';
 import { ProductBoxComponent } from '../../product-box/product-box.component';
 import { ProductsHeaderComponent } from '../../products-header/products-header.component';
 import { LazyImgDirective } from '../../../directives/lazy-image.directive';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { LazyImgDirective } from '../../../directives/lazy-image.directive';
     MatFormFieldModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatRippleModule
   ]
 })
 export class HomeModule { }
