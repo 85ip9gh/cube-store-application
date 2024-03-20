@@ -7,10 +7,10 @@ import { CartService } from 'src/app/services/cart.service';
 import { DrawerService } from 'src/app/services/drawer.service';
 
 // for AWS EC2 instance
-const STORE_BASE_URL = 'http://18.118.238.40:4242';
+//const STORE_BASE_URL = 'http://18.118.238.40:4242';
 
 //for local development
-//const STORE_BASE_URL = 'http://localhost:4242';
+const STORE_BASE_URL = 'http://localhost:4242';
 
 @Component({
   selector: 'app-cart',
