@@ -1,5 +1,10 @@
-app.post('/checkout', async (req, res, next) => {
+import stripe from 'stripe';
+
+const stripeInstance = stripe('sk_test_51OTZqzA7JcW8dorug76raBGFUphZJhAncAifdvXzMXLZrp13kreGfvWnWOgB4xO0DvexcFBGHNn2uNUbMuyVbg0M00pRO5Cv6C');
+
+export async function checkout(req, res, next){
     try {
+
         const session = await stripeInstance.checkout.sessions.create({
             shipping_address_collection: {
                 allowed_countries: ['US', 'CA'],
@@ -58,12 +63,12 @@ app.post('/checkout', async (req, res, next) => {
                 quantity: item.quantity
             })),
             mode: 'payment',
-            success_url: 'http://localhost:4242/success.html',
-            cancel_url: 'http://localhost:4242/cancel.html',
+            success_url: 'http://localhost:4200/#/home',
+            cancel_url: 'http://localhost:4200/#/home'
         });
 
         res.status(200).json(session);
     } catch (error) {
         next(error);
     }
-});
+};

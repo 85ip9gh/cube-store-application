@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 //const STORE_BASE_URL = 'http://18.118.238.40:4242';
 
 //for local development
-const STORE_BASE_URL = 'http://localhost:4242';
+const STORE_BASE_URL = 'http://localhost:4242/api';
 
 @Injectable({
   providedIn: 'root'
