@@ -1,23 +1,19 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import cubeDetails from './public/cube-details.json'; // Assuming this file exports the cube details
+import dotenv from 'dotenv';
+import stripe from 'stripe';
+
+dotenv.config();
+
 const app = express();
+const stripeInstance = stripe('sk_test_51OTZqzA7JcW8dorug76raBGFUphZJhAncAifdvXzMXLZrp13kreGfvWnWOgB4xO0DvexcFBGHNn2uNUbMuyVbg0M00pRO5Cv6C');
+
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors({ origin: true, credentials: true }));
-const path = require('path');
-
-const sharp = require('sharp');
-const fs = require('fs');
-
-//for localhostq
-var cubeDetails = require('./public/cube-details.json');
-
-//for AWS vm
-//var cubeDetails = require('./public/cube-details-vm.json');
-
-const stripe = require('stripe')('sk_test_51OTZqzA7JcW8dorug76raBGFUphZJhAncAifdvXzMXLZrp13kreGfvWnWOgB4xO0DvexcFBGHNn2uNUbMuyVbg0M00pRO5Cv6C');
 
 app.use('/static', express.static('cubes'));
 
@@ -31,95 +27,41 @@ app.get('/cubes(/category/:category)?', (req, res) => {
     const sort = req.query.sort;
     const limit = req.query.limit;
     const minPrice = req.query.minPrice;
-    const maxPrice = req.query.maxPrice; 
+    const maxPrice = req.query.maxPrice;
     let filteredByCubes = cubeDetails.items;
 
-    if(category != 'All'){
+    if (category !== 'All') {
         filteredByCubes = cubeDetails.items.filter((cube) => !category || cube.category === category);
     }
 
-    if(size != 'All'){
+    if (size !== 'All') {
         filteredByCubes = filteredByCubes.filter((cube) => !size || cube.size === size);
     }
 
-    
     filteredByCubes = filteredByCubes.filter((cube) => cube.price >= minPrice && cube.price <= maxPrice);
-    
 
     let sortedCubes = filteredByCubes.sort((a, b) => {
         if (sort === 'asc') {
-            return  a.title.localeCompare(b.title);
+            return a.title.localeCompare(b.title);
         } else {
-            return  b.title.localeCompare(a.title);
+            return b.title.localeCompare(a.title);
         }
     });
- 
-    if(limit === 'All'){
+
+    if (limit === 'All') {
         return res.send(sortedCubes);
     }
 
-    limitCubes = sortedCubes.slice(0, parseInt(limit, 10));
+    const limitCubes = sortedCubes.slice(0, parseInt(limit, 10));
 
     // have it commented out when the base64Image is already in the json file
     // encodeImagesAndWriteBack('./public/cube-details.json');
     res.send(limitCubes);
-
 });
-
-app.get('/cubes/generateBase64Images', async (req, res) => {
-    encodeImagesAndWriteBack('./public/cube-details.json');
-    res.send('Base64 encoding and update complete.');
-});
-
-app.get('/cubes/categories', (req, res) => {
-    const uniqueCategories = cubeDetails.items.map(cube => cube.category)
-        .reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
-    res.send(uniqueCategories);
-});
-
-app.get('/cubes/sizes', (req, res) => {
-    const uniqueSizes = cubeDetails.items.map(cube => cube.size)
-        .reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
-    res.send(uniqueSizes);
-});
-
-async function encodeImageToBase64(imagePath) {
-    try {
-      const buffer = await sharp(imagePath).toFormat('png').toBuffer();
-      return buffer.toString('base64');
-    } catch (error) {
-      console.error('Error encoding image:', error);
-      return null;
-    }
-  }
-  
-  async function encodeImagesAndWriteBack(jsonFilePath) {
-    try {
-      // Read the JSON file
-      const jsonString = fs.readFileSync(jsonFilePath, 'utf8');
-      const jsonData = JSON.parse(jsonString);
-  
-      // Iterate through the items and encode images
-      for (const item of jsonData.items) {
-        const base64Image = await encodeImageToBase64(item.imagePath);
-        if (base64Image) {
-          item.base64Image = base64Image;
-        }
-      }
-  
-      // Update the JSON file with base64-encoded images
-      const updatedJsonString = JSON.stringify(jsonData, null, 2);
-      fs.writeFileSync(jsonFilePath, updatedJsonString);
-  
-      console.log('Base64 encoding and update complete.');
-    } catch (error) {
-      console.error('Error processing JSON:', error);
-    }
-  }
 
 app.post('/checkout', async (req, res, next) => {
     try {
-        const session = await stripe.checkout.sessions.create({
+        const session = await stripeInstance.checkout.sessions.create({
             shipping_address_collection: {
                 allowed_countries: ['US', 'CA'],
             },
@@ -188,5 +130,3 @@ app.post('/checkout', async (req, res, next) => {
 });
 
 app.listen(4242, () => console.log('Server is running on port 4242'));
-
-
