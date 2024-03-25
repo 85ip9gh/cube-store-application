@@ -2,16 +2,20 @@
     <p class="mat-headline-2">Login</p>
     <mat-form-field class="text-[12px] w-[16rem]">
         <mat-label>Enter your username</mat-label>
-        <input matInput placeholder="Username" formControlName="username" required>
+        <input matInput placeholder="Username" [(ngModel)]="username" required>
         <mat-error>
             Username is required
         </mat-error>
     </mat-form-field>
     <mat-form-field class="text-[12px] w-[16rem]">
         <mat-label>Enter your password</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" class="rounded-lg" required>
+        <input matInput [type]="hide ? 'password' : 'text'" class="rounded-lg" [(ngModel)]="password"  required >
+        <mat-error>
+            Password is required
+        </mat-error>
         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
     </mat-form-field>
+    <button mat-raised-button type="submit" class="mt-4" (click)="onLogin()" (keydown.enter)="onLogin()" tabindex="0" >submit</button>
 </div> 
