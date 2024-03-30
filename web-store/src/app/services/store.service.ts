@@ -22,6 +22,12 @@ export class StoreService {
       );
   }
 
+  updateProduct(product: Product): Observable<Product> {
+    return this.httpClient.put<Product>(
+      `${STORE_BASE_URL}/cubes/update/${product.id}`, product
+      );
+  }
+
   getAllCategories(): Observable<string[]> {
     return this.httpClient.get<string[]>(
       `${STORE_BASE_URL}/cubes/categories`
