@@ -19,6 +19,14 @@ export async function deleteAllCubes(req, res) {
     res.send('All cubes deleted');
 }
 
+export async function updateCube(req, res) {
+    const cubeId = req.params.id;
+    const cube = req.body;
+    const updatedCube = await Cube.findByIdAndUpdate
+        (cubeId, cube, { new: true });
+    res.send(updatedCube);
+}
+
 
 export async function getCubeCategories(req, res){
     let cubes = await Cube.find({});

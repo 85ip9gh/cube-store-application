@@ -9,11 +9,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AdminComponent } from './admin/admin.component';
 
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    AdminComponent
   ],
   imports: [
   CommonModule,
