@@ -55,6 +55,9 @@ import { MatRippleModule } from '@angular/material/core';
     ReactiveFormsModule,
     FormsModule,
     MatRippleModule
+  ],
+  exports: [
+    HomeComponent
   ]
 })
 export class HomeModule { }

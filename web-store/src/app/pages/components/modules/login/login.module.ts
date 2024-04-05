@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
+import { HomeModule } from '../home/home.module';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { AdminComponent } from './admin/admin.component';
   MatFormFieldModule,
   FormsModule,
   RouterModule,
+  HomeModule
 ]
 })
 export class LoginModule { }
