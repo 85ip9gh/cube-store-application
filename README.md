@@ -1,15 +1,6 @@
 # About this App
-Cube Store App lets you choose from a wide assortment of hand-picked artisan cubes!
+CubeMint lets you choose from a wide assortment of hand-picked artisan cubes!
  
-## Link to Site
-
-- http://18.118.238.40:4200
-    - hosted on AWS(Amazon Web Services) on t2.micro ec2 instance. 
-    <strike>
-    - WARNING: images load extremely slowly because the images are sent to frontend from backend encoded in base64 and as a result, the json file is large. I'll create a loading animation to play while the images are getting fetched from the backend api. 
-    </strike>
-        - fixed on 2024/1/24
-
 ## Architecture:
 - Angular as front-end using Tailwind CSS and Material Framework components
 - Node as back-end api to retrieve cubes and proceed to checkout
