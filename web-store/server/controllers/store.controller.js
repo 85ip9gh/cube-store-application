@@ -63,8 +63,8 @@ export async function checkout(req, res, next){
                 quantity: item.quantity
             })),
             mode: 'payment',
-            success_url: 'http://localhost:4200/#/home',
-            cancel_url: 'http://localhost:4200/#/home'
+            success_url: `${process.env.FRONTEND_URL}/#/home`,
+            cancel_url: `${process.env.FRONTEND_URL}/#/home`
         });
 
         res.status(200).json(session);
