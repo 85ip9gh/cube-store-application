@@ -9,5 +9,7 @@ export interface Product {
     imagePath: string;
     size: string;
     age: number;
+    rarity: string;
+    weight: number;
     base64Image: string;
 }

@@ -17,6 +17,16 @@
         <input matInput [(ngModel)]="size" required>
     </mat-form-field>
     <mat-form-field>
+        <mat-label>Rarity</mat-label>
+        <mat-select [(ngModel)]="rarity" required>
+            <mat-option *ngFor="let option of rarityOptions" [value]="option">{{ option }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Weight (kg)</mat-label>
+        <input matInput type="number" [(ngModel)]="weight" required>
+    </mat-form-field>
+    <mat-form-field>
         <mat-label>Age</mat-label>
         <input matInput type="number" [(ngModel)]="age" required>
     </mat-form-field>
