@@ -11,12 +11,16 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { HomeModule } from '../home/home.module';
+import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
+import { CubeFormComponent } from './admin/cube-form/cube-form.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    AdminComponent
+    AdminComponent,
+    CubeFormComponent
   ],
   imports: [
   CommonModule,
@@ -28,7 +32,9 @@ import { HomeModule } from '../home/home.module';
   MatFormFieldModule,
   FormsModule,
   RouterModule,
-  HomeModule
+  HomeModule,
+  MatTableModule,
+  MatDialogModule
 ]
 })
 export class LoginModule { }

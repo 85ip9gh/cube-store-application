@@ -1,17 +1,37 @@
 import Cube from '../Models/cube.model.js';
-// import cubeDetails from '../public/cube-details.json' assert { type: 'json' };
 
-// export async function addCubes(req, res) {
-//     await Promise.all(cubeDetails.items.map(async (cube) => {
-//         const newCube = new Cube(cube);
-//         await newCube.save();
-//     }));
-//     res.send('Cubes added');
-// }
+function buildImagePath(req) {
+    return `${req.protocol}://${req.get('host')}/static/${req.file.filename}`;
+}
 
 export async function getAllCubes(req, res) {
     const cubes = await Cube.find({});
     res.json(cubes);
+}
+
+export async function createCube(req, res) {
+    if (!req.file) {
+        return res.status(400).send('Image is required');
+    }
+
+    const lastCube = await Cube.findOne().sort('-id');
+    const nextId = lastCube ? lastCube.id + 1 : 1;
+
+    const newCube = new Cube({
+        ...req.body,
+        id: nextId,
+        imagePath: buildImagePath(req)
+    });
+    await newCube.save();
+    res.status(201).send(newCube);
+}
+
+export async function deleteCube(req, res) {
+    const deletedCube = await Cube.findByIdAndDelete(req.params.id);
+    if (!deletedCube) {
+        return res.status(404).send('Cube not found');
+    }
+    res.send(deletedCube);
 }
 
 export async function deleteAllCubes(req, res) {
@@ -21,7 +41,10 @@ export async function deleteAllCubes(req, res) {
 
 export async function updateCube(req, res) {
     const cubeId = req.params.id;
-    const cube = req.body;
+    const cube = { ...req.body };
+    if (req.file) {
+        cube.imagePath = buildImagePath(req);
+    }
     const updatedCube = await Cube.findByIdAndUpdate
         (cubeId, cube, { new: true });
     res.send(updatedCube);
