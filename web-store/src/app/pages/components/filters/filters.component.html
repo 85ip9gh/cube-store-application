@@ -1,4 +1,10 @@
 <div>
+    <div class="flex justify-end p-2">
+        <button mat-button (click)="onReset()">
+            <mat-icon class="text-base">restart_alt</mat-icon>
+            Reset filters
+        </button>
+    </div>
     <mat-expansion-panel *ngIf="categories">
         <mat-expansion-panel-header class="shadow-inner">
             <mat-panel-title class="text-center">
@@ -6,11 +12,11 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-selection-list [multiple]="false" hideSingleSelectionIndicator>
-            <mat-list-option class="text-center" color="primary" [selected]="true" (click)="onCategoryUpdate('')">
+            <mat-list-option class="text-center" color="primary" [selected]="selectedCategory === ''" (click)="onCategoryUpdate('')">
                 All
             </mat-list-option>
             <mat-list-option class="text-center" color="primary" *ngFor="let category of categories" [value]="category"
-                (click)="onCategoryUpdate(category)">
+                [selected]="selectedCategory === category" (click)="onCategoryUpdate(category)">
                 {{category}}
             </mat-list-option>
         </mat-selection-list>
@@ -22,10 +28,11 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-selection-list [multiple]="false" hideSingleSelectionIndicator>
-            <mat-list-option class="text-center" color="primary" [selected]="true" (click)="onSizeUpdate('')">
+            <mat-list-option class="text-center" color="primary" [selected]="selectedSize === ''" (click)="onSizeUpdate('')">
                 All
             </mat-list-option>
-            <mat-list-option class="text-center" color="primary" *ngFor="let size of sizes" [value]="size" (click)="onSizeUpdate(size)">
+            <mat-list-option class="text-center" color="primary" *ngFor="let size of sizes" [value]="size"
+                [selected]="selectedSize === size" (click)="onSizeUpdate(size)">
                 {{size}}
             </mat-list-option>
         </mat-selection-list>
