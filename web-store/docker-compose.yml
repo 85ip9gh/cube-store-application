@@ -2,11 +2,15 @@ version: '3'
 
 services:
   frontend:
-    image: 85ip9gh/cube-store-application:frontend-v5
+    image: 85ip9gh/cube-store-application:frontend-latest
     ports:
       - "4200:80"
+    environment:
+      - API_URL=${API_URL}
 
   backend:
-    image: 85ip9gh/cube-store-application:backend-v3
+    image: 85ip9gh/cube-store-application:backend-latest
     ports:
       - "4242:4242"
+    environment:
+      - MONGODB_URL=${MONGODB_URL}
