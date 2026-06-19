@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Product } from 'src/app/models/product.model';
 import { CartService } from 'src/app/services/cart.service';
 import { StoreService } from 'src/app/services/store.service';
+import { WishlistService } from 'src/app/services/wishlist.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -13,14 +14,17 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   product: Product | undefined;
   notFound: boolean = false;
+  isFavorited: boolean = false;
 
   private routeSubscription: Subscription | undefined;
+  private wishlistSubscription: Subscription | undefined;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private storeService: StoreService,
-    private cartService: CartService
+    private cartService: CartService,
+    private wishlistService: WishlistService
   ) {}
 
   ngOnInit(): void {
@@ -30,11 +34,17 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         this.loadProduct(id);
       }
     });
+    this.wishlistSubscription = this.wishlistService.wishlist$.subscribe(() => {
+      this.isFavorited = !!this.product && this.wishlistService.isInWishlist(this.product);
+    });
   }
 
   loadProduct(id: string): void {
     this.storeService.getProductById(id).subscribe({
-      next: (product) => this.product = product,
+      next: (product) => {
+        this.product = product;
+        this.isFavorited = this.wishlistService.isInWishlist(product);
+      },
       error: () => this.notFound = true
     });
   }
@@ -52,11 +62,18 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  onToggleWishlist(): void {
+    if (this.product) {
+      this.wishlistService.toggle(this.product);
+    }
+  }
+
   onBack(): void {
     this.router.navigate(['/home']);
   }
 
   ngOnDestroy(): void {
     this.routeSubscription?.unsubscribe();
+    this.wishlistSubscription?.unsubscribe();
   }
 }

@@ -30,9 +30,14 @@
             </div>
             <div class="flex justify-between items-center">
                 <span class="text-red-400">{{product.price| currency}}</span>
-                <button mat-icon-button (click)="onAddToCart($event)">
-                    <mat-icon class="text-grey-500">add_shopping_cart</mat-icon>
-                </button>
+                <div>
+                    <button mat-icon-button (click)="onToggleWishlist($event)">
+                        <mat-icon class="text-grey-500">{{ isFavorited ? 'favorite' : 'favorite_border' }}</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="onAddToCart($event)">
+                        <mat-icon class="text-grey-500">add_shopping_cart</mat-icon>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

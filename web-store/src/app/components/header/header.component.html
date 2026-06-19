@@ -10,13 +10,22 @@
             </span>  
         </a>
     </div>
-    <button *ngIf="!cartPage" mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon 
-        [matBadge]="itemsQuantity"
-        [matBadgeHidden]="!itemsQuantity"
-        matBadgeColor="warn"
-        >shopping_cart</mat-icon>
-    </button>
+    <div class="flex">
+        <button *ngIf="!cartPage" mat-icon-button routerLink="home/wishlist">
+            <mat-icon
+            [matBadge]="wishlistCount"
+            [matBadgeHidden]="!wishlistCount"
+            matBadgeColor="warn"
+            >favorite</mat-icon>
+        </button>
+        <button *ngIf="!cartPage" mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon
+            [matBadge]="itemsQuantity"
+            [matBadgeHidden]="!itemsQuantity"
+            matBadgeColor="warn"
+            >shopping_cart</mat-icon>
+        </button>
+    </div>
     <mat-menu #menu="matMenu">
         <div class="p-2 divide-y divide-solid">
             <div class="p-2 flex justify-between">

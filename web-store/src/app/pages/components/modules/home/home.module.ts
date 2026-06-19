@@ -26,6 +26,7 @@ import { ProductsHeaderComponent } from '../../products-header/products-header.c
 import { LazyImgDirective } from '../../../directives/lazy-image.directive';
 import { MatRippleModule } from '@angular/material/core';
 import { ProductDetailComponent } from '../../product-detail/product-detail.component';
+import { WishlistComponent } from '../../wishlist/wishlist.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ProductDetailComponent } from '../../product-detail/product-detail.comp
     ProductBoxComponent,
     ProductsHeaderComponent,
     LazyImgDirective,
-    ProductDetailComponent
+    ProductDetailComponent,
+    WishlistComponent
   ],
   imports: [
     CommonModule,
