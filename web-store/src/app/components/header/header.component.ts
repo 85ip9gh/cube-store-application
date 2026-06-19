@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Cart, CartItem } from 'src/app/models/cart.model';
 import { CartService } from '../../services/cart.service';
 import { DrawerService } from 'src/app/services/drawer.service';
+import { WishlistService } from 'src/app/services/wishlist.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,6 +13,7 @@ export class HeaderComponent {
   // declaring the cart variable and setting it to an empty array
   private _cart: Cart = { items: [] };
   itemsQuantity: number = 0;
+  wishlistCount: number = 0;
 
   // declaring and initializing the mobile variable to false by default
   mobile: boolean = false;
@@ -28,11 +30,13 @@ export class HeaderComponent {
 
   private mobileStateSubscription: Subscription;
   private cartStateSubscription: Subscription;
+  private wishlistSubscription: Subscription;
 
    // injecting the cart and drawer service into header component
-   constructor(private cartService: CartService, private drawerService: DrawerService) {
+   constructor(private cartService: CartService, private drawerService: DrawerService, private wishlistService: WishlistService) {
     this.mobileStateSubscription = new Subscription();
     this.cartStateSubscription = new Subscription();
+    this.wishlistSubscription = new Subscription();
   }
 
   ngOnInit(): void {
@@ -43,6 +47,9 @@ export class HeaderComponent {
     });
     this.cartStateSubscription = this.drawerService.cartState$.subscribe(cart => {
       this.cartPage = cart;
+    });
+    this.wishlistSubscription = this.wishlistService.wishlist$.subscribe(items => {
+      this.wishlistCount = items.length;
     });
   }
 
@@ -74,6 +81,8 @@ export class HeaderComponent {
   ngOnDestroy(): void {
     // Unsubscribe from the subscription to prevent memory leaks
     this.mobileStateSubscription.unsubscribe();
+    this.cartStateSubscription.unsubscribe();
+    this.wishlistSubscription.unsubscribe();
   }
 
 }
