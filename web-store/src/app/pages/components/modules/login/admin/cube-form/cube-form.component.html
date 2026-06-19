@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>{{ product ? 'Edit Cube' : 'Add Cube' }}</h2>
+<mat-dialog-content class="flex flex-col gap-2 min-w-[20rem]">
+    <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput [(ngModel)]="title" required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Price</mat-label>
+        <input matInput type="number" [(ngModel)]="price" required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Category</mat-label>
+        <input matInput [(ngModel)]="category" required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Size</mat-label>
+        <input matInput [(ngModel)]="size" required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Age</mat-label>
+        <input matInput type="number" [(ngModel)]="age" required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput [(ngModel)]="description" required rows="4"></textarea>
+    </mat-form-field>
+    <input type="file" accept="image/*" (change)="onFileSelected($event)">
+    <p *ngIf="errorMessage" class="text-red-600">{{ errorMessage }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()" [disabled]="saving">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSave()" [disabled]="saving">Save</button>
+</mat-dialog-actions>

@@ -1,5 +1,6 @@
 // defining the variables for the product
 export interface Product {
+    _id?: string;
     id: number;
     title: string;
     price: number;

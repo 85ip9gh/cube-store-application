@@ -18,9 +18,21 @@ export class StoreService {
       );
   }
 
-  updateProduct(product: Product): Observable<Product> {
+  createProduct(formData: FormData): Observable<Product> {
+    return this.httpClient.post<Product>(
+      `${STORE_BASE_URL}/cubes`, formData
+      );
+  }
+
+  updateProduct(id: string, formData: FormData): Observable<Product> {
     return this.httpClient.put<Product>(
-      `${STORE_BASE_URL}/cubes/update/${product.id}`, product
+      `${STORE_BASE_URL}/cubes/update/${id}`, formData
+      );
+  }
+
+  deleteProduct(id: string): Observable<Product> {
+    return this.httpClient.delete<Product>(
+      `${STORE_BASE_URL}/cubes/${id}`
       );
   }
 
