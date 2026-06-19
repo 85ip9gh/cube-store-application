@@ -7,7 +7,8 @@
     <mat-drawer-content>
         <div class="w-full">
             <app-products-header [mobile]="mobile" (columnCountChange)="onColumnCountChange($event)"
-                (itemCountChange)="onItemCountChange($event)" (sortChange)="onSortChange($event)"></app-products-header>
+                (itemCountChange)="onItemCountChange($event)" (sortChange)="onSortChange($event)"
+                (searchChange)="onSearchChange($event)"></app-products-header>
             <mat-grid-list [ngClass]="{'mx-auto xl:mx-10 2xl:mx-20':!mobile}" class="mt-10 overflow-scroll max-h-[77vh]"
                 gutterSize="16" [cols]="cols" [rowHeight]="
                 (!mobile || cols === 2)
