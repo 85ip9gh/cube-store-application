@@ -14,3 +14,6 @@ services:
       - "4242:4242"
     environment:
       - MONGODB_URL=${MONGODB_URL}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH}
+      - JWT_SECRET=${JWT_SECRET}
