@@ -1,0 +1,27 @@
+<div class="max-w-5xl mx-auto p-6">
+    <button mat-button (click)="onBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back to store
+    </button>
+
+    <div *ngIf="notFound" class="text-center mt-10">
+        <p class="mat-headline-3">Cube not found</p>
+    </div>
+
+    <div *ngIf="product" class="flex flex-col md:flex-row gap-8 mt-4">
+        <div class="md:w-1/2 flex justify-center">
+            <img [src]="product.imagePath" [alt]="product.title" class="w-full max-w-[400px] h-[400px] object-contain">
+        </div>
+        <div class="md:w-1/2 flex flex-col gap-2">
+            <p class="opacity-75 text-sm">{{ product.category }} &middot; {{ product.size }}</p>
+            <p class="mat-headline-4">{{ product.title }}</p>
+            <p class="text-red-400 text-2xl">{{ product.price | currency }}</p>
+            <p class="opacity-75">{{ product.age | number }} years old</p>
+            <p class="mt-4 whitespace-pre-line">{{ product.description }}</p>
+            <button mat-raised-button color="primary" class="mt-4 w-fit" (click)="onAddToCart()">
+                <mat-icon>add_shopping_cart</mat-icon>
+                Add to cart
+            </button>
+        </div>
+    </div>
+</div>
