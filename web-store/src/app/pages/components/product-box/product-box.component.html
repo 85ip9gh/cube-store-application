@@ -14,7 +14,7 @@
                     <p class="text-slate-500 text-xs uppercase tracking-wide" *ngIf="fullWidthMode">{{product.size}}</p>
                 </div>
                 <div [ngClass]="{'flex justify-between':fullWidthMode && !mobile}" class="text-center">
-                    <p class="truncate hover:whitespace-normal font-semibold text-ink"
+                    <p class="truncate hover:whitespace-normal font-normal text-ink"
                         [ngClass]="{'text-sm':mobile && !fullWidthMode,'text-xl':!mobile || fullWidthMode}">
                         {{product.title}}</p>
                     <p *ngIf="fullWidthMode" class="text-slate-500">{{product.rarity}} &middot; {{product.weight}}kg</p>
