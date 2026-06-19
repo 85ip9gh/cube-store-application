@@ -18,7 +18,9 @@ export class FiltersComponent {
   categoriesSubscription: Subscription | undefined;
   categories: string[] | undefined;
   sizes: string[] | undefined;
-  
+  selectedCategory: string = '';
+  selectedSize: string = '';
+
   minimumPrice = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(150)]);
   maximumPrice = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(150)]);
   
@@ -68,13 +70,27 @@ export class FiltersComponent {
 
   //gets called when the category select changes and emits the new value
   onCategoryUpdate(newCategory: string): void {
+    this.selectedCategory = newCategory;
     this.categoryChange.emit(newCategory);
   }
 
   //gets called when the size select changes and emits the new value
   onSizeUpdate(newSize: string): void {
-   this.sizeChange.emit(newSize);
-   
+    this.selectedSize = newSize;
+    this.sizeChange.emit(newSize);
+  }
+
+  //resets all filters back to their defaults
+  onReset(): void {
+    this.selectedCategory = '';
+    this.selectedSize = '';
+    this.minimumPrice.reset();
+    this.maximumPrice.reset();
+
+    this.categoryChange.emit('');
+    this.sizeChange.emit('');
+    this.minimumPriceChange.emit(0);
+    this.maximumPriceChange.emit(150);
   }
   //gets called when the minimum price input changes and emits the new value
   onMinimumPriceUpdate(): void {
@@ -92,16 +108,16 @@ export class FiltersComponent {
 
   //gets called when the maximum price input changes and emits the new value
   onMaximumPriceUpdate(): void {
-    //if the value is null, set it to 0. If it's less than 0, set it to 150. If it's greater than 150, set it to 150
-    const maximumPriceValue: number = this.maximumPrice.value !== null 
+    //if the value is null, set it to 150. If it's less than 0, set it to 150. If it's greater than 150, set it to 150
+    const maximumPriceValue: number = this.maximumPrice.value !== null
       ? (this.maximumPrice.value < 0)
         ? 150
         : (this.maximumPrice.value > 150)
         ? 150
         :this.maximumPrice.value
-      : 0;
+      : 150;
 
-    this.maximumPriceChange.emit(maximumPriceValue); 
+    this.maximumPriceChange.emit(maximumPriceValue);
 }
 
  //unsubscribes from the categoriesSubscription if the subscription exists when the component is destroyed(i.e. when the component is destroyed or the user navigates to another page)
