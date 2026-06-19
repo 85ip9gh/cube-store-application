@@ -9,6 +9,14 @@ export async function getAllCubes(req, res) {
     res.json(cubes);
 }
 
+export async function getCubeById(req, res) {
+    const cube = await Cube.findById(req.params.id);
+    if (!cube) {
+        return res.status(404).send('Cube not found');
+    }
+    res.send(cube);
+}
+
 export async function createCube(req, res) {
     if (!req.file) {
         return res.status(400).send('Image is required');

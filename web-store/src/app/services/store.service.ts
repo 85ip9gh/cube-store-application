@@ -18,6 +18,12 @@ export class StoreService {
       );
   }
 
+  getProductById(id: string): Observable<Product> {
+    return this.httpClient.get<Product>(
+      `${STORE_BASE_URL}/cubes/${id}`
+      );
+  }
+
   createProduct(formData: FormData): Observable<Product> {
     return this.httpClient.post<Product>(
       `${STORE_BASE_URL}/cubes`, formData

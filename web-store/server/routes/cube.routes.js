@@ -3,6 +3,7 @@ import {
   getSortedCubes,
   getCubeCategories,
   getCubeSizes,
+  getCubeById,
   createCube,
   updateCube,
   deleteCube,
@@ -16,6 +17,7 @@ const cubeRouter = express.Router();
 cubeRouter.get('/cubes(/category/:category)?', getSortedCubes);
 cubeRouter.get('/cubes/categories', getCubeCategories);
 cubeRouter.get('/cubes/sizes', getCubeSizes);
+cubeRouter.get('/cubes/:id', getCubeById);
 cubeRouter.post('/cubes', authenticateAdmin, upload.single('image'), createCube);
 cubeRouter.put('/cubes/update/:id', authenticateAdmin, upload.single('image'), updateCube);
 cubeRouter.delete('/cubes/:id', authenticateAdmin, deleteCube);

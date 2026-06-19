@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Product } from 'src/app/models/product.model';
 
 @Component({
@@ -16,8 +17,17 @@ export class ProductBoxComponent {
 
   @Output() addToCart = new EventEmitter();
 
-  onAddToCart():void {
+  constructor(private router: Router) {}
+
+  onAddToCart(event: Event):void {
+    event.stopPropagation();
     this.addToCart.emit(this.product);
+  }
+
+  onViewProduct(): void {
+    if (this.product?._id) {
+      this.router.navigate(['/home/cube', this.product._id]);
+    }
   }
 
   // getImageSource(): string {
