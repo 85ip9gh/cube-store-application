@@ -32,6 +32,14 @@ const cubeSchema = new mongoose.Schema({
     age: {
         type: Number,
         required: true
+    },
+    rarity: {
+        type: String,
+        required: true
+    },
+    weight: {
+        type: Number,
+        required: true
     }
 });
 

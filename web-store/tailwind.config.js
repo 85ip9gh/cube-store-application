@@ -1,12 +1,3 @@
-/* 
---text: #061c09;
---background: #f1fcf2;
---primary: #3bd748;
---secondary: #84dde6;
---accent: #65ace0; 
-*/
-
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -15,11 +6,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        text: '#061c09',
-        background: '#f1fcf2',
-        primary: '#3bd748',
-        secondary: '#84dde6',
-        accent: '#65ace0',
+        surface: '#f8fafc',
+        ink: '#0f172a',
+        brand: '#4f46e5',
+        'brand-dark': '#4338ca',
+        highlight: '#f97316',
       },
     },
   },

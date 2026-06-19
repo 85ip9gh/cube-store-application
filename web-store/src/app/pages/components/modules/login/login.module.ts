@@ -13,6 +13,8 @@ import { AdminComponent } from './admin/admin.component';
 import { HomeModule } from '../home/home.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 import { CubeFormComponent } from './admin/cube-form/cube-form.component';
 
 
@@ -34,7 +36,9 @@ import { CubeFormComponent } from './admin/cube-form/cube-form.component';
   RouterModule,
   HomeModule,
   MatTableModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSelectModule,
+  MatCardModule
 ]
 })
 export class LoginModule { }

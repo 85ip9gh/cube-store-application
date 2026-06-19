@@ -13,10 +13,14 @@ export class CubeFormComponent {
   category: string;
   size: string;
   age: number;
+  rarity: string;
+  weight: number;
   description: string;
   imageFile: File | null = null;
   saving: boolean = false;
   errorMessage: string = '';
+
+  rarityOptions: string[] = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'];
 
   constructor(
     private dialogRef: MatDialogRef<CubeFormComponent>,
@@ -28,6 +32,8 @@ export class CubeFormComponent {
     this.category = product?.category ?? '';
     this.size = product?.size ?? '';
     this.age = product?.age ?? 0;
+    this.rarity = product?.rarity ?? 'Common';
+    this.weight = product?.weight ?? 1;
     this.description = product?.description ?? '';
   }
 
@@ -52,6 +58,8 @@ export class CubeFormComponent {
     formData.append('category', this.category);
     formData.append('size', this.size);
     formData.append('age', String(this.age));
+    formData.append('rarity', this.rarity);
+    formData.append('weight', String(this.weight));
     formData.append('description', this.description);
     if (this.imageFile) {
       formData.append('image', this.imageFile);

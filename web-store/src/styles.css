@@ -3,36 +3,42 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 
---text: #061c09;
---background: #f1fcf2;
---primary: #3bd748;
---secondary: #84dde6;
---accent: #65ace0; 
-*/
-
-
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: #f8fafc;
+    color: #0f172a;
+}
 
 ::-webkit-scrollbar {
-    width: 5px; /* Width of the scrollbar */
+    width: 6px; /* Width of the scrollbar */
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Background color of the scrollbar track */
+    background: transparent; /* Background color of the scrollbar track */
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #888; /* Background color of the scrollbar thumb */
-    border-radius: 5px; /* Radius of the scrollbar thumb */
+    background: #cbd5e1; /* Background color of the scrollbar thumb */
+    border-radius: 8px; /* Radius of the scrollbar thumb */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Background color of the scrollbar thumb on hover */
+    background: #94a3b8; /* Background color of the scrollbar thumb on hover */
 }
 
 .mat-toolbar {
     padding-left: 0 !important;
     padding-right: 0 !important;
+}
+
+.mat-card {
+    border-radius: 14px !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08) !important;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.mat-raised-button, .mat-stroked-button, .mat-flat-button {
+    border-radius: 10px !important;
 }
