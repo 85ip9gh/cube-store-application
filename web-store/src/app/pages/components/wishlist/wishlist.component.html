@@ -1,0 +1,11 @@
+<div class="p-6 max-w-7xl mx-auto">
+    <p class="mat-headline-3 mb-4">Wishlist</p>
+
+    <div *ngIf="!products.length" class="text-center mt-10 opacity-75">
+        <p>Your wishlist is empty. Tap the heart icon on any cube to save it for later.</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <app-product-box *ngFor="let product of products" [product]="product" (addToCart)="onAddToCart($event)"></app-product-box>
+    </div>
+</div>

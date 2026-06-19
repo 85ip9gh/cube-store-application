@@ -18,10 +18,16 @@
             <p class="text-red-400 text-2xl">{{ product.price | currency }}</p>
             <p class="opacity-75">{{ product.age | number }} years old</p>
             <p class="mt-4 whitespace-pre-line">{{ product.description }}</p>
-            <button mat-raised-button color="primary" class="mt-4 w-fit" (click)="onAddToCart()">
-                <mat-icon>add_shopping_cart</mat-icon>
-                Add to cart
-            </button>
+            <div class="flex gap-2 mt-4">
+                <button mat-raised-button color="primary" (click)="onAddToCart()">
+                    <mat-icon>add_shopping_cart</mat-icon>
+                    Add to cart
+                </button>
+                <button mat-stroked-button (click)="onToggleWishlist()">
+                    <mat-icon>{{ isFavorited ? 'favorite' : 'favorite_border' }}</mat-icon>
+                    {{ isFavorited ? 'Saved' : 'Save for later' }}
+                </button>
+            </div>
         </div>
     </div>
 </div>
