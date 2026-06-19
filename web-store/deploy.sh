@@ -11,7 +11,7 @@ ADMIN_PASSWORD_HASH=$(get_secret /cube-store/admin-password-hash | sed 's/\$/$$/
 JWT_SECRET=$(get_secret /cube-store/jwt-secret)
 
 cat > .env <<EOF
-API_URL=http://3.144.128.221:4242
+API_URL=http://3.13.31.195:4242
 EOF
 
 cat > backend.env <<EOF
@@ -19,7 +19,7 @@ MONGODB_URL=${MONGODB_URL}
 ADMIN_USERNAME=admin
 ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH}
 JWT_SECRET=${JWT_SECRET}
-FRONTEND_URL=http://3.144.128.221:4200
+FRONTEND_URL=http://3.13.31.195:4200
 EOF
 
 sudo docker compose pull
