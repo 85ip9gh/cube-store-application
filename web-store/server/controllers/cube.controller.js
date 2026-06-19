@@ -79,7 +79,7 @@ export async function getSortedCubes(req, res){
         return res.send(sortedCubes);
     }
 
-    limitCubes = sortedCubes.slice(0, parseInt(limit, 10));
+    const limitCubes = sortedCubes.slice(0, parseInt(limit, 10));
 
     res.send(limitCubes);
 };

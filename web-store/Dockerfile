@@ -22,8 +22,12 @@ FROM nginx:alpine
 # Copy the built Angular app to the nginx html directory
 COPY --from=build /app/dist/* /usr/share/nginx/html/
 
+# Entrypoint generates assets/env.js from the API_URL env var at container startup
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
 # Expose port 4200
 EXPOSE 4200
 
-# Start nginx
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
