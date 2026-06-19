@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   frontend:
     image: 85ip9gh/cube-store-application:frontend-latest
@@ -14,3 +12,8 @@ services:
       - "4242:4242"
     env_file:
       - backend.env
+    volumes:
+      - cube_images:/app/cubes
+
+volumes:
+  cube_images:
