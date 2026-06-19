@@ -74,7 +74,8 @@ export async function getSortedCubes(req, res){
     const sort = req.query.sort;
     const limit = req.query.limit;
     const minPrice = req.query.minPrice;
-    const maxPrice = req.query.maxPrice; 
+    const maxPrice = req.query.maxPrice;
+    const search = req.query.search;
 
     let filteredByCubes = await Cube.find({});
 
@@ -86,9 +87,16 @@ export async function getSortedCubes(req, res){
         filteredByCubes = filteredByCubes.filter((cube) => !size || cube.size === size);
     }
 
-    
+
     filteredByCubes = filteredByCubes.filter((cube) => cube.price >= minPrice && cube.price <= maxPrice);
-    
+
+    if(search){
+        const term = search.toLowerCase();
+        filteredByCubes = filteredByCubes.filter((cube) =>
+            cube.title.toLowerCase().includes(term) || cube.description.toLowerCase().includes(term)
+        );
+    }
+
 
     let sortedCubes = filteredByCubes.sort((a, b) => {
         if (sort === 'asc') {

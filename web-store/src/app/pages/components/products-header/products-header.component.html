@@ -1,4 +1,10 @@
 <mat-card class="mb-4">
+    <div class="flex justify-between items-center">
+        <mat-form-field class="w-full max-w-xs" subscriptSizing="dynamic">
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput placeholder="Search cubes" [(ngModel)]="searchTerm" (ngModelChange)="onSearchUpdated($event)">
+        </mat-form-field>
+    </div>
     <div class="flex justify-between">
         <div>
             <button *ngIf="!mobile" mat-button [matMenuTriggerFor]="sortByMenu">

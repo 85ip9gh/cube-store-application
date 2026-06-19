@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-products-header',
@@ -6,18 +8,34 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styles: [
   ]
 })
-export class ProductsHeaderComponent {
+export class ProductsHeaderComponent implements OnInit, OnDestroy {
   @Input() mobile: boolean = false;
   @Output() columnCountChange = new EventEmitter<number>();
   @Output() sortChange = new EventEmitter<string>();
   @Output() itemCountChange = new EventEmitter<string>();
-  
+  @Output() searchChange = new EventEmitter<string>();
+
   sort = 'desc';
   itemCount: string = 'All';
+  searchTerm: string = '';
+
+  private searchSubject = new Subject<string>();
 
   constructor() { }
 
   ngOnInit(): void {
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(term => this.searchChange.emit(term));
+  }
+
+  ngOnDestroy(): void {
+    this.searchSubject.complete();
+  }
+
+  onSearchUpdated(term: string): void {
+    this.searchSubject.next(term);
   }
 
   onSortUpdated(newSort: string) :void {

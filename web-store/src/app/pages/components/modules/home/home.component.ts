@@ -27,6 +27,7 @@ export class HomeComponent {
   productSubscription: Subscription | undefined;
   min: number = 0;
   max:number = 150;
+  search: string = '';
   mobile: boolean = false;
   mode: string = 'side';
   opened: boolean = true;
@@ -88,11 +89,16 @@ export class HomeComponent {
   }
 
   getProducts(): void {
-    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort ,this.category, this.size, this.min, this.max).subscribe((products: Product[]) => {
+    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort ,this.category, this.size, this.min, this.max, this.search).subscribe((products: Product[]) => {
       this.products = products;
       // console.log(products);
     });
 
+  }
+
+  onSearchChange(newSearch: string): void {
+    this.search = newSearch;
+    this.getProducts();
   }
 
   onColumnCountChange(newCols: number): void {
