@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cubeRouter from './routes/cube.routes.js';
 import storeRouter from './routes/store.routes.js';
+import authRouter from './routes/auth.routes.js';
 
 
 dotenv.config();
@@ -26,6 +27,7 @@ mongoose
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 
 app.use("/api", cubeRouter);
+app.use("/api/auth", authRouter);
 app.use("/", storeRouter);
 
 app.listen(4242, () => console.log('Server is running on port 4242'));
