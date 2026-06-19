@@ -1,21 +1,23 @@
-<div class="flex flex-col items-center justify-center min-h-[85vh] max-h-[85vh]">
-    <p class="mat-headline-2">Login</p>
-    <mat-form-field class="text-[12px] w-[16rem]">
-        <mat-label>Enter your username</mat-label>
-        <input matInput placeholder="Username" [(ngModel)]="username" required>
-        <mat-error>
-            Username is required
-        </mat-error>
-    </mat-form-field>
-    <mat-form-field class="text-[12px] w-[16rem]">
-        <mat-label>Enter your password</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" class="rounded-lg" [(ngModel)]="password"  required >
-        <mat-error>
-            Password is required
-        </mat-error>
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-    </mat-form-field>
-    <button mat-raised-button type="submit" class="mt-4" (click)="onLogin()" (keydown.enter)="onLogin()" tabindex="0" >submit</button>
+<div class="flex flex-col items-center justify-center min-h-[85vh] max-h-[85vh] bg-surface">
+    <mat-card class="flex flex-col items-center p-8 w-full max-w-sm">
+        <p class="text-2xl font-semibold text-ink mb-4">Admin Login</p>
+        <mat-form-field class="w-full">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="Username" [(ngModel)]="username" required>
+            <mat-error>
+                Username is required
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-full">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="password" required>
+            <mat-error>
+                Password is required
+            </mat-error>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+        <button mat-raised-button color="primary" class="mt-2 w-full" (click)="onLogin()" (keydown.enter)="onLogin()" tabindex="0" >Sign in</button>
+    </mat-card>
 </div> 
