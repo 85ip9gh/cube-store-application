@@ -1,6 +1,6 @@
 import stripe from 'stripe';
 
-const stripeInstance = stripe('sk_test_51OTZqzA7JcW8dorug76raBGFUphZJhAncAifdvXzMXLZrp13kreGfvWnWOgB4xO0DvexcFBGHNn2uNUbMuyVbg0M00pRO5Cv6C');
+const stripeInstance = stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function checkout(req, res, next){
     try {
