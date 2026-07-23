@@ -2,6 +2,7 @@
 
 #server
 .env
+backend.env
 .package-lock.json
 
 
