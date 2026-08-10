@@ -9,7 +9,10 @@ export function authenticateAdmin(req, res, next) {
     }
 
     try {
-        jwt.verify(token, process.env.JWT_SECRET);
+        jwt.verify(token, process.env.JWT_SECRET, {
+            issuer: 'cubemint',
+            audience: 'cubemint-admin'
+        });
         next();
     } catch (err) {
         return res.status(401).send('Invalid or expired token');
