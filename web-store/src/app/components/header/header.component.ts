@@ -3,6 +3,7 @@ import { Cart, CartItem } from 'src/app/models/cart.model';
 import { CartService } from '../../services/cart.service';
 import { DrawerService } from 'src/app/services/drawer.service';
 import { WishlistService } from 'src/app/services/wishlist.service';
+import { ThemeService } from 'src/app/services/theme.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -19,6 +20,7 @@ export class HeaderComponent {
   mobile: boolean = false;
   toggle: boolean = false;
   cartPage: boolean = false;
+  isDark: boolean = false;
 
   @Input()
   get cart(): Cart {
@@ -31,19 +33,20 @@ export class HeaderComponent {
   private mobileStateSubscription: Subscription;
   private cartStateSubscription: Subscription;
   private wishlistSubscription: Subscription;
+  private themeSubscription: Subscription;
 
    // injecting the cart and drawer service into header component
-   constructor(private cartService: CartService, private drawerService: DrawerService, private wishlistService: WishlistService) {
+   constructor(private cartService: CartService, private drawerService: DrawerService, private wishlistService: WishlistService, private themeService: ThemeService) {
     this.mobileStateSubscription = new Subscription();
     this.cartStateSubscription = new Subscription();
     this.wishlistSubscription = new Subscription();
+    this.themeSubscription = new Subscription();
   }
 
   ngOnInit(): void {
     // Subscribe to the mobileState$ observable to receive updates
     this.mobileStateSubscription = this.drawerService.mobileState$.subscribe(mobile => {
       this.mobile = mobile;
-      console.log("header Component mobile value: " + this.mobile);
     });
     this.cartStateSubscription = this.drawerService.cartState$.subscribe(cart => {
       this.cartPage = cart;
@@ -51,13 +54,19 @@ export class HeaderComponent {
     this.wishlistSubscription = this.wishlistService.wishlist$.subscribe(items => {
       this.wishlistCount = items.length;
     });
+    this.themeSubscription = this.themeService.isDark$.subscribe(isDark => {
+      this.isDark = isDark;
+    });
+  }
+
+  onToggleTheme(): void {
+    this.themeService.toggle();
   }
 
   // emitting the toggleDrawer event when the function is called
   onToggleDrawer(): void {
     this.toggle = !this.toggle;
     this.drawerService.toggleDrawer(this.toggle); // toggle the drawer
-    console.log("header Component toggleDrawer " + this.toggle);
   }
 
   // setting the cart variable to the parameter passed in and getting the quantity of items in the cart by mapping through the items and adding the quantity of each item
@@ -83,6 +92,7 @@ export class HeaderComponent {
     this.mobileStateSubscription.unsubscribe();
     this.cartStateSubscription.unsubscribe();
     this.wishlistSubscription.unsubscribe();
+    this.themeSubscription.unsubscribe();
   }
 
 }

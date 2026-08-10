@@ -93,9 +93,9 @@
 
 </div>
 <div class="min-h-[85vh] max-h-[85vh]" *ngIf="!cart.items.length">
-    <mat-card class=" max-w-7xl mx-auto" >
+    <mat-card class="max-w-7xl mx-auto">
         <div class="flex justify-between p-2 items-center">
-            <div>
+            <div class="font-display text-xl text-ink">
                 Your cart is empty.
             </div>
             <button mat-raised-button (click)="updateCartPage()" routerLink="/home" color="primary">

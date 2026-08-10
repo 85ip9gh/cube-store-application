@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Output, ViewChild  } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import { CartService } from '../../../../services/cart.service';
 import { Subscription } from 'rxjs';
@@ -9,8 +9,6 @@ import { Subject } from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
 import { DrawerService } from 'src/app/services/drawer.service';
 
-const ROWS_HEIGHT: { [id: number]: number } = {1:500, 3:335, 4:350}
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,7 +16,6 @@ const ROWS_HEIGHT: { [id: number]: number } = {1:500, 3:335, 4:350}
 export class HomeComponent {
 
   cols: number = 3;
-  rowHeight = ROWS_HEIGHT[this.cols];
   category: string | undefined;
   size: string = 'All';
   products: Product[] | undefined;
@@ -31,6 +28,9 @@ export class HomeComponent {
   mobile: boolean = false;
   mode: string = 'side';
   opened: boolean = true;
+  isLoading = true;
+  loadError = false;
+  readonly skeletonItems = Array.from({ length: 8 });
 
   @ViewChild('drawer') drawer!: MatDrawer;
   private unsubscribe$ = new Subject();
@@ -89,11 +89,28 @@ export class HomeComponent {
   }
 
   getProducts(): void {
-    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort ,this.category, this.size, this.min, this.max, this.search).subscribe((products: Product[]) => {
-      this.products = products;
-      // console.log(products);
+    this.productSubscription?.unsubscribe();
+    this.isLoading = true;
+    this.loadError = false;
+    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort ,this.category, this.size, this.min, this.max, this.search).subscribe({
+      next: (products: Product[]) => {
+        this.products = products;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.products = [];
+        this.isLoading = false;
+        this.loadError = true;
+      }
     });
+  }
 
+  retryProducts(): void {
+    this.getProducts();
+  }
+
+  trackByProductId(index: number, product: Product): string | number {
+    return product._id || product.id || index;
   }
 
   onSearchChange(newSearch: string): void {
@@ -103,7 +120,6 @@ export class HomeComponent {
 
   onColumnCountChange(newCols: number): void {
     this.cols = newCols;
-    this.rowHeight = ROWS_HEIGHT[this.cols];
   }
 
   onCategoryChange(newCategory: string): void {
