@@ -1,9 +1,47 @@
 import stripe from 'stripe';
+import path from 'path';
+import Cube from '../Models/cube.model.js';
 
-const stripeInstance = stripe(process.env.STRIPE_SECRET_KEY);
+function publicImageUrl(req, imagePath) {
+    if (!imagePath) {
+        return undefined;
+    }
+
+    try {
+        const filename = path.basename(new URL(imagePath).pathname);
+        return `${req.protocol}://${req.get('host')}/static/${encodeURIComponent(filename)}`;
+    } catch {
+        return undefined;
+    }
+}
 
 export async function checkout(req, res, next){
+    if (process.env.CHECKOUT_ENABLED !== 'true' || !process.env.STRIPE_SECRET_KEY) {
+        return res.status(503).json({ error: 'Checkout is temporarily unavailable.' });
+    }
+
     try {
+        const requestedItems = Array.isArray(req.body?.items) ? req.body.items : [];
+        if (requestedItems.length === 0 || requestedItems.length > 25) {
+            return res.status(400).json({ error: 'Cart must contain between 1 and 25 items.' });
+        }
+
+        const quantities = new Map();
+        for (const item of requestedItems) {
+            const id = Number(item.id);
+            const quantity = Number(item.quantity);
+            if (!Number.isInteger(id) || !Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
+                return res.status(400).json({ error: 'Cart contains an invalid item.' });
+            }
+            quantities.set(id, (quantities.get(id) || 0) + quantity);
+        }
+
+        const cubes = await Cube.find({ id: { $in: [...quantities.keys()] } });
+        if (cubes.length !== quantities.size) {
+            return res.status(400).json({ error: 'Cart contains an unavailable item.' });
+        }
+
+        const stripeInstance = stripe(process.env.STRIPE_SECRET_KEY);
 
         const session = await stripeInstance.checkout.sessions.create({
             shipping_address_collection: {
@@ -51,16 +89,16 @@ export async function checkout(req, res, next){
                     },
                 },
             ],
-            line_items: req.body.items.map(item => ({
+            line_items: cubes.map(cube => ({
                 price_data: {
                     currency: 'usd',
                     product_data: {
-                        name: item.name,
-                        images: [item.product]
+                        name: cube.title,
+                        images: [publicImageUrl(req, cube.imagePath)].filter(Boolean)
                     },
-                    unit_amount: item.price * 100
+                    unit_amount: Math.round(cube.price * 100)
                 },
-                quantity: item.quantity
+                quantity: quantities.get(cube.id)
             })),
             mode: 'payment',
             success_url: `${process.env.FRONTEND_URL}/#/home`,
