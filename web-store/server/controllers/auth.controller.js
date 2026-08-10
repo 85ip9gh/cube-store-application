@@ -19,8 +19,8 @@ export async function login(req, res) {
 
     const token = jwt.sign({ username }, process.env.JWT_SECRET, {
         expiresIn: '1h',
-        issuer: 'cubemint',
-        audience: 'cubemint-admin'
+        issuer: 'cube-store',
+        audience: 'cube-store-admin'
     });
     res.json({ token });
 }
