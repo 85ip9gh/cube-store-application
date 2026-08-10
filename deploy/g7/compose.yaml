@@ -1,0 +1,43 @@
+services:
+  cubestore:
+    build:
+      context: .
+    image: cubestore:g7
+    container_name: cubestore
+    restart: unless-stopped
+    init: true
+    env_file:
+      - path: app.env
+        format: raw
+    environment:
+      NODE_ENV: production
+      NODE_OPTIONS: --max-old-space-size=192
+      PORT: "4242"
+      FRONTEND_URL: https://cubestore.pesanth.com
+      PUBLIC_READ_ONLY: "true"
+      CHECKOUT_ENABLED: "false"
+      CORS_ORIGINS: https://cubestore.pesanth.com
+    ports:
+      - "100.79.13.73:4242:4242"
+    volumes:
+      - ./data/cubes:/app/cubes
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 256m
+    cpus: 1.0
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4242/healthz').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    logging:
+      driver: local
+      options:
+        max-size: 5m
+        max-file: "2"

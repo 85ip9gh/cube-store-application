@@ -5,6 +5,8 @@ import { DrawerService } from 'src/app/services/drawer.service';
 import { WishlistService } from 'src/app/services/wishlist.service';
 import { ThemeService } from 'src/app/services/theme.service';
 import { Subscription } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +23,7 @@ export class HeaderComponent {
   toggle: boolean = false;
   cartPage: boolean = false;
   isDark: boolean = false;
+  showFilterToggle: boolean = false;
 
   @Input()
   get cart(): Cart {
@@ -34,13 +37,15 @@ export class HeaderComponent {
   private cartStateSubscription: Subscription;
   private wishlistSubscription: Subscription;
   private themeSubscription: Subscription;
+  private routeSubscription: Subscription;
 
    // injecting the cart and drawer service into header component
-   constructor(private cartService: CartService, private drawerService: DrawerService, private wishlistService: WishlistService, private themeService: ThemeService) {
+   constructor(private cartService: CartService, private drawerService: DrawerService, private wishlistService: WishlistService, private themeService: ThemeService, private router: Router) {
     this.mobileStateSubscription = new Subscription();
     this.cartStateSubscription = new Subscription();
     this.wishlistSubscription = new Subscription();
     this.themeSubscription = new Subscription();
+    this.routeSubscription = new Subscription();
   }
 
   ngOnInit(): void {
@@ -57,10 +62,18 @@ export class HeaderComponent {
     this.themeSubscription = this.themeService.isDark$.subscribe(isDark => {
       this.isDark = isDark;
     });
+    this.updateFilterToggle(this.router.url);
+    this.routeSubscription = this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe(event => this.updateFilterToggle(event.urlAfterRedirects));
   }
 
   onToggleTheme(): void {
     this.themeService.toggle();
+  }
+
+  private updateFilterToggle(url: string): void {
+    this.showFilterToggle = url === '/home';
   }
 
   // emitting the toggleDrawer event when the function is called
@@ -93,6 +106,7 @@ export class HeaderComponent {
     this.cartStateSubscription.unsubscribe();
     this.wishlistSubscription.unsubscribe();
     this.themeSubscription.unsubscribe();
+    this.routeSubscription.unsubscribe();
   }
 
 }
