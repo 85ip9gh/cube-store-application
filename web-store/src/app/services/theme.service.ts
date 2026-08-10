@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 const STORAGE_KEY = 'cube-store-theme';
+// Deliberately still the old brand name. Anyone who visited before the rename
+// has their choice stored under this key, and renaming it would silently reset
+// them to the system default on their next visit. The same fallback is in
+// index.html. Do not "finish the rename" by touching these two.
 const LEGACY_STORAGE_KEY = 'cubemint-theme';
 
 @Injectable({
