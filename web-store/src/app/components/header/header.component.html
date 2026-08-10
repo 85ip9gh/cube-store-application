@@ -1,60 +1,65 @@
-<mat-toolbar class="max-w-7x1 mx-auto justify-between min-h-[7.5vh] max-h-[7.5vh] bg-white border-b border-slate-200 shadow-sm">
+<mat-toolbar class="glass-panel !border-x-0 !border-t-0 sticky top-0 z-30 mx-auto min-h-16 max-w-7xl justify-between !px-4 sm:!px-6">
     <div class="flex items-center">
-        <button *ngIf="mobile && !cartPage" mat-icon-button (click)="onToggleDrawer()">
-            <mat-icon>density_medium</mat-icon>
+        <button *ngIf="mobile && !cartPage" mat-icon-button (click)="onToggleDrawer()" aria-label="Open filters">
+            <mat-icon class="text-ink">density_medium</mat-icon>
         </button>
         <a routerLink="home" class="flex items-center gap-2 text-ink hover:text-brand transition-colors">
-            <svg class="text-brand" clip-rule="evenodd" height="36" width="36" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="m3.514 6.61c-.317.179-.514.519-.514.887v8.95c0 .37.197.708.514.887 1.597.901 6.456 3.639 8.005 4.512.152.085.319.128.487.128.164 0 .328-.041.477-.123 1.549-.855 6.39-3.523 7.994-4.408.323-.177.523-.519.523-.891v-9.055c0-.368-.197-.708-.515-.887-1.595-.899-6.444-3.632-7.999-4.508-.151-.085-.319-.128-.486-.128-.168 0-.335.043-.486.128-1.555.876-6.405 3.609-8 4.508m15.986 2.115v7.525l-6.75 3.722v-7.578zm-15 7.425v-7.458l6.75 3.75v7.511zm.736-8.769 6.764-3.813 6.801 3.834-6.801 3.716z" fill-rule="nonzero"/></svg>
-            <span class="font-semibold text-lg tracking-tight">
+            <svg class="text-brand" clip-rule="evenodd" height="32" width="32" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="m3.514 6.61c-.317.179-.514.519-.514.887v8.95c0 .37.197.708.514.887 1.597.901 6.456 3.639 8.005 4.512.152.085.319.128.487.128.164 0 .328-.041.477-.123 1.549-.855 6.39-3.523 7.994-4.408.323-.177.523-.519.523-.891v-9.055c0-.368-.197-.708-.515-.887-1.595-.899-6.444-3.632-7.999-4.508-.151-.085-.319-.128-.486-.128-.168 0-.335.043-.486.128-1.555.876-6.405 3.609-8 4.508m15.986 2.115v7.525l-6.75 3.722v-7.578zm-15 7.425v-7.458l6.75 3.75v7.511zm.736-8.769 6.764-3.813 6.801 3.834-6.801 3.716z" fill-rule="nonzero"/></svg>
+            <span class="font-display font-semibold text-2xl tracking-tight">
                 Cube Store
             </span>
         </a>
     </div>
     <div class="flex items-center">
-        <button *ngIf="!cartPage" mat-icon-button routerLink="home/wishlist">
+        <button mat-icon-button (click)="onToggleTheme()" [attr.aria-label]="isDark ? 'Switch to light mode' : 'Switch to dark mode'">
+            <mat-icon class="text-ink">{{ isDark ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        </button>
+        <button *ngIf="!cartPage" mat-icon-button routerLink="home/wishlist" aria-label="Open wishlist">
             <mat-icon
+            class="text-ink"
             [matBadge]="wishlistCount"
             [matBadgeHidden]="!wishlistCount"
             matBadgeColor="warn"
             >favorite</mat-icon>
         </button>
-        <button *ngIf="!cartPage" mat-icon-button [matMenuTriggerFor]="menu">
+        <button *ngIf="!cartPage" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Open cart">
             <mat-icon
+            class="text-ink"
             [matBadge]="itemsQuantity"
             [matBadgeHidden]="!itemsQuantity"
             matBadgeColor="warn"
             >shopping_cart</mat-icon>
         </button>
     </div>
-    <mat-menu #menu="matMenu">
-        <div class="p-2 divide-y divide-solid">
+    <mat-menu #menu="matMenu" class="!bg-transparent">
+        <div class="glass-panel rounded-2xl p-2 divide-y divide-line/50 text-ink">
             <div class="p-2 flex justify-between">
                 <span class="mr-16">{{itemsQuantity}} Items</span>
-                <a routerLink="cart">View Cart</a>
+                <a routerLink="cart" class="text-brand hover:text-brand-dark transition-colors">View Cart</a>
             </div>
             <div *ngIf="cart.items.length" class="py-3">
-                <div 
+                <div
                 *ngFor="let item of cart.items"
                 class="flex justify-between font-light mb-2">
                     <p class="truncate w-20 hover:whitespace-normal">
-                        {{item.name}} 
-                    </p>    
-                    
+                        {{item.name}}
+                    </p>
+
                     x{{item.quantity}}
                     <span class="font-bold">{{ item.price| currency }}</span>
                 </div>
             </div>
             <div class="flex justify-between py-3 font-light">
-                Total:  
-                <span class="font-bold">{{ getTotal(cart.items) | currency }}</span>
+                Total:
+                <span class="font-bold text-brand">{{ getTotal(cart.items) | currency }}</span>
             </div>
             <div class="flex justify-between pt-3">
-                <button
+                <button aria-label="Clear cart"
                 (click)="onClearCart()"
-                class="bg-rose-600 text-white rounded-full w-9 h-9">
+                class="bg-destructive text-white rounded-full w-9 h-9">
                     <mat-icon>remove_shopping_cart</mat-icon>
                 </button>
-                <button routerLink="cart" class="bg-green-600 text-white rounded-full w-9 h-9">
+                <button routerLink="cart" aria-label="View cart" class="bg-brand text-white rounded-full w-9 h-9">
                     <mat-icon>shopping_cart</mat-icon>
                 </button>
             </div>

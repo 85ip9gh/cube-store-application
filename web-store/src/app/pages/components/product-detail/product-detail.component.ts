@@ -5,6 +5,7 @@ import { Product } from 'src/app/models/product.model';
 import { CartService } from 'src/app/services/cart.service';
 import { StoreService } from 'src/app/services/store.service';
 import { WishlistService } from 'src/app/services/wishlist.service';
+import { getProductFallbackImage } from 'src/app/utils/product-image';
 
 @Component({
   selector: 'app-product-detail',
@@ -15,6 +16,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   product: Product | undefined;
   notFound: boolean = false;
   isFavorited: boolean = false;
+  imageFailed = false;
+  imageSrc = '';
+  private fallbackAttempted = false;
 
   private routeSubscription: Subscription | undefined;
   private wishlistSubscription: Subscription | undefined;
@@ -43,6 +47,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     this.storeService.getProductById(id).subscribe({
       next: (product) => {
         this.product = product;
+        this.imageFailed = false;
+        this.fallbackAttempted = false;
+        this.imageSrc = product.imagePath;
         this.isFavorited = this.wishlistService.isInWishlist(product);
       },
       error: () => this.notFound = true
@@ -70,6 +77,15 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   onBack(): void {
     this.router.navigate(['/home']);
+  }
+
+  onImageError(): void {
+    if (this.product && !this.fallbackAttempted) {
+      this.fallbackAttempted = true;
+      this.imageSrc = getProductFallbackImage(this.product);
+      return;
+    }
+    this.imageFailed = true;
   }
 
   ngOnDestroy(): void {
