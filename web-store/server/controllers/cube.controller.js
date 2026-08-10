@@ -76,49 +76,43 @@ export async function getCubeSizes(req, res){
     res.send(uniqueSizes);
 }
 
-export async function getSortedCubes(req, res){
-    const category = req.params.category;
-    const size = req.query.size;
-    const sort = req.query.sort;
-    const limit = req.query.limit;
-    const minPrice = req.query.minPrice;
-    const maxPrice = req.query.maxPrice;
-    const search = req.query.search;
+function numericBound(value, fallback) {
+    const parsed = Number.parseFloat(value);
+    return Number.isFinite(parsed) ? parsed : fallback;
+}
 
-    let filteredByCubes = await Cube.find({});
+export function applyCubeQuery(cubes, params = {}, query = {}) {
+    const category = params.category || 'All';
+    const size = query.size || 'All';
+    const sort = query.sort === 'asc' ? 'asc' : 'desc';
+    const minPrice = numericBound(query.minPrice, Number.NEGATIVE_INFINITY);
+    const maxPrice = numericBound(query.maxPrice, Number.POSITIVE_INFINITY);
+    const search = typeof query.search === 'string' ? query.search.trim().toLowerCase() : '';
 
-    if(category != 'All'){
-        filteredByCubes = filteredByCubes.filter((cube) => !category || cube.category === category);
-    }
+    const filteredCubes = cubes.filter((cube) => {
+        const matchesCategory = category === 'All' || cube.category === category;
+        const matchesSize = size === 'All' || cube.size === size;
+        const matchesPrice = cube.price >= minPrice && cube.price <= maxPrice;
+        const matchesSearch = !search
+            || cube.title.toLowerCase().includes(search)
+            || cube.description.toLowerCase().includes(search);
 
-    if(size != 'All'){
-        filteredByCubes = filteredByCubes.filter((cube) => !size || cube.size === size);
-    }
-
-
-    filteredByCubes = filteredByCubes.filter((cube) => cube.price >= minPrice && cube.price <= maxPrice);
-
-    if(search){
-        const term = search.toLowerCase();
-        filteredByCubes = filteredByCubes.filter((cube) =>
-            cube.title.toLowerCase().includes(term) || cube.description.toLowerCase().includes(term)
-        );
-    }
-
-
-    let sortedCubes = filteredByCubes.sort((a, b) => {
-        if (sort === 'asc') {
-            return  a.title.localeCompare(b.title);
-        } else {
-            return  b.title.localeCompare(a.title);
-        }
+        return matchesCategory && matchesSize && matchesPrice && matchesSearch;
     });
- 
-    if(limit === 'All'){
-        return res.send(sortedCubes);
+
+    const sortedCubes = filteredCubes.sort((a, b) => sort === 'asc'
+        ? a.title.localeCompare(b.title)
+        : b.title.localeCompare(a.title));
+
+    if (!query.limit || query.limit === 'All') {
+        return sortedCubes;
     }
 
-    const limitCubes = sortedCubes.slice(0, parseInt(limit, 10));
+    const limit = Number.parseInt(query.limit, 10);
+    return Number.isInteger(limit) && limit > 0 ? sortedCubes.slice(0, limit) : sortedCubes;
+}
 
-    res.send(limitCubes);
+export async function getSortedCubes(req, res){
+    const cubes = await Cube.find({});
+    res.send(applyCubeQuery(cubes, req.params, req.query));
 };
