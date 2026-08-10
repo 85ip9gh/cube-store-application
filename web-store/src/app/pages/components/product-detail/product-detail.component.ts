@@ -15,6 +15,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   product: Product | undefined;
   notFound: boolean = false;
+  isLoading: boolean = true;
   isFavorited: boolean = false;
   imageFailed = false;
   imageSrc = '';
@@ -44,6 +45,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   loadProduct(id: string): void {
+    this.isLoading = true;
+    this.notFound = false;
     this.storeService.getProductById(id).subscribe({
       next: (product) => {
         this.product = product;
@@ -51,8 +54,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         this.fallbackAttempted = false;
         this.imageSrc = product.imagePath;
         this.isFavorited = this.wishlistService.isInWishlist(product);
+        this.isLoading = false;
       },
-      error: () => this.notFound = true
+      error: () => {
+        this.notFound = true;
+        this.isLoading = false;
+      }
     });
   }
 

@@ -8,7 +8,7 @@ const STORE_BASE_URL = `${window.__env.apiUrl}/api`;
 // Product image URLs are stored in the database as absolute URLs baked in at
 // upload time by the backend (e.g. http://<ec2-ip>:4242/static/foo.png). That
 // host is only correct for whichever environment happened to upload the image,
-// so anywhere else — notably localhost — the <img> points at a dead/foreign
+// so anywhere else, notably localhost, the <img> points at a dead or foreign
 // host and the picture fails to load. Rewrite the origin to the configured
 // apiUrl (env.js: localhost in dev, ${API_URL} substituted at deploy) so images
 // always come from the same backend that served the product data. The backend

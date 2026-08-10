@@ -57,6 +57,13 @@ export class ProductBoxComponent implements OnInit, OnDestroy {
     }
   }
 
+  onViewKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.onViewProduct();
+    }
+  }
+
   onImageError(): void {
     if (this.product && !this.fallbackAttempted) {
       this.fallbackAttempted = true;

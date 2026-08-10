@@ -1,3 +1,3 @@
 interface Window {
-  __env: { apiUrl: string };
+  __env: { apiUrl: string; checkoutEnabled: boolean | string };
 }
