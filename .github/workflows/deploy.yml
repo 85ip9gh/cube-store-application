@@ -26,10 +26,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7.0.0
         with:
           node-version: 20
           cache: npm
@@ -51,7 +51,7 @@ jobs:
 
       - name: Upload production frontend
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: cube-store-frontend-${{ github.sha }}
           path: web-store/dist/web-store
@@ -72,7 +72,7 @@ jobs:
 
     steps:
       - name: Download production frontend
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8.0.1
         with:
           name: cube-store-frontend-${{ github.sha }}
           path: frontend
