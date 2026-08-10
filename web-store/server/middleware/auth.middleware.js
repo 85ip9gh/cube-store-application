@@ -10,8 +10,8 @@ export function authenticateAdmin(req, res, next) {
 
     try {
         jwt.verify(token, process.env.JWT_SECRET, {
-            issuer: 'cubemint',
-            audience: 'cubemint-admin'
+            issuer: 'cube-store',
+            audience: 'cube-store-admin'
         });
         next();
     } catch (err) {
