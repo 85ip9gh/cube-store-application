@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/models/product.model';
 import { WishlistService } from 'src/app/services/wishlist.service';
+import { getProductFallbackImage } from 'src/app/utils/product-image';
 
 @Component({
   selector: 'app-product-box',
@@ -20,11 +21,15 @@ export class ProductBoxComponent implements OnInit, OnDestroy {
   @Output() addToCart = new EventEmitter();
 
   isFavorited: boolean = false;
+  imageFailed = false;
+  imageSrc = '';
+  private fallbackAttempted = false;
   private wishlistSubscription: Subscription | undefined;
 
   constructor(private router: Router, private wishlistService: WishlistService) {}
 
   ngOnInit(): void {
+    this.imageSrc = this.product?.imagePath || '';
     this.wishlistSubscription = this.wishlistService.wishlist$.subscribe(() => {
       this.isFavorited = !!this.product && this.wishlistService.isInWishlist(this.product);
     });
@@ -50,6 +55,15 @@ export class ProductBoxComponent implements OnInit, OnDestroy {
     if (this.product?._id) {
       this.router.navigate(['/home/cube', this.product._id]);
     }
+  }
+
+  onImageError(): void {
+    if (this.product && !this.fallbackAttempted) {
+      this.fallbackAttempted = true;
+      this.imageSrc = getProductFallbackImage(this.product);
+      return;
+    }
+    this.imageFailed = true;
   }
 
   // getImageSource(): string {

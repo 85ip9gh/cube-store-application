@@ -1,27 +1,54 @@
-<mat-drawer-container [autosize]="true" class="min-h-[85vh] max-h-[85vh] max-w-7x1 mx-auto border-x">
-    <mat-drawer #drawer [opened]="isDrawerOpen" [mode]="drawerMode">
+<section class="max-w-7xl mx-auto border-x border-line px-5 py-10 text-center sm:px-8 sm:py-14">
+    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand">The 2026 collection</p>
+    <h1 class="mt-3 font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl lg:text-6xl">Hand-picked artisan cubes</h1>
+    <p class="mx-auto mt-3 max-w-2xl text-sm leading-6 text-ink-secondary sm:text-base">A curious collection of one-of-a-kind objects, made for desks, shelves, and people who appreciate an excellent cube.</p>
+</section>
+<mat-drawer-container [autosize]="true" class="!bg-transparent min-h-[calc(100dvh-8rem)] max-w-7xl mx-auto border-x border-line">
+    <mat-drawer #drawer [opened]="isDrawerOpen" [mode]="drawerMode" class="glass-panel !w-72 !border-r !border-y-0 !border-l-0">
         <app-filters (categoryChange)="onCategoryChange($event)" (sizeChange)="onSizeChange($event)"
             (minimumPriceChange)="onMinPriceChange($event)"
             (maximumPriceChange)="onMaxPriceChange($event)"></app-filters>
     </mat-drawer>
-    <mat-drawer-content>
+    <mat-drawer-content class="!bg-transparent">
         <div class="w-full">
             <app-products-header [mobile]="mobile" (columnCountChange)="onColumnCountChange($event)"
                 (itemCountChange)="onItemCountChange($event)" (sortChange)="onSortChange($event)"
                 (searchChange)="onSearchChange($event)"></app-products-header>
-            <mat-grid-list [ngClass]="{'mx-auto xl:mx-10 2xl:mx-20':!mobile}" class="mt-10 overflow-scroll max-h-[77vh]"
-                gutterSize="16" [cols]="cols" [rowHeight]="
-                (!mobile || cols === 2)
-                ? rowHeight 
-                : cols === 1
-                    ? rowHeight - 25
-                    : rowHeight - 100
-                ">
-                <mat-grid-tile *ngFor="let product of products">
-                    <app-product-box [mobile]="mobile" [product]="product" (addToCart)="onAddToCart($event)"
-                        class="w-full h-full" [fullWidthMode]="cols === 1"></app-product-box>
-                </mat-grid-tile>
-            </mat-grid-list>
+            <div *ngIf="isLoading" class="grid grid-cols-1 gap-5 p-4 sm:grid-cols-2 sm:p-6 lg:grid-cols-3 lg:p-8" aria-label="Loading cubes">
+                <div *ngFor="let item of skeletonItems" class="glass-panel overflow-hidden rounded-2xl" aria-hidden="true">
+                    <div class="skeleton-shimmer aspect-square"></div>
+                    <div class="space-y-3 p-5">
+                        <div class="skeleton-shimmer h-3 w-20 rounded-full"></div>
+                        <div class="skeleton-shimmer h-6 w-4/5 rounded-full"></div>
+                        <div class="skeleton-shimmer h-5 w-24 rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="!isLoading && loadError" class="mx-auto flex max-w-md flex-col items-center px-6 py-24 text-center" role="alert">
+                <mat-icon class="!h-12 !w-12 !text-5xl text-brand">cloud_off</mat-icon>
+                <h2 class="mt-4 font-display text-3xl font-semibold text-ink">The collection did not load</h2>
+                <p class="mt-2 text-sm leading-6 text-ink-secondary">The store may be waking up. Try the request again.</p>
+                <button mat-flat-button color="primary" class="mt-5" (click)="retryProducts()">Try again</button>
+            </div>
+
+            <div *ngIf="!isLoading && !loadError && products?.length === 0" class="mx-auto max-w-md px-6 py-24 text-center">
+                <mat-icon class="!h-12 !w-12 !text-5xl text-brand">search_off</mat-icon>
+                <h2 class="mt-4 font-display text-3xl font-semibold text-ink">No cubes found</h2>
+                <p class="mt-2 text-sm leading-6 text-ink-secondary">Try a broader search or reset the filters.</p>
+            </div>
+
+            <div *ngIf="!isLoading && !loadError && products?.length"
+                class="grid gap-5 p-4 sm:p-6 lg:p-8"
+                [ngClass]="cols === 1
+                    ? 'grid-cols-1'
+                    : cols === 4
+                        ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                        : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'">
+                <app-product-box *ngFor="let product of products; trackBy: trackByProductId"
+                    [mobile]="mobile" [product]="product" (addToCart)="onAddToCart($event)"
+                    class="h-full min-w-0" [fullWidthMode]="cols === 1"></app-product-box>
+            </div>
         </div>
     </mat-drawer-content>
 </mat-drawer-container>
