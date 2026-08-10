@@ -1,71 +1,85 @@
 # Cube Store
 
-Cube Store is a full-stack commerce platform for browsing, filtering, wishlisting, and purchasing a catalogue of AI-generated artisan cubes. It combines an Angular storefront with an Express API, MongoDB persistence, Stripe Checkout, image processing, authentication, and Docker packaging.
+Cube Store is a full-stack product gallery for browsing, filtering, saving, and collecting a catalogue of AI-created artisan cubes. It combines an Angular storefront with an Express API, MongoDB persistence, image handling, Stripe integration, authentication, and Docker packaging.
 
-> **Project status:** A public, read-only demo is hosted from the g7 server. Checkout, authentication, and data mutations are disabled.
+> **Project status:** A public, read-only portfolio build is hosted on the g7 server. Checkout, authentication, and data mutations are intentionally disabled there.
 
-![Cube Store storefront](./images/Cube_Store_V2.jpg)
-
-[Live demo](https://cubestore.pesanth.com) · [Technical overview](https://pesanth.com/work/cubemint) · [Portfolio](https://pesanth.com)
+[Live demo](https://cubestore.pesanth.com) | [Technical overview](https://pesanth.com/cubestore) | [Portfolio](https://pesanth.com)
 
 ## What this project demonstrates
 
-- Responsive product discovery with category, size, price, sort, pagination, and display controls.
-- Cart, wishlist, quantity-management, and Stripe-hosted checkout workflows.
+- Responsive product discovery with search, material, size, price, sorting, result limits, and layout controls.
+- Product detail, saved-object, shopping-bag, and quantity-management experiences.
+- Intentional loading, empty, unavailable-image, and service-failure states.
 - An Express REST API backed by MongoDB and Mongoose.
 - Administrative product and image workflows protected by JWT authentication.
-- Separate frontend and backend containers coordinated with Docker Compose.
+- A public read-only mode that blocks checkout, login, and catalogue mutations at the server boundary.
+- A guarded GitHub Actions release path that deploys verified main-branch builds to g7 through Cloudflare Tunnel.
 
-## Architecture
+## Production architecture
 
 ```text
 Browser
   |
   v
-Angular storefront (port 4200)
+Cloudflare Tunnel
   |
-  | REST / JSON
   v
-Express API (port 4242)
-  |                |
-  v                v
-MongoDB        Stripe Checkout
+g7 Express container
+  |-- serves the Angular frontend
+  |-- serves the catalogue API and images
+  |
+  v
+MongoDB
 ```
 
-The frontend reads its API base URL from a runtime-generated `env.js` file. The backend handles catalogue queries, authentication, image uploads, and checkout-session creation. Product metadata is stored in MongoDB while uploaded images are served from a persistent volume.
+The production origin binds only to the g7 Tailscale address. Cloudflare Tunnel publishes `cubestore.pesanth.com` without opening an inbound router port.
 
 ## Repository layout
 
 ```text
-web-store/
-  src/                 Angular application
-  server/              Express API and data access
-  Dockerfile           Frontend build and Nginx runtime
-  docker-compose.yml   Frontend/backend orchestration
-images/                Version screenshots
+.github/workflows/       Build, test, and production deployment workflow
+deploy/g7/               Reproducible g7 container and deployer configuration
+web-store/src/           Angular application
+web-store/server/        Express API and data access
+web-store/docker-compose.yml
+                         Separate frontend and backend local stack
+images/                  Project screenshots
 ```
 
 ## Run locally
 
-Prerequisites: Docker, a reachable MongoDB instance, and Stripe test credentials.
+Prerequisites: Node.js 20, a reachable MongoDB instance, and Stripe test credentials if checkout is enabled.
 
 1. Copy `web-store/backend.env.example` to `web-store/backend.env` and replace every placeholder.
-2. From `web-store`, set `API_URL` to the backend URL used by the browser.
-3. Start the published containers:
+2. Install and start the API from `web-store/server`.
+3. Install and start the Angular app from `web-store`.
+
+```bash
+cd web-store/server
+npm ci
+npm start
+
+cd ..
+npm ci
+npm start
+```
+
+The frontend uses `http://localhost:4242` for its API during local development.
+
+The published two-container images can also be started from `web-store` with Docker Compose after the required environment files are configured:
 
 ```bash
 docker compose up
 ```
 
-The storefront is exposed on `http://localhost:4200` and the API on `http://localhost:4242`.
+## Verification and deployment
 
-For frontend development, run `npm install` and `npm start` from `web-store`. For API development, run the same commands from `web-store/server`.
+The `Build, Test, and Deploy` workflow builds the Angular app and runs the server safety tests for every relevant pull request and main-branch push.
 
-## Verification and limitations
+After a main-branch build passes, the workflow sends the compiled frontend through an authenticated Cloudflare Tunnel path to the g7 deployer. The deployer accepts only the current `main` commit, creates a versioned release, builds the production container, verifies `/healthz`, and restores the previous release if the new container does not become healthy.
 
-- The portfolio review verified a MongoDB-backed catalogue response containing 66 products and captured desktop and mobile evidence.
-- The repository does not currently include an automated test suite.
-- Stripe should be used only in test mode until a production security, error-handling, and payment-flow review is complete.
+The current public catalogue contains 66 MongoDB-backed products. Product images are served from a persistent g7 volume, while missing legacy images use deterministic category-aware fallbacks.
 
 ## License
 

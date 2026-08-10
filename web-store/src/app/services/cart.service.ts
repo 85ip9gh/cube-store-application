@@ -22,7 +22,7 @@ export class CartService {
     }
 
     this.cart.next({ items });
-    this._snackBar.open('Product added to cart', 'Close', {
+    this._snackBar.open('Added to shopping bag', 'Close', {
       duration: 3000,
     });
   }
@@ -35,7 +35,7 @@ export class CartService {
 
   clearCart(): void {
     this.cart.next({ items: [] });
-    this._snackBar.open('all items removed', 'Close', {
+    this._snackBar.open('Shopping bag cleared', 'Close', {
       duration: 3000,
     });
   }
@@ -45,7 +45,7 @@ export class CartService {
     const index = items.findIndex(_item => _item.id === item.id);
     items.splice(index, 1);
     this.cart.next({ items });
-    this._snackBar.open('item removed', 'Close', {
+    this._snackBar.open('Removed from shopping bag', 'Close', {
       duration: 3000,
     });
   }
@@ -56,7 +56,7 @@ export class CartService {
     if (_item && _item.quantity > 1) {
       _item.quantity -= 1;
       this.cart.next({ items });
-      this._snackBar.open('item quantity subtracted', 'Close', {
+      this._snackBar.open('Quantity updated', 'Close', {
         duration: 3000,
       });
     } else {

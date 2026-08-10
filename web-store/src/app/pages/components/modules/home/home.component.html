@@ -1,45 +1,138 @@
-<section class="max-w-7xl mx-auto border-x border-line px-5 py-10 text-center sm:px-8 sm:py-14">
-    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand">The 2026 collection</p>
-    <h1 class="mt-3 font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl lg:text-6xl">Hand-picked artisan cubes</h1>
-    <p class="mx-auto mt-3 max-w-2xl text-sm leading-6 text-ink-secondary sm:text-base">A curious collection of one-of-a-kind objects, made for desks, shelves, and people who appreciate an excellent cube.</p>
+<section class="site-shell pb-12 pt-10 sm:pt-14 lg:pb-20 lg:pt-20">
+    <div class="grid items-center gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:gap-16">
+        <div class="relative z-10 max-w-2xl">
+            <p class="editorial-label">Independent object archive</p>
+            <h1 class="mt-5 max-w-3xl font-display text-[clamp(3.6rem,8vw,7.6rem)] leading-[0.86] tracking-[-0.045em] text-ink">
+                Collect the<br><span class="italic text-brand">unexpected.</span>
+            </h1>
+            <p class="mt-7 max-w-lg text-base leading-7 text-ink-secondary sm:text-lg">A deliberately strange catalogue of cubes made from impossible materials, tiny worlds, and very good angles.</p>
+
+            <div class="mt-8 flex flex-wrap items-center gap-3">
+                <button type="button" class="primary-button" (click)="scrollToCollection()">
+                    Browse the collection
+                    <mat-icon>south</mat-icon>
+                </button>
+                <button type="button" class="secondary-button" routerLink="/home/wishlist">
+                    View saved objects
+                </button>
+            </div>
+
+            <dl class="mt-10 grid max-w-md grid-cols-3 border-y border-line py-4">
+                <div>
+                    <dt class="text-[11px] font-bold uppercase tracking-[0.12em] text-ink-secondary">Objects</dt>
+                    <dd class="mt-1 text-xl font-bold tracking-tight text-ink">{{ collectionSize || '...' }}</dd>
+                </div>
+                <div class="border-x border-line px-4">
+                    <dt class="text-[11px] font-bold uppercase tracking-[0.12em] text-ink-secondary">Edition</dt>
+                    <dd class="mt-1 text-xl font-bold tracking-tight text-ink">One of one</dd>
+                </div>
+                <div class="pl-4">
+                    <dt class="text-[11px] font-bold uppercase tracking-[0.12em] text-ink-secondary">Shape</dt>
+                    <dd class="mt-1 text-xl font-bold tracking-tight text-ink">Perfect</dd>
+                </div>
+            </dl>
+        </div>
+
+        <div class="relative min-h-[420px] sm:min-h-[520px]">
+            <div *ngIf="featuredProducts.length >= 3; else heroLoading" class="grid h-[420px] grid-cols-[1.12fr_0.88fr] grid-rows-2 gap-3 sm:h-[520px] sm:gap-4">
+                <button type="button" class="group relative row-span-2 overflow-hidden rounded-[2rem] bg-surface-muted text-left shadow-card" (click)="onViewFeatured(featuredProducts[0])" [attr.aria-label]="'View ' + featuredProducts[0].title">
+                    <img class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]" [src]="featuredProducts[0].imagePath" [alt]="featuredProducts[0].title" (error)="onHeroImageError($event, featuredProducts[0])">
+                    <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent p-5 pt-20 text-white sm:p-7">
+                        <span class="block text-[10px] font-bold uppercase tracking-[0.16em] text-white/65">Featured object</span>
+                        <span class="mt-1 block text-lg font-bold sm:text-2xl">{{ featuredProducts[0].title }}</span>
+                    </span>
+                </button>
+
+                <button type="button" class="group relative overflow-hidden rounded-[1.5rem] bg-surface-muted text-left shadow-card" (click)="onViewFeatured(featuredProducts[1])" [attr.aria-label]="'View ' + featuredProducts[1].title">
+                    <img class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" [src]="featuredProducts[1].imagePath" [alt]="featuredProducts[1].title" (error)="onHeroImageError($event, featuredProducts[1])">
+                    <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-4 pt-12 text-sm font-bold text-white sm:p-5">{{ featuredProducts[1].title }}</span>
+                </button>
+
+                <button type="button" class="group relative overflow-hidden rounded-[1.5rem] bg-surface-muted text-left shadow-card" (click)="onViewFeatured(featuredProducts[2])" [attr.aria-label]="'View ' + featuredProducts[2].title">
+                    <img class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" [src]="featuredProducts[2].imagePath" [alt]="featuredProducts[2].title" (error)="onHeroImageError($event, featuredProducts[2])">
+                    <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-4 pt-12 text-sm font-bold text-white sm:p-5">{{ featuredProducts[2].title }}</span>
+                </button>
+            </div>
+
+            <ng-template #heroLoading>
+                <div class="grid h-[420px] grid-cols-[1.12fr_0.88fr] grid-rows-2 gap-3 sm:h-[520px] sm:gap-4" aria-label="Loading featured cubes">
+                    <div class="skeleton-shimmer row-span-2 rounded-[2rem]"></div>
+                    <div class="skeleton-shimmer rounded-[1.5rem]"></div>
+                    <div class="skeleton-shimmer rounded-[1.5rem]"></div>
+                </div>
+            </ng-template>
+
+            <div class="absolute -bottom-5 -left-3 hidden rotate-[-4deg] rounded-2xl border border-line bg-surface-raised px-5 py-3 shadow-card sm:block">
+                <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-ink-secondary">Curated for</p>
+                <p class="mt-0.5 font-display text-2xl italic text-ink">curious shelves</p>
+            </div>
+        </div>
+    </div>
 </section>
-<mat-drawer-container [autosize]="true" class="!bg-transparent min-h-[calc(100dvh-8rem)] max-w-7xl mx-auto border-x border-line">
-    <mat-drawer #drawer [opened]="isDrawerOpen" [mode]="drawerMode" class="glass-panel !w-72 !border-r !border-y-0 !border-l-0">
+
+<div class="border-y border-line bg-surface-raised/70">
+    <div class="site-shell flex min-h-14 items-center justify-between gap-6 overflow-hidden text-[11px] font-bold uppercase tracking-[0.16em] text-ink-secondary">
+        <span class="whitespace-nowrap">Tiny worlds</span>
+        <span class="text-signal" aria-hidden="true">◆</span>
+        <span class="whitespace-nowrap">Unusual materials</span>
+        <span class="hidden text-signal sm:inline" aria-hidden="true">◆</span>
+        <span class="hidden whitespace-nowrap sm:inline">Excellent geometry</span>
+        <span class="hidden text-signal lg:inline" aria-hidden="true">◆</span>
+        <span class="hidden whitespace-nowrap lg:inline">Catalogued one by one</span>
+    </div>
+</div>
+
+<section id="collection" class="site-shell scroll-mt-24 pb-6 pt-16 sm:pt-20">
+    <div class="flex flex-col gap-4 border-b border-line pb-8 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+            <p class="editorial-label">All objects</p>
+            <h2 class="mt-3 font-display text-5xl leading-none tracking-[-0.035em] text-ink sm:text-6xl">The collection</h2>
+        </div>
+        <p class="max-w-md text-sm leading-6 text-ink-secondary">Search by name, narrow by material and scale, or simply wander through the archive.</p>
+    </div>
+</section>
+
+<mat-drawer-container [autosize]="true" class="site-shell !min-h-[42rem] !overflow-visible !bg-transparent">
+    <mat-drawer #drawer [opened]="isDrawerOpen" [mode]="drawerMode" class="!w-[296px] !border-0 !bg-transparent lg:!w-[312px]">
         <app-filters (categoryChange)="onCategoryChange($event)" (sizeChange)="onSizeChange($event)"
             (minimumPriceChange)="onMinPriceChange($event)"
             (maximumPriceChange)="onMaxPriceChange($event)"></app-filters>
     </mat-drawer>
-    <mat-drawer-content class="!bg-transparent">
-        <div class="w-full">
-            <app-products-header [mobile]="mobile" (columnCountChange)="onColumnCountChange($event)"
+
+    <mat-drawer-content class="!overflow-visible !bg-transparent">
+        <div class="w-full min-w-0 md:pl-6 lg:pl-8">
+            <app-products-header [mobile]="mobile" [resultCount]="products?.length || 0"
+                (filterToggle)="toggleDrawer()"
+                (columnCountChange)="onColumnCountChange($event)"
                 (itemCountChange)="onItemCountChange($event)" (sortChange)="onSortChange($event)"
                 (searchChange)="onSearchChange($event)"></app-products-header>
-            <div *ngIf="isLoading" class="grid grid-cols-1 gap-5 p-4 sm:grid-cols-2 sm:p-6 lg:grid-cols-3 lg:p-8" aria-label="Loading cubes">
-                <div *ngFor="let item of skeletonItems" class="glass-panel overflow-hidden rounded-2xl" aria-hidden="true">
-                    <div class="skeleton-shimmer aspect-square"></div>
-                    <div class="space-y-3 p-5">
-                        <div class="skeleton-shimmer h-3 w-20 rounded-full"></div>
-                        <div class="skeleton-shimmer h-6 w-4/5 rounded-full"></div>
-                        <div class="skeleton-shimmer h-5 w-24 rounded-full"></div>
+
+            <div *ngIf="isLoading" class="grid grid-cols-1 gap-x-5 gap-y-10 py-7 sm:grid-cols-2 lg:grid-cols-3" aria-label="Loading cubes">
+                <div *ngFor="let item of skeletonItems" aria-hidden="true">
+                    <div class="skeleton-shimmer aspect-[4/5] rounded-[1.5rem]"></div>
+                    <div class="mt-4 space-y-3 px-1">
+                        <div class="skeleton-shimmer h-3 w-24 rounded-full"></div>
+                        <div class="skeleton-shimmer h-5 w-4/5 rounded-full"></div>
+                        <div class="skeleton-shimmer h-4 w-20 rounded-full"></div>
                     </div>
                 </div>
             </div>
 
-            <div *ngIf="!isLoading && loadError" class="mx-auto flex max-w-md flex-col items-center px-6 py-24 text-center" role="alert">
-                <mat-icon class="!h-12 !w-12 !text-5xl text-brand">cloud_off</mat-icon>
-                <h2 class="mt-4 font-display text-3xl font-semibold text-ink">The collection did not load</h2>
-                <p class="mt-2 text-sm leading-6 text-ink-secondary">The store may be waking up. Try the request again.</p>
-                <button mat-flat-button color="primary" class="mt-5" (click)="retryProducts()">Try again</button>
+            <div *ngIf="!isLoading && loadError" class="surface-card mx-auto my-12 flex max-w-lg flex-col items-center rounded-[2rem] px-7 py-16 text-center" role="alert">
+                <span class="grid h-14 w-14 place-items-center rounded-full bg-surface-muted text-brand"><mat-icon>cloud_off</mat-icon></span>
+                <h3 class="mt-5 font-display text-4xl leading-none text-ink">The archive is out of reach.</h3>
+                <p class="mt-3 max-w-sm text-sm leading-6 text-ink-secondary">The catalogue service may be waking up. Try the request once more.</p>
+                <button type="button" class="primary-button mt-6" (click)="retryProducts()">Try again</button>
             </div>
 
-            <div *ngIf="!isLoading && !loadError && products?.length === 0" class="mx-auto max-w-md px-6 py-24 text-center">
-                <mat-icon class="!h-12 !w-12 !text-5xl text-brand">search_off</mat-icon>
-                <h2 class="mt-4 font-display text-3xl font-semibold text-ink">No cubes found</h2>
-                <p class="mt-2 text-sm leading-6 text-ink-secondary">Try a broader search or reset the filters.</p>
+            <div *ngIf="!isLoading && !loadError && products?.length === 0" class="surface-card mx-auto my-12 max-w-lg rounded-[2rem] px-7 py-16 text-center">
+                <span class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-surface-muted text-brand"><mat-icon>search_off</mat-icon></span>
+                <h3 class="mt-5 font-display text-4xl leading-none text-ink">No cubes at that angle.</h3>
+                <p class="mt-3 text-sm leading-6 text-ink-secondary">Try a broader search or clear one of the filters.</p>
             </div>
 
             <div *ngIf="!isLoading && !loadError && products?.length"
-                class="grid gap-5 p-4 sm:p-6 lg:p-8"
+                class="grid gap-x-5 gap-y-11 py-7 sm:gap-y-12"
                 [ngClass]="cols === 1
                     ? 'grid-cols-1'
                     : cols === 4

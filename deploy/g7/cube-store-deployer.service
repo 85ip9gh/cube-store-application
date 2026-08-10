@@ -1,0 +1,25 @@
+[Unit]
+Description=Cube Store deployment webhook
+After=network-online.target docker.service
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=simple
+User=pesanth
+Group=pesanth
+WorkingDirectory=/home/pesanth/cube-store-deployer
+EnvironmentFile=/home/pesanth/cube-store-deployer/deploy.env
+Environment=DOCKER_CONFIG=/home/pesanth/cube-store-deployer/docker-config
+ExecStart=/usr/bin/python3 /home/pesanth/cube-store-deployer/deploy-hook.py
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=/home/pesanth/cube-store /home/pesanth/cube-store-deployer
+
+[Install]
+WantedBy=multi-user.target
