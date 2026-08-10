@@ -1,0 +1,201 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+// Custom M2 palettes built from the Cube Store brand tokens (charcoal/ink primary,
+// gold accent, red warn) — same hex values driving the CSS variables below, so
+// Material's own chrome (buttons, form fields, selection states, tables, dialogs)
+// stays in lockstep with the Tailwind-styled surfaces around it.
+$cube-primary-palette: (
+  50: #fafaf9, 100: #f5f5f4, 200: #e7e5e4, 300: #d6d3d1, 400: #a8a29e,
+  500: #78716c, 600: #57534e, 700: #44403c, 800: #292524, 900: #1c1917,
+  A100: #e7e5e4, A200: #d6d3d1, A400: #78716c, A700: #44403c,
+  contrast: (
+    50: #1c1917, 100: #1c1917, 200: #1c1917, 300: #1c1917, 400: #1c1917,
+    500: #fafaf9, 600: #fafaf9, 700: #fafaf9, 800: #fafaf9, 900: #fafaf9,
+    A100: #1c1917, A200: #1c1917, A400: #fafaf9, A700: #fafaf9,
+  )
+);
+
+$cube-accent-palette: (
+  50: #fefce8, 100: #fef9c3, 200: #fef08a, 300: #fde047, 400: #facc15,
+  500: #eab308, 600: #ca8a04, 700: #a16207, 800: #854d0e, 900: #713f12,
+  A100: #fef08a, A200: #fde047, A400: #eab308, A700: #a16207,
+  contrast: (
+    50: #1c1917, 100: #1c1917, 200: #1c1917, 300: #1c1917, 400: #1c1917,
+    500: #1c1917, 600: #1c1917, 700: #fafaf9, 800: #fafaf9, 900: #fafaf9,
+    A100: #1c1917, A200: #1c1917, A400: #1c1917, A700: #fafaf9,
+  )
+);
+
+$cube-warn-palette: (
+  50: #fef2f2, 100: #fee2e2, 200: #fecaca, 300: #fca5a5, 400: #f87171,
+  500: #ef4444, 600: #dc2626, 700: #b91c1c, 800: #991b1b, 900: #7f1d1d,
+  A100: #fecaca, A200: #fca5a5, A400: #ef4444, A700: #b91c1c,
+  contrast: (
+    50: #1c1917, 100: #1c1917, 200: #1c1917, 300: #1c1917, 400: #1c1917,
+    500: #fafaf9, 600: #fafaf9, 700: #fafaf9, 800: #fafaf9, 900: #fafaf9,
+    A100: #1c1917, A200: #1c1917, A400: #fafaf9, A700: #fafaf9,
+  )
+);
+
+$cube-primary: mat.define-palette($cube-primary-palette, 800, 600, 900);
+$cube-accent: mat.define-palette($cube-accent-palette, 700, 500, 800);
+$cube-warn: mat.define-palette($cube-warn-palette, 600, 400, 700);
+
+$cube-typography: mat.define-typography-config(
+  $font-family: 'Montserrat, ui-sans-serif, system-ui, sans-serif',
+  $headline-3: mat.define-typography-level(34px, 1.2, 600, 'Cormorant, serif'),
+  $headline-4: mat.define-typography-level(28px, 1.2, 600, 'Cormorant, serif'),
+);
+
+$cube-light-theme: mat.define-light-theme((
+  color: (primary: $cube-primary, accent: $cube-accent, warn: $cube-warn),
+  typography: $cube-typography,
+  density: 0,
+));
+
+$cube-dark-theme: mat.define-dark-theme((
+  color: (primary: $cube-primary, accent: $cube-accent, warn: $cube-warn),
+  typography: $cube-typography,
+  density: 0,
+));
+
+@include mat.all-component-themes($cube-light-theme);
+
+.dark {
+  @include mat.all-component-colors($cube-dark-theme);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 250 250 249;
+  --ink: 28 25 23;
+  --ink-secondary: 87 83 78;
+  --accent: 161 98 7;
+  --accent-dark: 133 77 14;
+  --border: 214 211 209;
+  --destructive: 220 38 38;
+  --glass: 255 255 255;
+  --glass-border: 28 25 23;
+}
+
+.dark {
+  --bg: 12 10 9;
+  --ink: 250 250 249;
+  --ink-secondary: 168 162 158;
+  --accent: 212 175 55;
+  --accent-dark: 234 179 8;
+  --border: 68 64 60;
+  --destructive: 248 113 113;
+  --glass: 28 25 23;
+  --glass-border: 255 255 255;
+}
+
+html, body { min-height: 100%; }
+body {
+    margin: 0;
+    font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+    background-color: rgb(var(--bg));
+    background-image:
+      radial-gradient(circle at 10% 0%, rgb(var(--accent) / 0.08), transparent 28rem),
+      radial-gradient(circle at 90% 18%, rgb(var(--ink) / 0.035), transparent 30rem);
+    background-attachment: fixed;
+    color: rgb(var(--ink));
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+button, a, [tabindex] {
+    &:focus-visible {
+        outline: 3px solid rgb(var(--accent) / 0.65);
+        outline-offset: 3px;
+    }
+}
+
+// !important: Material's own generated component styles (.mat-toolbar,
+// .mat-mdc-card, .mat-drawer, etc.) set their own opaque background-color
+// with selector specificity/injection order this class can't reliably beat
+// otherwise — confirmed via computed-style inspection that without
+// !important, Material's background wins and the glass effect is invisible.
+.glass-panel {
+    background-color: rgb(var(--glass) / 0.55) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgb(var(--glass-border) / 0.1) !important;
+}
+
+.skeleton-shimmer {
+    background: linear-gradient(
+      100deg,
+      rgb(var(--border) / 0.42) 20%,
+      rgb(var(--glass) / 0.88) 45%,
+      rgb(var(--border) / 0.42) 70%
+    );
+    background-size: 240% 100%;
+    animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+    from { background-position: 100% 0; }
+    to { background-position: -100% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+// Consistent "photo mat" behind every product image.
+// The cube source images (served from the backend) have varied opaque
+// backgrounds baked in — light gradients, dark navy, etc. — so there is no
+// card color that makes all of them look intentional. Framing each photo on
+// the same neutral tile makes the catalog read as uniform product
+// photography instead of a patchwork of mismatched rectangles.
+// Light mode keeps a near-white mat (bright tiles were never a problem on a
+// light page). Dark mode uses a muted warm gray so the photos sit back into
+// the dark UI rather than glowing as bright squares.
+.photo-tile {
+    background-color: #fafaf9;
+}
+
+.dark .photo-tile {
+    background-color: #d6d3d1;
+}
+
+::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; /* Background color of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(var(--border)); /* Background color of the scrollbar thumb */
+    border-radius: 8px; /* Radius of the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--ink-secondary)); /* Background color of the scrollbar thumb on hover */
+}
+
+.mat-toolbar {
+    padding-left: 0;
+    padding-right: 0;
+    background-color: transparent;
+}
+
+.mat-mdc-card {
+    border-radius: 14px;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.mat-mdc-raised-button, .mat-mdc-outlined-button, .mat-mdc-unelevated-button {
+    border-radius: 10px;
+}

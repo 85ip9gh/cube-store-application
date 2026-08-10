@@ -10,13 +10,19 @@
 
     <div *ngIf="product" class="flex flex-col md:flex-row gap-8 mt-4">
         <div class="md:w-1/2 flex justify-center">
-            <img [src]="product.imagePath" [alt]="product.title" class="w-full max-w-[400px] h-[400px] object-contain">
+            <div class="photo-tile rounded-2xl border border-line/50 p-6 w-full flex justify-center">
+                <img *ngIf="!imageFailed" [src]="imageSrc || product.imagePath" [alt]="product.title" (error)="onImageError()" class="aspect-square w-full max-w-[400px] object-cover rounded-xl">
+                <div *ngIf="imageFailed" class="flex aspect-square w-full max-w-[400px] flex-col items-center justify-center gap-3 text-ink-secondary" role="img" [attr.aria-label]="product.title + ' image unavailable'">
+                    <mat-icon class="!h-16 !w-16 !text-7xl text-brand/60">view_in_ar</mat-icon>
+                    <span class="text-xs font-semibold uppercase tracking-[0.18em]">Image unavailable</span>
+                </div>
+            </div>
         </div>
         <div class="md:w-1/2 flex flex-col gap-2">
-            <p class="opacity-75 text-sm">{{ product.category }} &middot; {{ product.size }}</p>
-            <p class="mat-headline-4">{{ product.title }}</p>
-            <p class="text-red-400 text-2xl">{{ product.price | currency }}</p>
-            <p class="opacity-75">{{ product.rarity }} &middot; {{ product.weight }}kg</p>
+            <p class="text-ink-secondary text-sm">{{ product.category }} &middot; {{ product.size }}</p>
+            <h1 class="font-display text-4xl font-semibold leading-tight text-ink">{{ product.title }}</h1>
+            <p class="text-highlight text-2xl font-semibold">{{ product.price | currency }}</p>
+            <p class="text-ink-secondary">{{ product.rarity }} &middot; {{ product.weight }}kg</p>
             <p class="mt-4 whitespace-pre-line">{{ product.description }}</p>
             <div class="flex gap-2 mt-4">
                 <button mat-raised-button color="primary" (click)="onAddToCart()">

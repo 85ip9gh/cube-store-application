@@ -1,45 +1,45 @@
-<div>
-    <div class="flex justify-end p-2">
-        <button mat-button (click)="onReset()">
+<div class="flex flex-col gap-3 p-3 w-full">
+    <div class="flex justify-end">
+        <button mat-button (click)="onReset()" class="!text-ink-secondary">
             <mat-icon class="text-base">restart_alt</mat-icon>
             Reset filters
         </button>
     </div>
-    <mat-expansion-panel *ngIf="categories">
-        <mat-expansion-panel-header class="shadow-inner">
-            <mat-panel-title class="text-center">
+    <mat-expansion-panel *ngIf="categories" class="!rounded-xl !shadow-none glass-panel">
+        <mat-expansion-panel-header>
+            <mat-panel-title class="text-center font-display text-lg text-ink">
                 Category
             </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-selection-list [multiple]="false" hideSingleSelectionIndicator>
-            <mat-list-option class="text-center" color="primary" [selected]="selectedCategory === ''" (click)="onCategoryUpdate('')">
+            <mat-list-option class="text-center" color="accent" [selected]="selectedCategory === ''" (click)="onCategoryUpdate('')">
                 All
             </mat-list-option>
-            <mat-list-option class="text-center" color="primary" *ngFor="let category of categories" [value]="category"
+            <mat-list-option class="text-center" color="accent" *ngFor="let category of categories" [value]="category"
                 [selected]="selectedCategory === category" (click)="onCategoryUpdate(category)">
                 {{category}}
             </mat-list-option>
         </mat-selection-list>
     </mat-expansion-panel>
-    <mat-expansion-panel *ngIf="sizes">
-        <mat-expansion-panel-header class="shadow-inner">
-            <mat-panel-title class="text-center">
+    <mat-expansion-panel *ngIf="sizes" class="!rounded-xl !shadow-none glass-panel">
+        <mat-expansion-panel-header>
+            <mat-panel-title class="text-center font-display text-lg text-ink">
                 Size
             </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-selection-list [multiple]="false" hideSingleSelectionIndicator>
-            <mat-list-option class="text-center" color="primary" [selected]="selectedSize === ''" (click)="onSizeUpdate('')">
+            <mat-list-option class="text-center" color="accent" [selected]="selectedSize === ''" (click)="onSizeUpdate('')">
                 All
             </mat-list-option>
-            <mat-list-option class="text-center" color="primary" *ngFor="let size of sizes" [value]="size"
+            <mat-list-option class="text-center" color="accent" *ngFor="let size of sizes" [value]="size"
                 [selected]="selectedSize === size" (click)="onSizeUpdate(size)">
                 {{size}}
             </mat-list-option>
         </mat-selection-list>
     </mat-expansion-panel>
-    <mat-expansion-panel>
-        <mat-expansion-panel-header class="shadow-inner">
-            <mat-panel-title class="text-center">
+    <mat-expansion-panel class="!rounded-xl !shadow-none glass-panel">
+        <mat-expansion-panel-header>
+            <mat-panel-title class="text-center font-display text-lg text-ink">
                 Price
             </mat-panel-title>
         </mat-expansion-panel-header>
