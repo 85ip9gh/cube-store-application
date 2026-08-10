@@ -4,6 +4,10 @@ import jwt from 'jsonwebtoken';
 export async function login(req, res) {
     const { username, password } = req.body;
 
+    if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD_HASH || !process.env.JWT_SECRET) {
+        return res.status(503).send('Admin login is unavailable');
+    }
+
     if (username !== process.env.ADMIN_USERNAME) {
         return res.status(401).send('Invalid credentials');
     }
@@ -13,6 +17,10 @@ export async function login(req, res) {
         return res.status(401).send('Invalid credentials');
     }
 
-    const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    const token = jwt.sign({ username }, process.env.JWT_SECRET, {
+        expiresIn: '1h',
+        issuer: 'cubemint',
+        audience: 'cubemint-admin'
+    });
     res.json({ token });
 }
