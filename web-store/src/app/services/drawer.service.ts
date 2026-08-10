@@ -19,16 +19,13 @@ export class DrawerService {
 
   toggleDrawer(drawer: boolean): void {
     this.drawerState.next(drawer);
-    console.log("drawer service toggleDrawer " + drawer);
   }
 
   toggleCart(cart: boolean): void {
     this.cartState.next(cart);
-    console.log("drawer service toggleCart " + cart);
   }
 
   toggleMobile(mobile: boolean): void {
     this.mobileState.next(mobile);
-    console.log("drawer service toggleMobile " + mobile);
   }
 }
