@@ -45,6 +45,7 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false
 }));
 
+app.use(enforcePublicReadOnly);
 app.use(express.urlencoded({ extended: false, limit: '25kb' }));
 app.use(express.json({ limit: '100kb' }));
 
@@ -54,7 +55,7 @@ if (configuredOrigins.length > 0) {
       if (!origin || configuredOrigins.includes(origin)) {
         return callback(null, true);
       }
-      return callback(new Error('Origin is not allowed'));
+      return callback(null, false);
     },
     credentials: false
   }));
@@ -92,7 +93,6 @@ const sensitiveLimiter = rateLimit({
   legacyHeaders: false
 });
 
-app.use(enforcePublicReadOnly);
 app.use('/api', apiLimiter);
 app.use('/api', cubeRouter);
 app.use('/api/auth', sensitiveLimiter, authRouter);
