@@ -1,12 +1,12 @@
-# CubeMint
+# Cube Store
 
-CubeMint is a full-stack commerce platform for browsing, filtering, wishlisting, and purchasing a catalogue of AI-generated artisan cubes. It combines an Angular storefront with an Express API, MongoDB persistence, Stripe Checkout, image processing, authentication, and Docker packaging.
+Cube Store is a full-stack commerce platform for browsing, filtering, wishlisting, and purchasing a catalogue of AI-generated artisan cubes. It combines an Angular storefront with an Express API, MongoDB persistence, Stripe Checkout, image processing, authentication, and Docker packaging.
 
-> **Project status:** The source and local architecture are available for review. The former AWS deployment is offline, so this repository does not claim a live public demo.
+> **Project status:** A public, read-only demo is hosted from the g7 server. Checkout, authentication, and data mutations are disabled.
 
-![CubeMint storefront](./images/Cube_Store_V2.jpg)
+![Cube Store storefront](./images/Cube_Store_V2.jpg)
 
-[Technical overview](https://pesanth.com/work/cubemint) · [Portfolio](https://pesanth.com)
+[Live demo](https://cubestore.pesanth.com) · [Technical overview](https://pesanth.com/work/cubemint) · [Portfolio](https://pesanth.com)
 
 ## What this project demonstrates
 
