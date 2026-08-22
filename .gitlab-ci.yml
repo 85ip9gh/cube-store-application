@@ -1,0 +1,227 @@
+# GitLab port of .github/workflows/security.yml.
+#
+# The same three gates, the same pinned scanner versions, the same thresholds.
+# This file exists so the gates are demonstrably not a GitHub Actions trick, and
+# so the pipeline runs on hardware that costs nothing to run it on.
+#
+# No path filters, deliberately, exactly as on GitHub. A supply-chain gate that
+# skips depending on which files a change touched is not a gate.
+#
+# RUNNER: a self-hosted shell runner on g7, tagged `g7`. Shell rather than the
+# docker executor for one concrete reason: the image gate builds the production
+# image from a staged context, and with the docker executor the host daemon
+# cannot see a path that exists only inside the job container, so the build
+# fails on a path that visibly exists. The alternative is a privileged
+# docker-in-docker service, which is a poor thing to introduce in the name of
+# supply-chain security. Shell keeps the workspace on the host where the daemon
+# can read it, and every scanner still runs from a pinned image.
+#
+# Self-hosted also means the 400 shared-runner minutes a month on GitLab Free
+# are never touched. Self-hosted runners consume zero of that quota.
+
+stages:
+  - security
+
+variables:
+  # GitLab shallow-clones by default. That is the single most important line in
+  # this file. gitleaks scans history, the known Stripe test key predates these
+  # gates, and a truncated clone would let the gate pass while the value is
+  # still reachable in the published history of a public repository. GitHub
+  # needed `fetch-depth: 0` for the same reason; here it is GIT_DEPTH.
+  GIT_DEPTH: "0"
+  # Clone rather than reuse the workspace. A shell runner keeps its build
+  # directory between jobs, and a scan that reads leftover files from an earlier
+  # run is reporting on something other than the commit under test.
+  GIT_STRATEGY: clone
+  GITLEAKS_VERSION: "8.30.1"
+  CHECKOV_IMAGE: "ghcr.io/bridgecrewio/checkov:3.3.13"
+  TRIVY_IMAGE: "aquasec/trivy:0.74.0"
+  # Trivy re-downloads its vulnerability database on every cold start. On a
+  # self-hosted runner that is wasted bandwidth and a needless dependency on
+  # the database host being up, so it is cached on the machine.
+  TRIVY_CACHE_DIR: "/var/cache/trivy"
+
+default:
+  tags:
+    - g7
+  interruptible: true
+
+.security_rules: &security_rules
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "web"
+
+secrets:
+  stage: security
+  <<: *security_rules
+  timeout: 15 minutes
+  script:
+    - set -euo pipefail
+    # The scanner is pinned and fetched per run rather than baked into the
+    # runner host, so the version this pipeline used is readable in this file
+    # rather than in whatever state someone left the server in.
+    - |
+      url="https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+      curl --silent --show-error --fail --location --output gitleaks.tar.gz "$url"
+      tar -xzf gitleaks.tar.gz gitleaks
+      chmod 0755 gitleaks
+      ./gitleaks version
+    # Full history, not the diff, and --redact so no hit is ever printed into a
+    # job log that anyone with the project URL can read.
+    - ./gitleaks git . --no-banner --redact --verbose --exit-code 1 --report-format json --report-path gitleaks-report.json
+  after_script:
+    - rm -f gitleaks gitleaks.tar.gz
+  artifacts:
+    when: always
+    expire_in: 30 days
+    paths:
+      - gitleaks-report.json
+
+deps:
+  stage: security
+  <<: *security_rules
+  timeout: 20 minutes
+  script:
+    - set -euo pipefail
+    # ignore-unfixed is deliberately not set, matching GitHub. A CVE with no
+    # upstream fix is allowlisted by hand in .trivyignore with a dated reason,
+    # so the judgement is recorded. Blanket-hiding unfixed findings erases it.
+    - |
+      docker run --rm \
+        --volume "$PWD:/repo" \
+        --volume "$TRIVY_CACHE_DIR:/root/.cache/trivy" \
+        --workdir /repo \
+        "$TRIVY_IMAGE" filesystem \
+        --scanners vuln \
+        --severity HIGH,CRITICAL \
+        --exit-code 1 \
+        --format table \
+        --output trivy-fs.txt \
+        --ignorefile .trivyignore \
+        --no-progress \
+        . || FS_STATUS=$?
+      echo "${FS_STATUS:-0}" > .fs-status
+    # The image that runs on g7 is built from deploy/g7/Dockerfile, whose build
+    # context is staged at deploy time and is not committed. Rebuild that
+    # context here: the server tree plus an empty frontend directory. The
+    # frontend is compiled static assets with no package manifest, so it adds
+    # nothing an image scan would read.
+    - |
+      stage="$CI_PROJECT_DIR/.image-context"
+      rm -rf "$stage"
+      mkdir -p "$stage/server" "$stage/frontend"
+      cp web-store/server/package.json "$stage/server/"
+      cp web-store/server/package-lock.json "$stage/server/"
+      cp web-store/server/index.js "$stage/server/"
+      cp -r web-store/server/controllers "$stage/server/"
+      cp -r web-store/server/middleware "$stage/server/"
+      cp -r web-store/server/Models "$stage/server/"
+      cp -r web-store/server/routes "$stage/server/"
+      cp deploy/g7/.dockerignore "$stage/.dockerignore"
+      docker build --file deploy/g7/Dockerfile --tag "cubestore:scan-$CI_PIPELINE_ID" "$stage"
+    - |
+      docker run --rm \
+        --volume "$PWD:/repo" \
+        --volume "$TRIVY_CACHE_DIR:/root/.cache/trivy" \
+        --volume /var/run/docker.sock:/var/run/docker.sock \
+        --workdir /repo \
+        "$TRIVY_IMAGE" image \
+        --scanners vuln \
+        --severity HIGH,CRITICAL \
+        --exit-code 1 \
+        --format table \
+        --output trivy-image.txt \
+        --ignorefile .trivyignore \
+        --no-progress \
+        "cubestore:scan-$CI_PIPELINE_ID" || IMAGE_STATUS=$?
+      echo "${IMAGE_STATUS:-0}" > .image-status
+    # Both scans write to a file so the reports survive as artifacts. Print them
+    # as well, otherwise a failing gate says nothing in the job log.
+    - |
+      for report in trivy-fs.txt trivy-image.txt; do
+        echo "===== $report ====="
+        if [ -s "$report" ]; then cat "$report"; else echo "no findings at HIGH or CRITICAL"; fi
+      done
+    # Fail after both scans have reported, not at the first one. A gate that
+    # stops at the filesystem finding hides whatever the image scan would have
+    # said, so the next run surfaces a second wave of findings that were there
+    # all along.
+    - |
+      fs=$(cat .fs-status); img=$(cat .image-status)
+      if [ "$fs" != "0" ] || [ "$img" != "0" ]; then
+        echo "gate failed: filesystem exit $fs, image exit $img"
+        exit 1
+      fi
+  after_script:
+    # The tag is pipeline-scoped so concurrent pipelines cannot delete each
+    # other's image, and it is removed either way so the runner host does not
+    # accumulate one scan image per pipeline.
+    - docker image rm --force "cubestore:scan-$CI_PIPELINE_ID" >/dev/null 2>&1 || true
+    - rm -rf "$CI_PROJECT_DIR/.image-context"
+  artifacts:
+    when: always
+    expire_in: 30 days
+    paths:
+      - trivy-fs.txt
+      - trivy-image.txt
+
+iac:
+  stage: security
+  <<: *security_rules
+  timeout: 10 minutes
+  script:
+    - set -euo pipefail
+    # Checkov has no docker_compose framework. Verified against 3.3.13, whose
+    # valid frameworks are dockerfile, kubernetes, yaml, github_actions and
+    # others, with no compose entry among them. compose.yaml is therefore not
+    # covered by this gate and its hardening is reviewed by hand.
+    #
+    # gitlab_ci is in scope here where github_actions is on the other side. This
+    # file is now a supply-chain surface of its own, and a pipeline that scans
+    # everything except itself has an obvious hole in it.
+    #
+    # BE HONEST ABOUT WHAT THAT FRAMEWORK BUYS: very little. It has four checks
+    # and only one of them is worth anything here. CKV_GITLABCI_2, the
+    # double-pipeline rule, is real and was proved to block on 2026-08-22 by
+    # planting rules matching both merge_request_event and push, which failed
+    # with exit 1. CKV_GITLABCI_3 only reports which images a job uses.
+    # CKV_GITLABCI_1 CANNOT FIRE ON THIS FILE OR ANY OTHER: reading the check
+    # out of the 3.3.13 image shows it is a CircleCI class bound to
+    # `jobs.*.steps[]` and looking for a `run` key, and a GitLab job has
+    # `script`, never `steps` or `run`. It is a permanent pass, not a clean bill
+    # of health. Compare the github_actions side, which carries 128 checks.
+    # Same lesson as the dependency gate that reported clean because it had
+    # found nothing to read: a passing scanner is a claim about the scanner.
+    #
+    # CKV_IGNORE_HIDDEN_DIRECTORIES=false is not cosmetic. Checkov skips
+    # dot-directories by default, which was proved on the gate-proof branch: a
+    # Dockerfile with no USER and no HEALTHCHECK passed cleanly inside a hidden
+    # directory and failed immediately once moved to a visible path.
+    # .devcontainer/Dockerfile is the common real case that would otherwise
+    # never be scanned.
+    #
+    # It is a directory flag and not a file one. .gitlab-ci.yml is a hidden
+    # file, and checkov reads it with or without the flag: verified 2026-08-22
+    # by running the gitlab_ci framework both ways against this repository and
+    # getting 9 checks either time. The flag is here for .devcontainer and its
+    # kind, not for this file.
+    - |
+      docker run --rm \
+        --volume "$PWD:/repo" \
+        --workdir /repo \
+        --env CKV_IGNORE_HIDDEN_DIRECTORIES=false \
+        "$CHECKOV_IMAGE" \
+        --directory . \
+        --framework dockerfile kubernetes github_actions gitlab_ci \
+        --skip-path node_modules \
+        --skip-path '^\.git/' \
+        --skip-download \
+        --compact \
+        --quiet \
+        --output cli | tee checkov-report.txt
+  artifacts:
+    when: always
+    expire_in: 30 days
+    paths:
+      - checkov-report.txt

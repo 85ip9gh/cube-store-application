@@ -1,0 +1,150 @@
+# The GitLab pipeline
+
+The same three gates as `.github/workflows/security.yml`, running on GitLab CI
+against a mirror of this repository. It exists so the gates are demonstrably not
+a GitHub Actions trick.
+
+**Status: the pipeline file and the mirror are written and locally proved. The
+GitLab project does not exist yet, so no pipeline has run there.** Nothing may
+claim GitLab CI as a skill until one has.
+
+## Why a mirror at all
+
+GitLab pull mirroring, where GitLab fetches from GitHub on a schedule, is a
+Premium feature. Verified 2026-08-20. On the free tier the push has to come from
+the GitHub side, which is what `.github/workflows/mirror-gitlab.yml` does on
+every push to `main`.
+
+One direction only. GitHub is the source of truth, GitLab is a read-only copy
+that exists to run a pipeline, and nothing is ever merged on the GitLab side, so
+there is no divergence to reconcile.
+
+## What was proved locally, 2026-08-22
+
+Every command in `.gitlab-ci.yml` was run against this repository before the file
+was committed, on Docker 29.7.2. A pipeline that has never executed its own
+commands is a guess.
+
+| gate | command | result |
+|---|---|---|
+| secrets | gitleaks 8.30.1, full history | 125 commits scanned, no leaks, exit 0 |
+| deps, filesystem | trivy 0.74.0 `filesystem` | 0 findings at HIGH or CRITICAL, exit 0 |
+| deps, image | trivy 0.74.0 `image` on the staged production image | 0 findings at HIGH or CRITICAL, exit 0 |
+| iac | checkov 3.3.13, four frameworks | 305 passed, 0 failed, exit 0 |
+
+The 125 commits matter more than the zero. A shallow clone would have scanned a
+handful and reported the same clean result.
+
+## The one line to not delete
+
+```yaml
+GIT_DEPTH: "0"
+```
+
+GitLab shallow-clones by default, where GitHub Actions clones fully unless told
+otherwise. The known Stripe test key predates these gates, so a truncated clone
+would let the secret gate pass while the value is still reachable in the
+published history of a public repository. This is the same requirement as
+`fetch-depth: 0` on the GitHub side, and it is easier to lose here because the
+unsafe behaviour is the default.
+
+## Why a shell runner and not the docker executor
+
+The image gate builds the production image from a context staged at job time.
+With the docker executor that context exists only inside the job container, and
+the host daemon it hands the build to cannot see the path, so the build fails on
+a directory that visibly exists.
+
+The usual answer is a privileged docker-in-docker service. Introducing a
+privileged container in the name of supply-chain security is a poor trade, so
+the runner is a shell runner instead: the workspace is a real path on the host,
+the daemon can read it, and every scanner still runs from a pinned image.
+
+The cost is stated rather than hidden. A shell runner executes job scripts
+directly on g7 as the runner user. That is acceptable here because the machine
+runs one person's own repositories and nothing accepts jobs from a fork or a
+stranger. It would not be acceptable on a shared or public project.
+
+## What checkov's gitlab_ci framework actually buys
+
+Very little, and the file says so where the flag is set.
+
+It has four checks. `CKV_GITLABCI_2`, the double-pipeline rule, is real: proved
+to block on 2026-08-22 by planting rules matching both `merge_request_event` and
+`push`, which failed with exit 1. `CKV_GITLABCI_3` reports which images a job
+uses. `CKV_GITLABCI_1` **cannot fire on any GitLab file at all**: reading the
+check out of the 3.3.13 image shows it is a CircleCI class bound to
+`jobs.*.steps[]` looking for a `run` key, and a GitLab job has `script`, never
+`steps` or `run`. It is a permanent pass rather than a clean bill of health.
+
+Nine gitlab_ci checks pass on this file against 148 on the GitHub Actions side.
+Scanning the pipeline definition is worth doing and it is not worth much.
+
+Same lesson as the dependency gate that first reported clean because it had
+found nothing to read: a passing scanner is a claim about the scanner.
+
+## Remaining setup, in order
+
+None of this can be done without a GitLab account, which is a signup.
+
+1. **Create the GitLab account and an empty project.** Do not initialise it with
+   a README. The first mirror push writes `main`, and an initialising commit
+   would make that push a non-fast-forward.
+2. **Create a project access token** with the `write_repository` scope. Copy it
+   once; GitLab does not show it again.
+3. **Add two GitHub repository secrets** so the mirror workflow stops skipping:
+   - `GITLAB_MIRROR_URL`, the plain `https://gitlab.com/<namespace>/<project>.git`
+     with no credentials in it
+   - `GITLAB_TOKEN`, the project access token
+4. **Install and register the runner on g7**, tagged `g7`. Untagged jobs are
+   refused by default and every job in `.gitlab-ci.yml` carries that tag.
+   Checked on g7 2026-08-22: `gitlab-runner` is not installed, the host is
+   Ubuntu noble, and the `docker` group exists with `pesanth` in it.
+
+   ```bash
+   # On g7.
+   curl --silent --show-error --fail --location \
+     https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
+   sudo apt-get install --yes gitlab-runner
+   ```
+
+   ```bash
+   # The runner authentication token comes from the GitLab project under
+   # Settings, CI/CD, Runners, after creating a project runner with the tag g7.
+   sudo gitlab-runner register \
+     --non-interactive \
+     --url https://gitlab.com/ \
+     --token "<runner authentication token>" \
+     --executor shell \
+     --description "g7-shell"
+   sudo usermod --append --groups docker gitlab-runner
+   sudo systemctl restart gitlab-runner
+   ```
+
+   The `usermod` line is not optional. Every gate shells out to Docker, and
+   without it each one fails on a permission denied against the socket. The
+   package installs its own `gitlab-runner` user, which is not in that group.
+
+   Note what this grants. Membership of the `docker` group is root-equivalent on
+   the host, because anyone who can talk to the socket can start a privileged
+   container. Combined with the shell executor it means a job script on this
+   runner can do anything on g7. That is the trade accepted above and it is the
+   reason this runner must never be attached to a project that accepts merge
+   requests from strangers.
+
+5. **Create the trivy cache directory** the pipeline mounts, owned by the runner
+   user, or the first scan fails on a path it cannot write:
+
+   ```bash
+   sudo install --directory --owner gitlab-runner --group gitlab-runner /var/cache/trivy
+   ```
+
+6. **Push to `main` and watch the mirror fire**, then confirm the GitLab pipeline
+   runs all three jobs and goes green.
+7. **Only then** add the `GitLab CI` row to `resume/skills.csv`.
+
+## Cost
+
+Zero. GitLab Free gives 400 shared-runner compute minutes a month per top-level
+namespace, and self-hosted runners consume none of that quota on any plan, so
+the minutes are never touched.
