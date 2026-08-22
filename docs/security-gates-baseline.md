@@ -158,7 +158,17 @@ node-pkg findings, including `CVE-2026-59873`, because every one of them
 belonged to npm's own bundled dependencies rather than to this application.
 
 Surface reduction rather than suppression, and the image gets smaller as a side
-effect. The two remaining Alpine findings close on a base image rebuild.
+effect.
+
+That left the two Alpine findings, both `CVE-2026-45447` in `libcrypto3` and
+`libssl3`. `node:20-alpine` ships openssl 3.5.6-r0 while Alpine has already
+published 3.5.7-r0, so this was **the base image lagging its own distribution**
+rather than a vulnerability with no answer. The Dockerfile now pulls those two
+patched packages instead of waiting for the node image to rebuild. Targeted
+rather than a blanket `apk upgrade`, so the drift stays readable, and it becomes
+a no-op once the base image catches up.
+
+The image scan is clean.
 
 ## iac: two fixed, two skipped in place
 
@@ -175,6 +185,27 @@ effect. The two remaining Alpine findings close on a base image rebuild.
   Adding an untested `USER` to an image nothing builds would satisfy the scanner
   while risking a broken image. **Deleting the file is the correct fix and is
   not done here because it is a separate decision.**
+
+## Proving the gates block, and the blind spot it found
+
+Three gates passing is not evidence that three gates work. It can equally mean
+they are looking at nothing. So each one was deliberately broken on a throwaway
+branch: a fabricated Stripe-shaped string, `lodash@4.17.15` with known HIGH
+advisories, and a Dockerfile with no `USER` and no `HEALTHCHECK`.
+
+**Two caught their defect. Checkov did not.** The planted Dockerfile sat in
+`.gate-proof` and passed cleanly. Moving that identical file to a visible path
+made it fail immediately.
+
+**Checkov skips dot-directories by default.** `.devcontainer/Dockerfile` is the
+ordinary real case that would never have been scanned, and the gate would have
+gone on reporting green while not looking. `CKV_IGNORE_HIDDEN_DIRECTORIES=false`
+turns that off, with `.git` skipped explicitly because walking the object store
+finds nothing and costs time.
+
+Retested with the planted Dockerfile back inside the hidden directory: all three
+gates fail. **That is the only reason there is any evidence these gates enforce
+anything**, and it is worth more than the green run that preceded it.
 
 ## Still open
 
