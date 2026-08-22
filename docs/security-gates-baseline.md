@@ -2,7 +2,8 @@
 
 What the three gates found on their first run, before anything was fixed.
 
-Captured 2026-08-22 from [run 32544605017](https://github.com/85ip9gh/cube-store-application/actions/runs/32544605017)
+Captured 2026-08-21 local, from [run 32544605017](https://github.com/85ip9gh/cube-store-application/actions/runs/32544605017)
+whose own timestamps are UTC and therefore read 2026-08-22,
 on branch `security/supply-chain-gates`. Reports are attached to that run as
 artifacts. This file is the permanent record, because artifacts expire.
 
