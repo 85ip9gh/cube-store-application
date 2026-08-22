@@ -165,10 +165,19 @@ jobs:
       - name: Checkov
         run: |
           set -euo pipefail
-          docker run --rm --volume "$PWD:/repo" --workdir /repo "$CHECKOV_IMAGE" \
+          # CKV_IGNORE_HIDDEN_DIRECTORIES=false is not cosmetic. Checkov skips
+          # dot-directories by default, which was proved on the gate-proof
+          # branch: a Dockerfile with no USER and no HEALTHCHECK passed cleanly
+          # inside .gate-proof and failed immediately once moved to a visible
+          # path. .devcontainer/Dockerfile is the common real case that would
+          # otherwise never be scanned. .git is skipped explicitly, since
+          # walking the object store finds nothing and costs time.
+          docker run --rm --volume "$PWD:/repo" --workdir /repo \
+            --env CKV_IGNORE_HIDDEN_DIRECTORIES=false "$CHECKOV_IMAGE" \
             --directory . \
             --framework dockerfile kubernetes github_actions \
             --skip-path node_modules \
+            --skip-path '^\.git/' \
             --skip-download \
             --compact \
             --quiet \
