@@ -15,7 +15,7 @@ services:
       PORT: "4242"
       FRONTEND_URL: https://cubestore.pesanth.com
       PUBLIC_READ_ONLY: "true"
-      CHECKOUT_ENABLED: "false"
+      CHECKOUT_ENABLED: "true"
       CORS_ORIGINS: https://cubestore.pesanth.com
     ports:
       - "100.79.13.73:4242:4242"

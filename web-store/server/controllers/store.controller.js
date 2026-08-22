@@ -105,7 +105,10 @@ export async function checkout(req, res, next){
             cancel_url: `${process.env.FRONTEND_URL}/#/home`
         });
 
-        res.status(200).json(session);
+        // Only what the browser needs to continue. The full session object
+        // carries a good deal more than that and none of it belongs in a
+        // response to an unauthenticated caller.
+        res.status(200).json({ id: session.id, url: session.url });
     } catch (error) {
         next(error);
     }
