@@ -1,5 +1,13 @@
 FROM node:20-alpine
 
+# The base image lags Alpine's own package repository. node:20-alpine currently
+# ships openssl 3.5.6-r0, which carries CVE-2026-45447 in libcrypto3 and
+# libssl3, and Alpine has already published 3.5.7-r0. Pull the patched packages
+# rather than waiting for the node image to rebuild. Targeted rather than a
+# blanket `apk upgrade`, so the drift from the base image stays small and
+# readable, and it is a no-op once the base image catches up.
+RUN apk upgrade --no-cache libcrypto3 libssl3
+
 ENV NODE_ENV=production \
     NODE_OPTIONS=--max-old-space-size=192 \
     PORT=4242
