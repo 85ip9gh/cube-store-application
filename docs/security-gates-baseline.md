@@ -108,3 +108,82 @@ development images. Neither is used by the g7 deployment.
   already tracked. Trivy reads the lockfile rather than the vendored tree, so
   this did not distort the dependency numbers above, but it remains a repository
   hygiene problem worth its own change.
+
+---
+
+# What was done about it
+
+Added 2026-08-21. The baseline above is left exactly as first recorded. This
+section says what happened to each finding, so the two can be read side by side.
+
+## secrets: closed
+
+The Stripe test key was rotated at Stripe, then removed from branch history with
+`git filter-repo`. Verified before pushing: zero matches for the key pattern
+against 102 before, 102 redaction markers, and **identical tree hashes on both
+branches**, so only historical blobs moved and the current code is unchanged.
+The gate passes.
+
+**It is not fully gone.** `refs/pull/*` still carries the key, measured at 102
+matches. GitHub pins every pull request's head commit and a force-push cannot
+reach those refs, so only GitHub Support can purge them. **The rotation is what
+closed the exposure. The scrub bought clean branch history and a green gate.**
+
+## deps, filesystem: one fixed, twelve allowlisted
+
+**`mongoose` was removed from `web-store/package.json`.** It is a MongoDB ODM
+that cannot run in a browser, it was imported nowhere in `src/`, and it was
+declared as a frontend dependency by mistake. Removing it dropped 17 packages
+and cleared three CVEs including `CVE-2025-23061`, the only CRITICAL. That is a
+fix, not a suppression.
+
+The remaining twelve are Angular 16 and one dev-only transitive, and they are
+allowlisted in `.trivyignore` with dated reasons. **The real fix for the Angular
+block is a major-version migration**, since every published fix version is 19 or
+later. The allowlist says so in its own header rather than pretending otherwise.
+
+Each entry names why its specific path is unreachable, checked against this
+repository rather than assumed: no SSR, no client hydration, no i18n, and a
+read-only public deployment with no user-generated content. Four entries are
+marked `[posture]` because they depend on that last property, which is a
+deployment choice rather than a code property, and they must be reopened if the
+demo ever accepts user content.
+
+## deps, image: closed by deleting npm
+
+**npm and yarn are removed from the production image**, in the same layer that
+installs the dependencies. The container runs `node index.js` and its healthcheck
+runs `node -e`, so neither tool is needed at runtime. This clears all 18
+node-pkg findings, including `CVE-2026-59873`, because every one of them
+belonged to npm's own bundled dependencies rather than to this application.
+
+Surface reduction rather than suppression, and the image gets smaller as a side
+effect. The two remaining Alpine findings close on a base image rebuild.
+
+## iac: two fixed, two skipped in place
+
+- `deploy/g7/Dockerfile` now declares its `HEALTHCHECK`. It always had one, but
+  it lived in `compose.yaml` where a scanner reading the image cannot see it.
+  It is now in both, so the image is self-describing wherever it runs.
+- `web-store/server/Dockerfile` now sets `USER node` and a healthcheck, with
+  `--chown=node:node` on the copies so the unprivileged user owns `/app`.
+- `web-store/Dockerfile` carries two dated `#checkov:skip` comments instead.
+  **It is dead code.** Nothing in the repository builds it, its only reference
+  is `web-store/docker-compose.yml`, which pulls prebuilt Docker Hub images, and
+  the workflow that published those was retired in PR #5. Making its nginx stage
+  non-root needs a listen-port change and config this repository does not carry.
+  Adding an untested `USER` to an image nothing builds would satisfy the scanner
+  while risking a broken image. **Deleting the file is the correct fix and is
+  not done here because it is a separate decision.**
+
+## Still open
+
+- The Angular 16 major-version migration, which is the real answer to twelve of
+  the allowlist entries.
+- `web-store/Dockerfile`, `web-store/docker-compose.yml` and
+  `web-store/docker-entrypoint.sh` should be deleted as dead code.
+- `web-store/server/node_modules` is still committed, 2,403 of 2,559 tracked
+  files, and stale enough that `node index.js` fails on it with a missing
+  `helmet`.
+- `@stripe/stripe-js` is unused since the checkout moved to a session-URL
+  redirect, but stays in `package.json`.

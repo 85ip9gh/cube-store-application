@@ -1,11 +1,59 @@
 # Trivy allowlist.
 #
-# One entry per line: the CVE or advisory id, then a comment giving the date it
-# was accepted and the reason. An entry with no dated reason is not allowed.
-# Nothing is silenced here because it is inconvenient, only because there is no
-# upstream fix or because the vulnerable path is provably unreachable.
+# One entry per line: the CVE id, then a comment giving the date it was accepted
+# and the reason. An entry with no dated reason is not allowed. Nothing is
+# silenced here because it is inconvenient, only because there is no upstream
+# fix or because the vulnerable path is provably unreachable in this build.
 #
 # Review every entry when the dependency it covers is next upgraded.
 #
-# Format:
-#   CVE-0000-00000  # 2026-01-01 no fixed version published upstream, <package> is dev-only
+# ---------------------------------------------------------------------------
+# 2026-08-21: the Angular 16 block below.
+#
+# THE REAL FIX IS A MAJOR-VERSION MIGRATION, NOT THIS FILE. Angular 16.2.12 is
+# out of support and every fixed version published for the CVEs below is 19 or
+# later, so none of them closes with a patch bump. The migration is a piece of
+# work in its own right and is not done here. These entries exist so the gate
+# blocks NEW findings instead of drowning in a known backlog, and every one of
+# them names why the specific vulnerable path is not reachable in this build.
+#
+# Checked on 2026-08-21 against this repository, not assumed:
+#   - No server-side rendering. No @angular/platform-server, no @angular/ssr.
+#   - No client hydration. No provideClientHydration anywhere in src/.
+#   - No internationalisation. No @angular/localize, no i18n attributes, no
+#     $localize, no translation files.
+#   - The public deployment runs PUBLIC_READ_ONLY=true: a fixed 66-product
+#     catalog, every mutation answered 403, admin authentication answered 404,
+#     and no user-generated content of any kind.
+#
+# THAT LAST POINT IS A DEPLOYMENT POSTURE, NOT A CODE PROPERTY. If this demo
+# ever accepts user-supplied content, the four entries marked [posture] below
+# stop being safe and must be reopened before that ships.
+# ---------------------------------------------------------------------------
+
+# Not reachable: server-side rendering and hydration are not used in this build.
+CVE-2026-50170  # 2026-08-21 @angular/common HttpTransferCache, an SSR-only feature. No SSR here.
+CVE-2026-54266  # 2026-08-21 @angular/common HttpTransferCache weak cache key. SSR-only. No SSR here.
+CVE-2026-68945  # 2026-08-21 @angular/common HttpTransferCache cross-request reuse. SSR-only. No SSR here.
+CVE-2026-54267  # 2026-08-21 @angular/core client hydration DOM clobbering. Hydration is not enabled.
+
+# Not reachable: this application has no internationalisation.
+CVE-2026-27970  # 2026-08-21 @angular/core XSS via compromised translation files. No translation files exist.
+CVE-2026-69151  # 2026-08-21 @angular/compiler and core, XSS via i18n event handlers. No i18n in this app.
+
+# [posture] Reachable in principle. Both need attacker-controlled content
+# rendered into the DOM, and the public demo has no path for that.
+CVE-2025-66412  # 2026-08-21 @angular/compiler stored XSS via SVG animation, SVG URL and MathML. Read-only demo, fixed catalog, no user content.
+CVE-2026-22610  # 2026-08-21 @angular/compiler and core, XSS in the template compiler. Templates are author-written and compiled at build time.
+
+# [posture] Reachable in principle. Both need an attacker-controlled format
+# string, and every format string in this app is written in a template.
+CVE-2026-50171  # 2026-08-21 @angular/common DoS via malformed digitsInfo passed to DecimalPipe.
+CVE-2026-54268  # 2026-08-21 @angular/common DoS via a crafted date format string passed to DatePipe.
+
+# [posture] Needs the app to issue a request to a protocol-relative URL under
+# attacker control. Every request goes to window.__env.apiUrl, its own origin.
+CVE-2025-66035  # 2026-08-21 @angular/common XSRF token leakage via protocol-relative URLs.
+
+# No upstream fix exists, and it never reaches the browser.
+CVE-2024-29415  # 2026-08-21 ip@2.0.0, dev-only via @angular/cli > pacote > npm-registry-fetch > make-fetch-happen > socks-proxy-agent > socks. `npm ls ip --omit=dev` is empty, and trivy reports no fixed version.
