@@ -99,6 +99,29 @@ app.use('/api/auth', sensitiveLimiter, authRouter);
 app.use('/checkout', sensitiveLimiter);
 app.use('/', storeRouter);
 
+// assets/env.js is generated here rather than served from the build output, so
+// the server is the single source of truth for what the browser believes. The
+// committed src/assets/env.js still covers `ng serve`, where Express is not in
+// the path. Without this, a literal baked into the bundle can disagree with
+// CHECKOUT_ENABLED and show a live checkout button in front of an endpoint that
+// answers 503. Registered before the static handler so it wins.
+app.get('/assets/env.js', (req, res) => {
+  const checkoutEnabled = process.env.CHECKOUT_ENABLED === 'true';
+  const body = [
+    'window.__env = {',
+    "  apiUrl: ['localhost', '127.0.0.1'].includes(window.location.hostname)",
+    "    ? window.location.protocol + '//' + window.location.hostname + ':4242'",
+    '    : window.location.origin,',
+    '  checkoutEnabled: ' + checkoutEnabled,
+    '};',
+    ''
+  ].join('\n');
+
+  res.type('application/javascript');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.send(body);
+});
+
 app.use(express.static(frontendDirectory, {
   setHeaders: (res, filePath) => {
     const isMutableEntry = filePath.endsWith('index.html') || filePath.endsWith('assets/env.js');
