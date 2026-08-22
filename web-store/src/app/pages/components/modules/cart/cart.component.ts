@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { loadStripe } from '@stripe/stripe-js';
 import { Subscription } from 'rxjs';
 import { Cart, CartItem } from 'src/app/models/cart.model';
 import { CartService } from 'src/app/services/cart.service';
@@ -83,16 +82,22 @@ export class CartComponent {
         return;
       }
       this.checkoutError = '';
-      this.http.post( `${STORE_BASE_URL}/checkout`, {
+      this.http.post<{ id: string; url: string }>(`${STORE_BASE_URL}/checkout`, {
         items: this.cart.items
-      }).subscribe(async(res: any) => {
-        let stripe = await loadStripe('pk_test_51OTZqzA7JcW8doruYawTDrUzXPGQ8mQaqf0i7QwmhveJskGH6U991v0MwWHBBor2xUiagg86owYKlnDwwp6QZ5tx009eEEEJyK');
-        const result = await stripe?.redirectToCheckout({ sessionId: res.id });
-        if (result?.error) {
-          this.checkoutError = result.error.message || 'Checkout could not start.';
+      }).subscribe({
+        next: (res) => {
+          if (!res?.url) {
+            this.checkoutError = 'Checkout could not start. Please try again.';
+            return;
+          }
+          // Stripe deprecated redirectToCheckout({ sessionId }). Navigating to
+          // the session URL is the supported path, and it takes the publishable
+          // key and the stripe.js load out of this component entirely.
+          window.location.href = res.url;
+        },
+        error: () => {
+          this.checkoutError = 'Checkout could not start. Please try again.';
         }
-      }, () => {
-        this.checkoutError = 'Checkout could not start. Please try again.';
       });
     }
 
