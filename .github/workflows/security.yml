@@ -154,12 +154,20 @@ jobs:
       # Run the pinned checkov image directly rather than through the action, so
       # the exact flags are visible here. --skip-download keeps the run offline
       # and deterministic: nothing about this public repository is sent anywhere.
+      #
+      # Checkov has no docker_compose framework. Verified against 3.3.13, whose
+      # valid frameworks are dockerfile, kubernetes, yaml, github_actions and
+      # others, with no compose entry among them. So compose.yaml and
+      # docker-compose.yml are not covered by this gate and their hardening is
+      # reviewed by hand. github_actions is in scope instead: an unpinned action
+      # or an injectable workflow expression is a supply-chain risk in the same
+      # family as a vulnerable dependency, and this repository publishes from CI.
       - name: Checkov
         run: |
           set -euo pipefail
           docker run --rm --volume "$PWD:/repo" --workdir /repo "$CHECKOV_IMAGE" \
             --directory . \
-            --framework dockerfile docker_compose \
+            --framework dockerfile kubernetes github_actions \
             --skip-path node_modules \
             --skip-download \
             --compact \
