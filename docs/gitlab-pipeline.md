@@ -4,9 +4,24 @@ The same three gates as `.github/workflows/security.yml`, running on GitLab CI
 against a mirror of this repository. It exists so the gates are demonstrably not
 a GitHub Actions trick.
 
-**Status: the pipeline file and the mirror are written and locally proved. The
-GitLab project does not exist yet, so no pipeline has run there.** Nothing may
-claim GitLab CI as a skill until one has.
+**Status: the project, the mirror and the g7 runner all went live 2026-08-23.
+The first pipeline ran that day and failed, on the workspace-ownership bug this
+file now documents rather than on any gate.** `secrets` and `deps` passed, `iac`
+never started. Nothing may claim GitLab CI as a skill until a pipeline is green.
+
+The project is `gitlab.com/pesanth10/cube-store-application`. Two things about
+the setup were not anticipated here and cost a round trip each:
+
+- **Creating the project with a README made the first mirror push fail**, and
+  not for the reason predicted below. `git push --force` handles the
+  non-fast-forward fine. What blocks it is that GitLab protects the default
+  branch on creation with force push disabled, so the push is refused by the
+  pre-receive hook. `main` is unprotected on the GitLab side now, which is
+  correct for a mirror nothing ever commits to.
+- **GitLab.com requires identity verification before it will run any CI job**,
+  including on a self-hosted runner. A brand new free account fails its first
+  pipeline instantly with zero jobs and a valid YAML, which reads like a config
+  error and is not one. Phone verification was enough; no card was needed.
 
 ## Why a mirror at all
 
@@ -65,6 +80,32 @@ directly on g7 as the runner user. That is acceptable here because the machine
 runs one person's own repositories and nothing accepts jobs from a fork or a
 stranger. It would not be acceptable on a shared or public project.
 
+## The second cost of the shell runner: root-owned files in the workspace
+
+There is a subtler price, and the first real pipeline found it. A shell runner
+keeps one build directory on the host, owned by `gitlab-runner`. Every scanner
+here runs in a container as root. Any file a container creates in that mounted
+workspace is therefore owned by `root`, and the runner cannot clean up after
+itself on the next job:
+
+```
+chmod: changing permissions of '.../trivy-image.txt': Operation not permitted
+ERROR: Job failed: exit status 1
+```
+
+That is `get_sources` failing, before the job's script runs at all. So the job
+that gets blamed is whichever one is scheduled *after* the offender, which makes
+it read as an intermittent failure in an unrelated gate. On 2026-08-23 it failed
+`iac` and checkov was never invoked.
+
+The rule this generalises to: **let the runner's shell create files, not the
+container.** `trivy --output <file>` writes from inside the container and is the
+trap. A plain `> <file>` redirect is performed by the shell as `gitlab-runner`
+and is safe. `checkov ... | tee` was already safe for the same reason.
+
+This does not apply to the GitHub Actions side, where every job gets a fresh VM
+and there is no persistent workspace to poison. It is specific to this executor.
+
 ## What checkov's gitlab_ci framework actually buys
 
 Very little, and the file says so where the flag is set.
@@ -83,13 +124,17 @@ Scanning the pipeline definition is worth doing and it is not worth much.
 Same lesson as the dependency gate that first reported clean because it had
 found nothing to read: a passing scanner is a claim about the scanner.
 
-## Remaining setup, in order
+## Setup, in order
 
-None of this can be done without a GitLab account, which is a signup.
+**All of this was completed 2026-08-23.** Kept because it is the reproducible
+procedure for the next repository, not because anything here is outstanding.
 
 1. **Create the GitLab account and an empty project.** Do not initialise it with
-   a README. The first mirror push writes `main`, and an initialising commit
-   would make that push a non-fast-forward.
+   a README. The real reason is not the non-fast-forward, which `--force`
+   absorbs: it is that GitLab protects the default branch on creation with force
+   push disabled, so the pre-receive hook refuses the first mirror push. If you
+   have already made this mistake, unprotect `main` rather than recreating the
+   project, since deleting it takes the project runner with it.
 2. **Create a project access token** with the `write_repository` scope. Copy it
    once; GitLab does not show it again.
 3. **Add two GitHub repository secrets** so the mirror workflow stops skipping:
@@ -98,8 +143,8 @@ None of this can be done without a GitLab account, which is a signup.
    - `GITLAB_TOKEN`, the project access token
 4. **Install and register the runner on g7**, tagged `g7`. Untagged jobs are
    refused by default and every job in `.gitlab-ci.yml` carries that tag.
-   Checked on g7 2026-08-22: `gitlab-runner` is not installed, the host is
-   Ubuntu noble, and the `docker` group exists with `pesanth` in it.
+   On g7 as of 2026-08-23: `gitlab-runner` 19.3.0, registered as `g7-shell`,
+   service active, and in the `docker` group. Host is Ubuntu noble.
 
    ```bash
    # On g7.
@@ -139,9 +184,13 @@ None of this can be done without a GitLab account, which is a signup.
    sudo install --directory --owner gitlab-runner --group gitlab-runner /var/cache/trivy
    ```
 
-6. **Push to `main` and watch the mirror fire**, then confirm the GitLab pipeline
+6. **Verify your identity at `/-/identity_verification`.** GitLab.com refuses to
+   run any CI job for an unverified free account, self-hosted runner included.
+   The pipeline fails instantly with zero jobs and no YAML error, which looks
+   like a broken config. Phone is enough; a card is not required.
+7. **Push to `main` and watch the mirror fire**, then confirm the GitLab pipeline
    runs all three jobs and goes green.
-7. **Only then** add the `GitLab CI` row to `resume/skills.csv`.
+8. **Only then** add the `GitLab CI` row to `resume/skills.csv`.
 
 ## Cost
 
