@@ -87,6 +87,23 @@ deps:
     # ignore-unfixed is deliberately not set, matching GitHub. A CVE with no
     # upstream fix is allowlisted by hand in .trivyignore with a dated reason,
     # so the judgement is recorded. Blanket-hiding unfixed findings erases it.
+    #
+    # DO NOT REPLACE THE SHELL REDIRECT WITH trivy's --output FLAG. It reads as
+    # the tidier option and it breaks the next job. --output makes the CONTAINER
+    # create the file, that container runs as root, and the file lands root-owned
+    # inside a workspace owned by gitlab-runner. GIT_STRATEGY: clone then has the
+    # following job wipe this directory, the runner cannot chmod a file it does
+    # not own, and get_sources fails before that job's script runs at all.
+    #
+    # Proved on 2026-08-23: the iac job died on "chmod: changing permissions of
+    # trivy-image.txt: Operation not permitted" and checkov was never invoked, so
+    # the failure named the wrong gate. It is also order-dependent, since it only
+    # bites the job scheduled after deps, which makes it look intermittent.
+    #
+    # The redirect below is performed by the runner's own shell, so the file is
+    # created as gitlab-runner. It does not weaken the gate: there is no pipe, so
+    # --exit-code 1 still reaches `|| FS_STATUS=$?`, and trivy writes its logs to
+    # stderr, so the file holds the report and nothing else. Both verified.
     - |
       docker run --rm \
         --volume "$PWD:/repo" \
@@ -97,10 +114,9 @@ deps:
         --severity HIGH,CRITICAL \
         --exit-code 1 \
         --format table \
-        --output trivy-fs.txt \
         --ignorefile .trivyignore \
         --no-progress \
-        . || FS_STATUS=$?
+        . > trivy-fs.txt || FS_STATUS=$?
       echo "${FS_STATUS:-0}" > .fs-status
     # The image that runs on g7 is built from deploy/g7/Dockerfile, whose build
     # context is staged at deploy time and is not committed. Rebuild that
@@ -131,10 +147,9 @@ deps:
         --severity HIGH,CRITICAL \
         --exit-code 1 \
         --format table \
-        --output trivy-image.txt \
         --ignorefile .trivyignore \
         --no-progress \
-        "cubestore:scan-$CI_PIPELINE_ID" || IMAGE_STATUS=$?
+        "cubestore:scan-$CI_PIPELINE_ID" > trivy-image.txt || IMAGE_STATUS=$?
       echo "${IMAGE_STATUS:-0}" > .image-status
     # Both scans write to a file so the reports survive as artifacts. Print them
     # as well, otherwise a failing gate says nothing in the job log.
