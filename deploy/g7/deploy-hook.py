@@ -12,7 +12,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 
-BASE_DIR = Path(os.environ.get("DEPLOYER_ROOT", "/home/pesanth/cube-store-deployer"))
+BASE_DIR = Path(os.environ.get("DEPLOYER_ROOT", "/home/deploy/cube-store-deployer"))
 ARTIFACT_DIR = BASE_DIR / "artifacts"
 STATUS_DIR = BASE_DIR / "status"
 LOG_DIR = BASE_DIR / "logs"
