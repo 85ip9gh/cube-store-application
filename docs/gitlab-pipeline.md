@@ -9,7 +9,7 @@ The first pipeline ran that day and failed, on the workspace-ownership bug this
 file now documents rather than on any gate.** `secrets` and `deps` passed, `iac`
 never started. Nothing may claim GitLab CI as a skill until a pipeline is green.
 
-The project is `gitlab.com/pesanth10/cube-store-application`. Two things about
+The project is `gitlab.com/your-namespace/cube-store-application`. Two things about
 the setup were not anticipated here and cost a round trip each:
 
 - **Creating the project with a README made the first mirror push fail**, and

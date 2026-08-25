@@ -18,7 +18,7 @@ services:
       CHECKOUT_ENABLED: "true"
       CORS_ORIGINS: https://cubestore.pesanth.com
     ports:
-      - "100.79.13.73:4242:4242"
+      - "100.100.100.100:4242:4242"
     volumes:
       - ./data/cubes:/app/cubes
     read_only: true
