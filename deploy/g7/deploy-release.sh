@@ -8,8 +8,8 @@ fi
 
 sha="$1"
 artifact="$2"
-deploy_root="/home/pesanth/cube-store"
-deployer_root="/home/pesanth/cube-store-deployer"
+deploy_root="/home/deploy/cube-store"
+deployer_root="/home/deploy/cube-store-deployer"
 repository="$deployer_root/repository"
 releases_root="$deploy_root/releases"
 
@@ -134,7 +134,7 @@ fi
 
 healthy=false
 for attempt in $(seq 1 36); do
-  if curl --silent --show-error --fail --max-time 4 http://100.79.13.73:4242/healthz >/dev/null; then
+  if curl --silent --show-error --fail --max-time 4 http://100.100.100.100:4242/healthz >/dev/null; then
     healthy=true
     break
   fi
