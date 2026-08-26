@@ -1,42 +1,8 @@
-<footer class="mt-20 border-t border-line bg-ink text-surface">
-    <div class="site-shell grid gap-12 py-14 md:grid-cols-[1.4fr_0.6fr_0.7fr] md:py-20">
-        <div class="max-w-xl">
-            <div class="flex items-center gap-3">
-                <span class="grid h-11 w-11 place-items-center rounded-xl border border-surface/20 bg-surface/10">
-                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M12 2.8 20 7.3v9.3L12 21.2 4 16.6V7.3L12 2.8Z" stroke="currentColor" stroke-width="1.7"/>
-                        <path d="m4.5 7.6 7.5 4.2 7.5-4.2M12 11.8v8.7" stroke="currentColor" stroke-width="1.7"/>
-                    </svg>
-                </span>
-                <span class="text-xl font-bold tracking-[-0.035em]">Cube Store</span>
-            </div>
-            <p class="mt-6 max-w-md font-display text-3xl leading-tight text-surface/95 sm:text-4xl">Uncommon objects for people who see the world from every angle.</p>
-            <p class="mt-5 max-w-md text-sm leading-6 text-surface/60">A public portfolio storefront. Browsing, search, filters, saved objects, and the shopping bag are available to explore.</p>
-        </div>
-
-        <div>
-            <p class="text-xs font-bold uppercase tracking-[0.16em] text-surface/45">Explore</p>
-            <div class="mt-5 flex flex-col items-start gap-3 text-sm font-semibold">
-                <a routerLink="/home" class="text-surface/75 transition-colors hover:text-white">Collection</a>
-                <a routerLink="/home/wishlist" class="text-surface/75 transition-colors hover:text-white">Saved objects</a>
-                <a routerLink="/cart" class="text-surface/75 transition-colors hover:text-white">Shopping bag</a>
-            </div>
-        </div>
-
-        <div>
-            <p class="text-xs font-bold uppercase tracking-[0.16em] text-surface/45">Project</p>
-            <div class="mt-5 flex flex-col items-start gap-3 text-sm font-semibold">
-                <a href="https://pesanth.com/cubestore" target="_blank" rel="noopener noreferrer" class="text-surface/75 transition-colors hover:text-white">Case study</a>
-                <a href="https://github.com/85ip9gh/cube-store-application" target="_blank" rel="noopener noreferrer" class="text-surface/75 transition-colors hover:text-white">Source code</a>
-                <a href="https://www.linkedin.com/in/pesanth" target="_blank" rel="noopener noreferrer" class="text-surface/75 transition-colors hover:text-white">LinkedIn</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="border-t border-surface/15">
-        <div class="site-shell flex flex-col gap-2 py-5 text-xs text-surface/45 sm:flex-row sm:items-center sm:justify-between">
-            <span>&copy; {{ currentYear }} Pesanth Janaseth Rangaswamy Anitha</span>
-            <span>Designed and built in Halifax</span>
-        </div>
-    </div>
-</footer>
+<!-- Footer with copyright symbol and my name to show who made the site in an inconspicuous manner -->
+<mat-toolbar class="max-w-7x1 mx-auto flex gap-3 flex-wrap justify-center min-h-[7.5vh] max-h-[7.5vh] bg-white border-t border-slate-200 text-slate-500">
+    <span class="text-xs sm:text-sm">&copy;{{ currentYear }} Pesanth Janaseth Rangaswamy Anitha</span>
+    <span class="text-slate-300">|</span>
+    <a class="text-xs sm:text-sm hover:text-brand transition-colors" href="https://www.linkedin.com/in/pesanth" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <span class="text-slate-300">|</span>
+    <a class="text-xs sm:text-sm hover:text-brand transition-colors" href="https://github.com/85ip9gh" target="_blank" rel="noopener noreferrer">GitHub</a>
+</mat-toolbar>

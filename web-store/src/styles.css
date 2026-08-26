@@ -1,0 +1,44 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { height: 100%; }
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: #f8fafc;
+    color: #0f172a;
+}
+
+::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; /* Background color of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1; /* Background color of the scrollbar thumb */
+    border-radius: 8px; /* Radius of the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8; /* Background color of the scrollbar thumb on hover */
+}
+
+.mat-toolbar {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.mat-card {
+    border-radius: 14px !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08) !important;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.mat-raised-button, .mat-stroked-button, .mat-flat-button {
+    border-radius: 10px !important;
+}

@@ -1,61 +1,44 @@
-<article *ngIf="product" class="group h-full">
-    <div role="link" tabindex="0" (click)="onViewProduct()" (keydown)="onViewKeydown($event)"
-        [attr.aria-label]="'View ' + product.title"
-        class="h-full cursor-pointer"
-        [ngClass]="{'surface-card overflow-hidden rounded-[1.5rem] md:grid md:grid-cols-[minmax(250px,0.8fr)_1.2fr]': fullWidthMode}">
-
-        <div class="photo-tile relative overflow-hidden rounded-[1.5rem]" [ngClass]="{'md:h-full md:rounded-r-none': fullWidthMode}">
-            <div class="aspect-[4/5] w-full" [ngClass]="{'md:h-full md:min-h-[360px] md:aspect-auto': fullWidthMode}">
-                <img *ngIf="!imageFailed" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.025]"
-                    [src]="imageSrc || product.imagePath" [alt]="product.title + ' product image'" loading="lazy" decoding="async" (error)="onImageError()">
-                <div *ngIf="imageFailed" class="flex h-full w-full flex-col items-center justify-center gap-3 p-8 text-ink-secondary" role="img" [attr.aria-label]="product.title + ' image unavailable'">
-                    <span class="grid h-16 w-16 place-items-center rounded-2xl border border-line bg-surface-raised text-brand">
-                        <mat-icon class="!h-9 !w-9 !text-4xl">view_in_ar</mat-icon>
-                    </span>
-                    <span class="text-xs font-bold uppercase tracking-[0.16em]">Object image unavailable</span>
-                </div>
-            </div>
-
-            <div class="absolute left-3 top-3 flex flex-wrap gap-2 sm:left-4 sm:top-4">
-                <span class="rounded-full bg-black/75 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-white backdrop-blur-md">{{ product.category }}</span>
-                <span *ngIf="product.rarity === 'Legendary' || product.rarity === 'Epic'" class="rounded-full bg-signal px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-white">{{ product.rarity }}</span>
-            </div>
-
-            <div class="absolute right-3 top-3 flex flex-col gap-2 sm:right-4 sm:top-4">
-                <button type="button" class="grid h-10 w-10 place-items-center rounded-full bg-white/90 text-black shadow-lg backdrop-blur-md transition hover:scale-105 hover:bg-white" (click)="onToggleWishlist($event)" [attr.aria-label]="isFavorited ? 'Remove ' + product.title + ' from saved objects' : 'Save ' + product.title">
-                    <mat-icon class="!text-xl" [class.text-signal]="isFavorited">{{ isFavorited ? 'favorite' : 'favorite_border' }}</mat-icon>
-                </button>
-                <button type="button" class="grid h-10 w-10 place-items-center rounded-full bg-brand text-white shadow-lg transition hover:scale-105 hover:bg-brand-dark" (click)="onAddToCart($event)" [attr.aria-label]="'Add ' + product.title + ' to bag'">
-                    <mat-icon class="!text-xl">add_shopping_cart</mat-icon>
-                </button>
+<mat-card  *ngIf="product" class="overflow-hidden transition-transform duration-200 hover:shadow-lg hover:-translate-y-0.5" [ngClass]="{'text-center': !fullWidthMode, 'h-[480px]': (fullWidthMode && mobile)}">
+    <div class="h-full cursor-pointer" [ngClass]="{'flex': fullWidthMode && !mobile }" (click)="onViewProduct()">
+        <div class="mb-1 mx-auto bg-slate-50 w-full" [ngClass]="{'rounded-t-2xl': !fullWidthMode}">
+            <div class="aspect-w-1 aspect-h-1" [ngClass]="{'h-[360px] w-[360px]': (fullWidthMode && !mobile)}">
+                <img class="w-full h-full object-contain p-2"
+                    [ngClass]="{'max-h-[200px]': (fullWidthMode && mobile) || (!fullWidthMode && !mobile) ,'h-[360px] w-[360px]': fullWidthMode && !mobile}"
+                    [src]="imageSrc || product.imagePath" (error)="onImageError()" alt="AI generated Cube product" />
             </div>
         </div>
-
-        <div class="flex min-w-0 flex-1 flex-col justify-between" [ngClass]="fullWidthMode ? 'p-6 sm:p-8 lg:p-10' : 'px-1 pb-1 pt-4'">
+        <div class="w-full" [ngClass]="{'p-4 flex flex-col justify-between':fullWidthMode, 'p-3': !fullWidthMode}">
             <div>
-                <div class="flex items-start justify-between gap-4">
-                    <div class="min-w-0">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-ink-secondary">Object {{ product.id | number:'3.0-0' }}</p>
-                        <h3 class="mt-1.5 text-lg font-bold leading-tight tracking-[-0.025em] text-ink sm:text-xl" [ngClass]="{'font-display !text-3xl !font-normal sm:!text-4xl': fullWidthMode}">{{ product.title }}</h3>
-                    </div>
-                    <p class="shrink-0 text-lg font-bold tracking-[-0.025em] text-ink">{{ product.price | currency }}</p>
+                <div [ngClass]="{'flex justify-between':fullWidthMode}">
+                    <p class="text-slate-500 text-xs uppercase tracking-wide">{{product.category}}</p>
+                    <p class="text-slate-500 text-xs uppercase tracking-wide" *ngIf="fullWidthMode">{{product.size}}</p>
                 </div>
-
-                <div *ngIf="fullWidthMode" class="mt-6 max-w-2xl text-sm leading-7 text-ink-secondary sm:text-base">
-                    <ng-container *ngFor="let paragraph of product.description.split('  '); let last = last">
-                        <p>{{ paragraph }}</p>
-                        <br *ngIf="!last">
+                <div [ngClass]="{'flex justify-between':fullWidthMode && !mobile}" class="text-center">
+                    <p class="truncate hover:whitespace-normal font-normal text-ink"
+                        [ngClass]="{'text-sm':mobile && !fullWidthMode,'text-xl':!mobile || fullWidthMode}">
+                        {{product.title}}</p>
+                    <p *ngIf="fullWidthMode" class="text-slate-500">{{product.rarity}} &middot; {{product.weight}}kg</p>
+                </div>
+                <div *ngIf="fullWidthMode" [ngClass]="{'max-h-[100px]': mobile, 'max-h-[200px]': !mobile}" class=" overflow-y-auto">
+                    <ng-container *ngFor="let paragraph of product.description.split('  '); let i = index">
+                        <p class="text-base indent-10">
+                            {{paragraph}}
+                        </p>
+                        <br *ngIf="i < product.description.split('  ').length - 1">
                     </ng-container>
                 </div>
             </div>
-
-            <div class="mt-4 flex items-center gap-2 text-xs font-semibold text-ink-secondary" [ngClass]="{'mt-8 border-t border-line pt-5': fullWidthMode}">
-                <span>{{ product.size }}</span>
-                <span aria-hidden="true">/</span>
-                <span>{{ product.rarity }}</span>
-                <span aria-hidden="true">/</span>
-                <span>{{ product.weight }} kg</span>
+            <div class="flex justify-between items-center mt-2">
+                <span class="text-highlight font-semibold text-lg">{{product.price| currency}}</span>
+                <div>
+                    <button mat-icon-button (click)="onToggleWishlist($event)">
+                        <mat-icon [class.text-highlight]="isFavorited" class="text-slate-500">{{ isFavorited ? 'favorite' : 'favorite_border' }}</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="onAddToCart($event)">
+                        <mat-icon class="text-brand">add_shopping_cart</mat-icon>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</article>
+</mat-card>

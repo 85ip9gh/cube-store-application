@@ -21,15 +21,12 @@ export class ProductBoxComponent implements OnInit, OnDestroy {
   @Output() addToCart = new EventEmitter();
 
   isFavorited: boolean = false;
-  imageFailed = false;
   imageSrc = '';
-  private fallbackAttempted = false;
   private wishlistSubscription: Subscription | undefined;
 
   constructor(private router: Router, private wishlistService: WishlistService) {}
 
   ngOnInit(): void {
-    this.imageSrc = this.product?.imagePath || '';
     this.wishlistSubscription = this.wishlistService.wishlist$.subscribe(() => {
       this.isFavorited = !!this.product && this.wishlistService.isInWishlist(this.product);
     });
@@ -57,23 +54,9 @@ export class ProductBoxComponent implements OnInit, OnDestroy {
     }
   }
 
-  onViewKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      this.onViewProduct();
-    }
-  }
-
   onImageError(): void {
-    if (this.product && !this.fallbackAttempted) {
-      this.fallbackAttempted = true;
+    if (this.product && !this.imageSrc) {
       this.imageSrc = getProductFallbackImage(this.product);
-      return;
     }
-    this.imageFailed = true;
   }
-
-  // getImageSource(): string {
-  //   return `data:image/png;base64,${this.product?.base64Image}`;
-  // }
 }

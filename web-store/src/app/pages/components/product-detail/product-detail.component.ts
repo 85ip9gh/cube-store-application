@@ -15,11 +15,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   product: Product | undefined;
   notFound: boolean = false;
-  isLoading: boolean = true;
   isFavorited: boolean = false;
-  imageFailed = false;
   imageSrc = '';
-  private fallbackAttempted = false;
 
   private routeSubscription: Subscription | undefined;
   private wishlistSubscription: Subscription | undefined;
@@ -45,21 +42,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   loadProduct(id: string): void {
-    this.isLoading = true;
-    this.notFound = false;
     this.storeService.getProductById(id).subscribe({
       next: (product) => {
         this.product = product;
-        this.imageFailed = false;
-        this.fallbackAttempted = false;
-        this.imageSrc = product.imagePath;
+        this.imageSrc = '';
         this.isFavorited = this.wishlistService.isInWishlist(product);
-        this.isLoading = false;
       },
-      error: () => {
-        this.notFound = true;
-        this.isLoading = false;
-      }
+      error: () => this.notFound = true
     });
   }
 
@@ -87,12 +76,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   onImageError(): void {
-    if (this.product && !this.fallbackAttempted) {
-      this.fallbackAttempted = true;
+    if (this.product && !this.imageSrc) {
       this.imageSrc = getProductFallbackImage(this.product);
-      return;
     }
-    this.imageFailed = true;
   }
 
   ngOnDestroy(): void {

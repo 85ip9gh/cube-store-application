@@ -1,58 +1,65 @@
-<div class="border-b border-line py-5">
-    <div class="flex items-center gap-2 sm:gap-3">
-        <label class="relative block min-w-0 flex-1">
-            <span class="sr-only">Search the cube collection</span>
-            <mat-icon class="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-ink-secondary">search</mat-icon>
-            <input type="search" autocomplete="off" [(ngModel)]="searchTerm" (ngModelChange)="onSearchUpdated($event)"
-                class="h-12 w-full rounded-full border border-line bg-surface-raised pl-12 pr-4 text-sm font-medium text-ink shadow-sm outline-none transition placeholder:text-ink-secondary/75 hover:border-ink/25 focus:border-brand focus:ring-4 focus:ring-brand/10"
-                placeholder="Search objects">
-        </label>
-
-        <button *ngIf="mobile" type="button" class="secondary-button !h-12 !min-h-12 !px-4" (click)="filterToggle.emit()">
-            <mat-icon>tune</mat-icon>
-            Filters
-        </button>
+<mat-card class="mb-4">
+    <div class="flex justify-between items-center">
+        <mat-form-field class="w-full max-w-xs" subscriptSizing="dynamic">
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput placeholder="Search cubes" [(ngModel)]="searchTerm" (ngModelChange)="onSearchUpdated($event)">
+        </mat-form-field>
     </div>
-
-    <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
-        <p class="text-xs font-bold uppercase tracking-[0.12em] text-ink-secondary">
-            {{ resultCount }} {{ resultCount === 1 ? 'object' : 'objects' }} shown
-        </p>
-
-        <div class="flex flex-wrap items-center justify-end gap-1.5">
-            <button type="button" class="inline-flex h-10 items-center gap-1 rounded-full px-3 text-xs font-bold text-ink transition hover:bg-surface-muted sm:text-sm" [matMenuTriggerFor]="sortByMenu">
-                <span class="text-ink-secondary">Sort</span>
-                {{ sort === 'desc' ? 'Newest' : 'Oldest' }}
+    <div class="flex justify-between">
+        <div>
+            <button *ngIf="!mobile" mat-button [matMenuTriggerFor]="sortByMenu">
+                Sort by {{sort}}
+                <mat-icon>expand_more</mat-icon>
+            </button>
+            <button *ngIf="mobile" mat-button [matMenuTriggerFor]="sortByMenu">
+                {{sort}}
                 <mat-icon>expand_more</mat-icon>
             </button>
             <mat-menu #sortByMenu="matMenu">
-                <button mat-menu-item type="button" (click)="onSortUpdated('desc')">Newest first</button>
-                <button mat-menu-item type="button" (click)="onSortUpdated('asc')">Oldest first</button>
+                <button mat-menu-item (click)="onSortUpdated('desc')" >
+                    desc
+                </button>
+                <button mat-menu-item (click)="onSortUpdated('asc')">
+                    asc
+                </button>
             </mat-menu>
-
-            <button type="button" class="hidden h-10 items-center gap-1 rounded-full px-3 text-xs font-bold text-ink transition hover:bg-surface-muted sm:inline-flex sm:text-sm" [matMenuTriggerFor]="countMenu">
-                <span class="text-ink-secondary">Show</span>
-                {{ itemCount }}
-                <mat-icon>expand_more</mat-icon>
-            </button>
-            <mat-menu #countMenu="matMenu">
-                <button mat-menu-item type="button" (click)="onItemCountUpdated('All')">All objects</button>
-                <button mat-menu-item type="button" (click)="onItemCountUpdated('12')">12 objects</button>
-                <button mat-menu-item type="button" (click)="onItemCountUpdated('24')">24 objects</button>
-                <button mat-menu-item type="button" (click)="onItemCountUpdated('36')">36 objects</button>
-            </mat-menu>
-
-            <div class="ml-1 hidden items-center rounded-full border border-line bg-surface-raised p-1 sm:flex" aria-label="Collection layout">
-                <button type="button" class="grid h-8 w-8 place-items-center rounded-full text-ink-secondary transition hover:text-ink" [ngClass]="{'bg-ink text-surface hover:!text-surface': columns === 1}" (click)="onColumnsUpdated(1)" aria-label="List view">
-                    <mat-icon class="!text-xl">view_agenda</mat-icon>
-                </button>
-                <button type="button" class="grid h-8 w-8 place-items-center rounded-full text-ink-secondary transition hover:text-ink" [ngClass]="{'bg-ink text-surface hover:!text-surface': columns === 3}" (click)="onColumnsUpdated(3)" aria-label="Three-column grid view">
-                    <mat-icon class="!text-xl">grid_view</mat-icon>
-                </button>
-                <button *ngIf="!mobile" type="button" class="grid h-8 w-8 place-items-center rounded-full text-ink-secondary transition hover:text-ink" [ngClass]="{'bg-ink text-surface hover:!text-surface': columns === 4}" (click)="onColumnsUpdated(4)" aria-label="Four-column grid view">
-                    <mat-icon class="!text-xl">view_comfy_alt</mat-icon>
-                </button>
-            </div>
         </div>
+
+        <div class="flex items-center">
+            <div>
+                <button *ngIf="!mobile" mat-button [matMenuTriggerFor]="menu">
+                    Show {{ itemCount }}
+                    <mat-icon>expand_more</mat-icon>
+                </button>
+                <button *ngIf="mobile" mat-button [matMenuTriggerFor]="menu">
+                     {{ itemCount }}
+                    <mat-icon>expand_more</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="onItemCountUpdated('All')">
+                        All
+                    </button>
+                    <button mat-menu-item (click)="onItemCountUpdated('12')">
+                        12 
+                    </button>
+                    <button mat-menu-item (click)="onItemCountUpdated('24')">
+                        24
+                    </button>
+                    <button mat-menu-item (click)="onItemCountUpdated('36')">
+                        36
+                    </button>
+                </mat-menu>
+            </div>
+            <button class="h-full hover:bg-gray-100 active:bg-gray-300" (click)="onColumnsUpdated(1)" >
+                <mat-icon>view_list</mat-icon>
+            </button>
+            <button class="h-full hover:bg-gray-100 active:bg-gray-300" (click)="onColumnsUpdated(3)">
+                <mat-icon>view_module</mat-icon>
+            </button>
+            <button *ngIf="!mobile" class="mr-2 h-full hover:bg-gray-100 active:bg-gray-300" (click)="onColumnsUpdated(4)">
+                <mat-icon>view_comfy</mat-icon>
+            </button>
+        </div>
+
     </div>
-</div>
+</mat-card>
