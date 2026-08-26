@@ -1,75 +1,63 @@
-<header class="sticky top-0 z-50 border-b border-line/75 bg-surface/90 backdrop-blur-xl">
-    <div class="site-shell flex min-h-[76px] items-center justify-between gap-3">
-        <div class="flex min-w-0 items-center gap-2 sm:gap-4">
-            <button *ngIf="mobile && showFilterToggle" type="button" class="icon-button md:hidden" (click)="onToggleDrawer()" aria-label="Open collection filters">
-                <mat-icon>tune</mat-icon>
-            </button>
-
-            <a routerLink="/home" class="group flex min-w-0 items-center gap-2.5 text-ink" aria-label="Cube Store home">
-                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-ink text-surface transition-transform duration-200 group-hover:-rotate-3 group-hover:scale-105">
-                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M12 2.8 20 7.3v9.3L12 21.2 4 16.6V7.3L12 2.8Z" stroke="currentColor" stroke-width="1.7"/>
-                        <path d="m4.5 7.6 7.5 4.2 7.5-4.2M12 11.8v8.7" stroke="currentColor" stroke-width="1.7"/>
-                    </svg>
-                </span>
-                <span class="hidden truncate text-lg font-bold tracking-[-0.035em] min-[430px]:inline sm:text-xl">Cube Store</span>
-            </a>
-
-            <nav class="ml-4 hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
-                <a routerLink="/home" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="!bg-surface-muted !text-ink" class="rounded-full px-4 py-2 text-sm font-semibold text-ink-secondary transition-colors hover:bg-surface-muted hover:text-ink">Collection</a>
-                <a routerLink="/home/wishlist" routerLinkActive="!bg-surface-muted !text-ink" class="rounded-full px-4 py-2 text-sm font-semibold text-ink-secondary transition-colors hover:bg-surface-muted hover:text-ink">Saved objects</a>
-            </nav>
-        </div>
-
-        <div class="flex items-center gap-1.5 sm:gap-2">
-            <button type="button" class="icon-button" (click)="onToggleTheme()" [attr.aria-label]="isDark ? 'Switch to light mode' : 'Switch to dark mode'">
-                <mat-icon>{{ isDark ? 'light_mode' : 'dark_mode' }}</mat-icon>
-            </button>
-
-            <button *ngIf="!cartPage" type="button" class="icon-button relative" routerLink="/home/wishlist" aria-label="Open saved objects">
-                <mat-icon>{{ wishlistCount ? 'favorite' : 'favorite_border' }}</mat-icon>
-                <span *ngIf="wishlistCount" class="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-signal px-1 text-[10px] font-bold text-white">{{ wishlistCount }}</span>
-            </button>
-
-            <button *ngIf="!cartPage" type="button" class="relative inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-surface-raised px-3 text-sm font-bold text-ink transition hover:-translate-y-px hover:border-ink/30 hover:bg-surface-muted sm:px-4" [matMenuTriggerFor]="cartMenu" aria-label="Open shopping bag">
-                <mat-icon>shopping_bag</mat-icon>
-                <span class="hidden sm:inline">Bag</span>
-                <span class="grid h-5 min-w-5 place-items-center rounded-full bg-ink px-1 text-[10px] text-surface">{{ itemsQuantity }}</span>
-            </button>
-        </div>
+<mat-toolbar class="max-w-7x1 mx-auto justify-between min-h-[7.5vh] max-h-[7.5vh] bg-white border-b border-slate-200 shadow-sm">
+    <div class="flex items-center">
+        <button *ngIf="mobile && !cartPage" mat-icon-button (click)="onToggleDrawer()">
+            <mat-icon>density_medium</mat-icon>
+        </button>
+        <a routerLink="home" class="flex items-center gap-2 text-ink hover:text-brand transition-colors">
+            <svg class="text-brand" clip-rule="evenodd" height="36" width="36" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="m3.514 6.61c-.317.179-.514.519-.514.887v8.95c0 .37.197.708.514.887 1.597.901 6.456 3.639 8.005 4.512.152.085.319.128.487.128.164 0 .328-.041.477-.123 1.549-.855 6.39-3.523 7.994-4.408.323-.177.523-.519.523-.891v-9.055c0-.368-.197-.708-.515-.887-1.595-.899-6.444-3.632-7.999-4.508-.151-.085-.319-.128-.486-.128-.168 0-.335.043-.486.128-1.555.876-6.405 3.609-8 4.508m15.986 2.115v7.525l-6.75 3.722v-7.578zm-15 7.425v-7.458l6.75 3.75v7.511zm.736-8.769 6.764-3.813 6.801 3.834-6.801 3.716z" fill-rule="nonzero"/></svg>
+            <span class="font-semibold text-lg tracking-tight">
+                Cube Store
+            </span>
+        </a>
     </div>
-</header>
-
-<mat-menu #cartMenu="matMenu" xPosition="before">
-    <div class="w-[min(22rem,calc(100vw-2rem))] p-4 text-ink" (click)="$event.stopPropagation()">
-        <div class="flex items-center justify-between border-b border-line pb-3">
-            <div>
-                <p class="text-sm font-bold">Shopping bag</p>
-                <p class="text-xs text-ink-secondary">{{ itemsQuantity }} {{ itemsQuantity === 1 ? 'object' : 'objects' }}</p>
+    <div class="flex items-center">
+        <button *ngIf="!cartPage" mat-icon-button routerLink="home/wishlist">
+            <mat-icon
+            [matBadge]="wishlistCount"
+            [matBadgeHidden]="!wishlistCount"
+            matBadgeColor="warn"
+            >favorite</mat-icon>
+        </button>
+        <button *ngIf="!cartPage" mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon
+            [matBadge]="itemsQuantity"
+            [matBadgeHidden]="!itemsQuantity"
+            matBadgeColor="warn"
+            >shopping_cart</mat-icon>
+        </button>
+    </div>
+    <mat-menu #menu="matMenu">
+        <div class="p-2 divide-y divide-solid">
+            <div class="p-2 flex justify-between">
+                <span class="mr-16">{{itemsQuantity}} Items</span>
+                <a routerLink="cart">View Cart</a>
             </div>
-            <span class="font-display text-2xl">{{ getTotal(cart.items) | currency }}</span>
-        </div>
-
-        <div *ngIf="cart.items.length; else emptyCart" class="max-h-64 divide-y divide-line/70 overflow-auto py-2">
-            <div *ngFor="let item of cart.items" class="grid grid-cols-[1fr_auto] gap-3 py-3 text-sm">
-                <div class="min-w-0">
-                    <p class="truncate font-semibold">{{ item.name }}</p>
-                    <p class="mt-0.5 text-xs text-ink-secondary">Quantity {{ item.quantity }}</p>
+            <div *ngIf="cart.items.length" class="py-3">
+                <div 
+                *ngFor="let item of cart.items"
+                class="flex justify-between font-light mb-2">
+                    <p class="truncate w-20 hover:whitespace-normal">
+                        {{item.name}} 
+                    </p>    
+                    
+                    x{{item.quantity}}
+                    <span class="font-bold">{{ item.price| currency }}</span>
                 </div>
-                <span class="font-semibold">{{ item.price * item.quantity | currency }}</span>
+            </div>
+            <div class="flex justify-between py-3 font-light">
+                Total:  
+                <span class="font-bold">{{ getTotal(cart.items) | currency }}</span>
+            </div>
+            <div class="flex justify-between pt-3">
+                <button
+                (click)="onClearCart()"
+                class="bg-rose-600 text-white rounded-full w-9 h-9">
+                    <mat-icon>remove_shopping_cart</mat-icon>
+                </button>
+                <button routerLink="cart" class="bg-green-600 text-white rounded-full w-9 h-9">
+                    <mat-icon>shopping_cart</mat-icon>
+                </button>
             </div>
         </div>
-
-        <ng-template #emptyCart>
-            <div class="py-8 text-center">
-                <mat-icon class="!h-9 !w-9 !text-4xl text-ink-secondary">inventory_2</mat-icon>
-                <p class="mt-2 text-sm font-semibold">Your bag is ready for a first cube.</p>
-            </div>
-        </ng-template>
-
-        <div class="grid grid-cols-2 gap-2 border-t border-line pt-3">
-            <button type="button" class="secondary-button !min-h-11 !px-3" [disabled]="!cart.items.length" (click)="onClearCart()">Clear</button>
-            <a routerLink="/cart" class="primary-button !min-h-11 !px-3">View bag</a>
-        </div>
-    </div>
-</mat-menu>
+    </mat-menu>
+</mat-toolbar>

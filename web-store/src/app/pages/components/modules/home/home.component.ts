@@ -1,5 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, HostListener, Output, ViewChild  } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import { CartService } from '../../../../services/cart.service';
 import { Subscription } from 'rxjs';
@@ -9,7 +8,8 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
 import { DrawerService } from 'src/app/services/drawer.service';
-import { getProductFallbackImage } from 'src/app/utils/product-image';
+
+const ROWS_HEIGHT: { [id: number]: number } = {1:500, 3:335, 4:350}
 
 @Component({
   selector: 'app-home',
@@ -18,10 +18,11 @@ import { getProductFallbackImage } from 'src/app/utils/product-image';
 export class HomeComponent {
 
   cols: number = 3;
-  category: string = '';
+  rowHeight = ROWS_HEIGHT[this.cols];
+  category: string | undefined;
   size: string = 'All';
   products: Product[] | undefined;
-  sort: string = 'desc';
+  sort: string | undefined;
   count = 'All';
   productSubscription: Subscription | undefined;
   min: number = 0;
@@ -30,33 +31,28 @@ export class HomeComponent {
   mobile: boolean = false;
   mode: string = 'side';
   opened: boolean = true;
-  isLoading = true;
-  loadError = false;
-  collectionSize = 0;
-  featuredProducts: Product[] = [];
-  readonly skeletonItems = Array.from({ length: 6 });
 
   @ViewChild('drawer') drawer!: MatDrawer;
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new Subject();
 
   drawerMode: 'side' | 'over' = 'side'; // Default mode
   isDrawerOpen = true; // Default opened state
   private drawerSubscription: Subscription | undefined;
 
-  constructor(private cartService: CartService, private storeService: StoreService, private drawerService: DrawerService, private breakpointObserver: BreakpointObserver, private router: Router) {
-    this.breakpointObserver.observe(['(max-width: 767px)'])
+  constructor(private cartService: CartService, private storeService: StoreService, private drawerService: DrawerService, private breakpointObserver: BreakpointObserver) {
+    this.breakpointObserver.observe([Breakpoints.Handset])
       .pipe(
         takeUntil(this.unsubscribe$),
         map(result => result.matches)
       )
       .subscribe(isHandset => {
         if (isHandset) {
-          this.drawerMode = 'over';
-          this.isDrawerOpen = false;
+          this.drawerMode = 'over'; // Change mode to 'over' on mobile
+          this.isDrawerOpen = false; // Close drawer on mobile
           this.toggleMobile(true);
         } else {
-          this.drawerMode = 'side';
-          this.isDrawerOpen = true;
+          this.drawerMode = 'side'; // Change mode to 'side' on larger screens
+          this.isDrawerOpen = true; // Open drawer on larger screens
           this.toggleMobile(false);
         }
       });
@@ -66,18 +62,18 @@ export class HomeComponent {
     this.getProducts();
     this.drawerService.toggleMobile(this.mobile);
     this.drawerSubscription = this.drawerService.drawerState$.subscribe(isOpen => {
-      this.isDrawerOpen = this.mobile ? isOpen : true;
+      this.isDrawerOpen = isOpen; // Update isDrawerOpen based on drawer state
     });
 
-    const isHandset = this.breakpointObserver.isMatched('(max-width: 767px)');
+    const isHandset = this.breakpointObserver.isMatched(Breakpoints.Handset);
     if (isHandset) {
-      this.drawerMode = 'over';
-      this.isDrawerOpen = false;
+      this.drawerMode = 'over'; // Change mode to 'over' on mobile
+      this.isDrawerOpen = false; // Close drawer on mobile
       this.mobile = true;
       this.drawerService.toggleMobile(true);
     } else {
-      this.drawerMode = 'side';
-      this.isDrawerOpen = true;
+      this.drawerMode = 'side'; // Change mode to 'side' on larger screens
+      this.isDrawerOpen = true; // Open drawer on larger screens
       this.mobile = false;
       this.drawerService.toggleMobile(false);
     }
@@ -93,52 +89,11 @@ export class HomeComponent {
   }
 
   getProducts(): void {
-    this.productSubscription?.unsubscribe();
-    this.isLoading = true;
-    this.loadError = false;
-    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort ,this.category, this.size, this.min, this.max, this.search).subscribe({
-      next: (products: Product[]) => {
-        this.products = products;
-        if (!this.featuredProducts.length && products.length) {
-          this.featuredProducts = products.slice(0, 3);
-          this.collectionSize = products.length;
-        }
-        this.isLoading = false;
-      },
-      error: () => {
-        this.products = [];
-        this.isLoading = false;
-        this.loadError = true;
-      }
+    this.productSubscription = this.storeService.getAllProducts(this.count, this.sort ,this.category, this.size, this.min, this.max, this.search).subscribe((products: Product[]) => {
+      this.products = products;
+      // console.log(products);
     });
-  }
 
-  retryProducts(): void {
-    this.getProducts();
-  }
-
-  scrollToCollection(): void {
-    document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  onViewFeatured(product: Product): void {
-    if (product._id) {
-      this.router.navigate(['/home/cube', product._id]);
-    }
-  }
-
-  onHeroImageError(event: Event, product: Product): void {
-    const image = event.target as HTMLImageElement;
-    if (image.dataset['fallbackApplied']) {
-      image.style.display = 'none';
-      return;
-    }
-    image.dataset['fallbackApplied'] = 'true';
-    image.src = getProductFallbackImage(product);
-  }
-
-  trackByProductId(index: number, product: Product): string | number {
-    return product._id || product.id || index;
   }
 
   onSearchChange(newSearch: string): void {
@@ -148,6 +103,7 @@ export class HomeComponent {
 
   onColumnCountChange(newCols: number): void {
     this.cols = newCols;
+    this.rowHeight = ROWS_HEIGHT[this.cols];
   }
 
   onCategoryChange(newCategory: string): void {
@@ -193,7 +149,6 @@ export class HomeComponent {
   ngOnDestroy(): void {
     this.productSubscription?.unsubscribe();
     this.drawerSubscription?.unsubscribe();
-    this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 

@@ -1,147 +1,27 @@
-<section class="site-shell pb-12 pt-10 sm:pt-14 lg:pb-20 lg:pt-20">
-    <div class="grid items-center gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:gap-16">
-        <div class="relative z-10 max-w-2xl">
-            <p class="editorial-label">Independent object archive</p>
-            <h1 class="mt-5 max-w-3xl font-display text-[clamp(3.6rem,8vw,7.6rem)] leading-[0.86] tracking-[-0.045em] text-ink">
-                Collect the<br><span class="italic text-brand">unexpected.</span>
-            </h1>
-            <p class="mt-7 max-w-lg text-base leading-7 text-ink-secondary sm:text-lg">A deliberately strange catalogue of cubes made from impossible materials, tiny worlds, and very good angles.</p>
-
-            <div class="mt-8 flex flex-wrap items-center gap-3">
-                <button type="button" class="primary-button" (click)="scrollToCollection()">
-                    Browse the collection
-                    <mat-icon>south</mat-icon>
-                </button>
-                <button type="button" class="secondary-button" routerLink="/home/wishlist">
-                    View saved objects
-                </button>
-            </div>
-
-            <dl class="mt-10 grid max-w-md grid-cols-3 border-y border-line py-4">
-                <div>
-                    <dt class="text-[11px] font-bold uppercase tracking-[0.12em] text-ink-secondary">Objects</dt>
-                    <dd class="mt-1 text-xl font-bold tracking-tight text-ink">{{ collectionSize || '...' }}</dd>
-                </div>
-                <div class="border-x border-line px-4">
-                    <dt class="text-[11px] font-bold uppercase tracking-[0.12em] text-ink-secondary">Edition</dt>
-                    <dd class="mt-1 text-xl font-bold tracking-tight text-ink">One of one</dd>
-                </div>
-                <div class="pl-4">
-                    <dt class="text-[11px] font-bold uppercase tracking-[0.12em] text-ink-secondary">Shape</dt>
-                    <dd class="mt-1 text-xl font-bold tracking-tight text-ink">Perfect</dd>
-                </div>
-            </dl>
-        </div>
-
-        <div class="relative min-h-[420px] sm:min-h-[520px]">
-            <div *ngIf="featuredProducts.length >= 3; else heroLoading" class="grid h-[420px] grid-cols-[1.12fr_0.88fr] grid-rows-2 gap-3 sm:h-[520px] sm:gap-4">
-                <button type="button" class="group relative row-span-2 overflow-hidden rounded-[2rem] bg-surface-muted text-left shadow-card" (click)="onViewFeatured(featuredProducts[0])" [attr.aria-label]="'View ' + featuredProducts[0].title">
-                    <img class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]" [src]="featuredProducts[0].imagePath" [alt]="featuredProducts[0].title" (error)="onHeroImageError($event, featuredProducts[0])">
-                    <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent p-5 pt-20 text-white sm:p-7">
-                        <span class="block text-[10px] font-bold uppercase tracking-[0.16em] text-white/65">Featured object</span>
-                        <span class="mt-1 block text-lg font-bold sm:text-2xl">{{ featuredProducts[0].title }}</span>
-                    </span>
-                </button>
-
-                <button type="button" class="group relative overflow-hidden rounded-[1.5rem] bg-surface-muted text-left shadow-card" (click)="onViewFeatured(featuredProducts[1])" [attr.aria-label]="'View ' + featuredProducts[1].title">
-                    <img class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" [src]="featuredProducts[1].imagePath" [alt]="featuredProducts[1].title" (error)="onHeroImageError($event, featuredProducts[1])">
-                    <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-4 pt-12 text-sm font-bold text-white sm:p-5">{{ featuredProducts[1].title }}</span>
-                </button>
-
-                <button type="button" class="group relative overflow-hidden rounded-[1.5rem] bg-surface-muted text-left shadow-card" (click)="onViewFeatured(featuredProducts[2])" [attr.aria-label]="'View ' + featuredProducts[2].title">
-                    <img class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" [src]="featuredProducts[2].imagePath" [alt]="featuredProducts[2].title" (error)="onHeroImageError($event, featuredProducts[2])">
-                    <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-4 pt-12 text-sm font-bold text-white sm:p-5">{{ featuredProducts[2].title }}</span>
-                </button>
-            </div>
-
-            <ng-template #heroLoading>
-                <div class="grid h-[420px] grid-cols-[1.12fr_0.88fr] grid-rows-2 gap-3 sm:h-[520px] sm:gap-4" aria-label="Loading featured cubes">
-                    <div class="skeleton-shimmer row-span-2 rounded-[2rem]"></div>
-                    <div class="skeleton-shimmer rounded-[1.5rem]"></div>
-                    <div class="skeleton-shimmer rounded-[1.5rem]"></div>
-                </div>
-            </ng-template>
-
-            <div class="absolute -bottom-5 -left-3 hidden rotate-[-4deg] rounded-2xl border border-line bg-surface-raised px-5 py-3 shadow-card sm:block">
-                <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-ink-secondary">Curated for</p>
-                <p class="mt-0.5 font-display text-2xl italic text-ink">curious shelves</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<div class="border-y border-line bg-surface-raised/70">
-    <div class="site-shell flex min-h-14 items-center justify-between gap-6 overflow-hidden text-[11px] font-bold uppercase tracking-[0.16em] text-ink-secondary">
-        <span class="whitespace-nowrap">Tiny worlds</span>
-        <span class="text-signal" aria-hidden="true">◆</span>
-        <span class="whitespace-nowrap">Unusual materials</span>
-        <span class="hidden text-signal sm:inline" aria-hidden="true">◆</span>
-        <span class="hidden whitespace-nowrap sm:inline">Excellent geometry</span>
-        <span class="hidden text-signal lg:inline" aria-hidden="true">◆</span>
-        <span class="hidden whitespace-nowrap lg:inline">Catalogued one by one</span>
-    </div>
-</div>
-
-<section id="collection" class="site-shell scroll-mt-24 pb-6 pt-16 sm:pt-20">
-    <div class="flex flex-col gap-4 border-b border-line pb-8 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-            <p class="editorial-label">All objects</p>
-            <h2 class="mt-3 font-display text-5xl leading-none tracking-[-0.035em] text-ink sm:text-6xl">The collection</h2>
-        </div>
-        <p class="max-w-md text-sm leading-6 text-ink-secondary">Search by name, narrow by material and scale, or simply wander through the archive.</p>
-    </div>
-</section>
-
-<mat-drawer-container [autosize]="true" class="site-shell !min-h-[42rem] !overflow-visible !bg-transparent">
-    <mat-drawer #drawer [opened]="isDrawerOpen" [mode]="drawerMode" class="!w-[296px] !border-0 !bg-transparent lg:!w-[312px]">
+<mat-drawer-container [autosize]="true" class="min-h-[85vh] max-h-[85vh] max-w-7x1 mx-auto border-x">
+    <mat-drawer #drawer [opened]="isDrawerOpen" [mode]="drawerMode">
         <app-filters (categoryChange)="onCategoryChange($event)" (sizeChange)="onSizeChange($event)"
             (minimumPriceChange)="onMinPriceChange($event)"
             (maximumPriceChange)="onMaxPriceChange($event)"></app-filters>
     </mat-drawer>
-
-    <mat-drawer-content class="!overflow-visible !bg-transparent">
-        <div class="w-full min-w-0 md:pl-6 lg:pl-8">
-            <app-products-header [mobile]="mobile" [resultCount]="products?.length || 0"
-                (filterToggle)="toggleDrawer()"
-                (columnCountChange)="onColumnCountChange($event)"
+    <mat-drawer-content>
+        <div class="w-full">
+            <app-products-header [mobile]="mobile" (columnCountChange)="onColumnCountChange($event)"
                 (itemCountChange)="onItemCountChange($event)" (sortChange)="onSortChange($event)"
                 (searchChange)="onSearchChange($event)"></app-products-header>
-
-            <div *ngIf="isLoading" class="grid grid-cols-1 gap-x-5 gap-y-10 py-7 sm:grid-cols-2 lg:grid-cols-3" aria-label="Loading cubes">
-                <div *ngFor="let item of skeletonItems" aria-hidden="true">
-                    <div class="skeleton-shimmer aspect-[4/5] rounded-[1.5rem]"></div>
-                    <div class="mt-4 space-y-3 px-1">
-                        <div class="skeleton-shimmer h-3 w-24 rounded-full"></div>
-                        <div class="skeleton-shimmer h-5 w-4/5 rounded-full"></div>
-                        <div class="skeleton-shimmer h-4 w-20 rounded-full"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div *ngIf="!isLoading && loadError" class="surface-card mx-auto my-12 flex max-w-lg flex-col items-center rounded-[2rem] px-7 py-16 text-center" role="alert">
-                <span class="grid h-14 w-14 place-items-center rounded-full bg-surface-muted text-brand"><mat-icon>cloud_off</mat-icon></span>
-                <h3 class="mt-5 font-display text-4xl leading-none text-ink">The archive is out of reach.</h3>
-                <p class="mt-3 max-w-sm text-sm leading-6 text-ink-secondary">The catalogue service may be waking up. Try the request once more.</p>
-                <button type="button" class="primary-button mt-6" (click)="retryProducts()">Try again</button>
-            </div>
-
-            <div *ngIf="!isLoading && !loadError && products?.length === 0" class="surface-card mx-auto my-12 max-w-lg rounded-[2rem] px-7 py-16 text-center">
-                <span class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-surface-muted text-brand"><mat-icon>search_off</mat-icon></span>
-                <h3 class="mt-5 font-display text-4xl leading-none text-ink">No cubes at that angle.</h3>
-                <p class="mt-3 text-sm leading-6 text-ink-secondary">Try a broader search or clear one of the filters.</p>
-            </div>
-
-            <div *ngIf="!isLoading && !loadError && products?.length"
-                class="grid gap-x-5 gap-y-11 py-7 sm:gap-y-12"
-                [ngClass]="cols === 1
-                    ? 'grid-cols-1'
-                    : cols === 4
-                        ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-                        : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'">
-                <app-product-box *ngFor="let product of products; trackBy: trackByProductId"
-                    [mobile]="mobile" [product]="product" (addToCart)="onAddToCart($event)"
-                    class="h-full min-w-0" [fullWidthMode]="cols === 1"></app-product-box>
-            </div>
+            <mat-grid-list [ngClass]="{'mx-auto xl:mx-10 2xl:mx-20':!mobile}" class="mt-10 overflow-scroll max-h-[77vh]"
+                gutterSize="16" [cols]="cols" [rowHeight]="
+                (!mobile || cols === 2)
+                ? rowHeight 
+                : cols === 1
+                    ? rowHeight - 25
+                    : rowHeight - 100
+                ">
+                <mat-grid-tile *ngFor="let product of products">
+                    <app-product-box [mobile]="mobile" [product]="product" (addToCart)="onAddToCart($event)"
+                        class="w-full h-full" [fullWidthMode]="cols === 1"></app-product-box>
+                </mat-grid-tile>
+            </mat-grid-list>
         </div>
     </mat-drawer-content>
 </mat-drawer-container>

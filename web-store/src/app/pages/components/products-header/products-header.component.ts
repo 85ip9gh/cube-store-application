@@ -10,17 +10,14 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class ProductsHeaderComponent implements OnInit, OnDestroy {
   @Input() mobile: boolean = false;
-  @Input() resultCount: number = 0;
   @Output() columnCountChange = new EventEmitter<number>();
   @Output() sortChange = new EventEmitter<string>();
   @Output() itemCountChange = new EventEmitter<string>();
   @Output() searchChange = new EventEmitter<string>();
-  @Output() filterToggle = new EventEmitter<void>();
 
   sort = 'desc';
   itemCount: string = 'All';
   searchTerm: string = '';
-  columns: number = 3;
 
   private searchSubject = new Subject<string>();
 
@@ -52,7 +49,6 @@ export class ProductsHeaderComponent implements OnInit, OnDestroy {
   }
 
   onColumnsUpdated(newCol: number): void {
-    this.columns = newCol;
     this.columnCountChange.emit(newCol);
   }
 }
