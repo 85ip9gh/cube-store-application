@@ -7,9 +7,9 @@ import { MatDrawer } from '@angular/material/sidenav';
   selector: 'app-root',
   template: `
     <app-header [cart]="cart"></app-header>
-    <main class="min-h-[calc(100dvh-8rem)]">
+    <div class="min-h-[85vh]">
       <router-outlet></router-outlet>
-    </main>
+    </div>
     <app-footer></app-footer>
   `,
   styles: []

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { StoreService } from 'src/app/services/store.service';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-filters',
@@ -19,10 +19,10 @@ export class FiltersComponent {
   categories: string[] | undefined;
   sizes: string[] | undefined;
   selectedCategory: string = '';
-  selectedSize: string = 'All';
+  selectedSize: string = '';
 
-  minimumPrice = new FormControl<number | null>(null, [Validators.min(0), Validators.max(150)]);
-  maximumPrice = new FormControl<number | null>(null, [Validators.min(0), Validators.max(150)]);
+  minimumPrice = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(150)]);
+  maximumPrice = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(150)]);
   
   //injects the store service via the constructor
   constructor(private storeService: StoreService) {
@@ -42,6 +42,9 @@ export class FiltersComponent {
 
   //gets the error message for the minimum price input
   getMinimumPriceErrorMessage() {
+    if (this.minimumPrice.hasError('required')) {
+      return 'You must enter a value';
+    }
     if (this.minimumPrice.hasError('min')) {
       return 'Value must be greater than 0';
     }
@@ -53,6 +56,9 @@ export class FiltersComponent {
 
   //gets the error message for the maximum price input
   getMaximumPriceErrorMessage() {
+    if (this.maximumPrice.hasError('required')) {
+      return 'You must enter a value';
+    }
     if (this.maximumPrice.hasError('min')) {
       return 'Value must be greater than 0';
     }
@@ -77,12 +83,12 @@ export class FiltersComponent {
   //resets all filters back to their defaults
   onReset(): void {
     this.selectedCategory = '';
-    this.selectedSize = 'All';
+    this.selectedSize = '';
     this.minimumPrice.reset();
     this.maximumPrice.reset();
 
     this.categoryChange.emit('');
-    this.sizeChange.emit('All');
+    this.sizeChange.emit('');
     this.minimumPriceChange.emit(0);
     this.maximumPriceChange.emit(150);
   }
