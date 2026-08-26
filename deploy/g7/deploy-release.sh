@@ -134,7 +134,7 @@ fi
 
 healthy=false
 for attempt in $(seq 1 36); do
-  if curl --silent --show-error --fail --max-time 4 http://100.100.100.100:4242/healthz >/dev/null; then
+  if curl --silent --show-error --fail --max-time 4 "http://${CUBESTORE_BIND_ADDR:-127.0.0.1}:4242/healthz" >/dev/null; then
     healthy=true
     break
   fi

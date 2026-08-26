@@ -17,8 +17,11 @@ services:
       PUBLIC_READ_ONLY: "true"
       CHECKOUT_ENABLED: "true"
       CORS_ORIGINS: https://cubestore.pesanth.com
+    # Host bind address for the published port. The real g7 value is supplied
+    # by CUBESTORE_BIND_ADDR in the deployer's environment (gitignored on the
+    # host); the repo default binds to localhost only and never exposes it.
     ports:
-      - "100.100.100.100:4242:4242"
+      - "${CUBESTORE_BIND_ADDR:-127.0.0.1}:4242:4242"
     volumes:
       - ./data/cubes:/app/cubes
     read_only: true
